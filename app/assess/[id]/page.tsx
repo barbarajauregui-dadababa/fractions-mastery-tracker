@@ -1,18 +1,47 @@
+import { notFound, redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { getProblemById, type Problem } from '@/lib/problem-selection'
+import AssessmentClient from './AssessmentClient'
+
 export default async function AssessPage(props: PageProps<'/assess/[id]'>) {
   const { id } = await props.params
+  const supabase = await createClient()
+
+  const { data: assessment, error } = await supabase
+    .from('assessments')
+    .select('id, learner_id, responses, completed_at, learners(name)')
+    .eq('id', id)
+    .single()
+
+  if (error || !assessment) notFound()
+  if (assessment.completed_at) redirect(`/report/${id}`)
+
+  type ResponseSkeleton = { problem_id: string }
+  const responses = (assessment.responses as ResponseSkeleton[] | null) ?? []
+
+  const publicProblems = responses
+    .map((r) => getProblemById(r.problem_id))
+    .filter((p): p is Problem => !!p)
+    .map((p) => ({
+      id: p.id,
+      sub_skill_id: p.sub_skill_id,
+      problem_type: p.problem_type,
+      prompt: p.prompt,
+    }))
+
+  // Supabase's foreign-table select returns an array or object depending on cardinality;
+  // learner_id is a to-one FK so this is a single object (or null).
+  const learnerName =
+    Array.isArray(assessment.learners)
+      ? assessment.learners[0]?.name
+      : (assessment.learners as { name: string } | null)?.name
+  const displayName = learnerName ?? 'Learner'
 
   return (
-    <main className="flex flex-1 w-full max-w-3xl mx-auto flex-col gap-8 py-24 px-8">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Assessment</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Assessment session <code className="font-mono text-sm">{id}</code>
-        </p>
-      </header>
-
-      <section className="text-sm text-zinc-500 dark:text-zinc-400">
-        Problem-by-problem UI goes here — wired Friday morning (Day 2).
-      </section>
-    </main>
+    <AssessmentClient
+      assessmentId={id}
+      problems={publicProblems}
+      learnerName={displayName}
+    />
   )
 }
