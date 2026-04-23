@@ -1,0 +1,94 @@
+{
+  "_meta": {
+    "concept": "fractions",
+    "grade_band": "3-4",
+    "draft_status": "initial draft by Claude Code, Thu Apr 23 2026 — requires Barbara's review",
+    "structure": "Nodes are sub-skills. Edges represent prerequisite relationships (A → B means A is a prerequisite for B). The dashboard renders this as a directed graph with prerequisites below, dependent skills above.",
+    "notes_for_barbara": [
+      "8 sub-skills matching spec §7 / §3. Sub-skill IDs are s01..s08.",
+      "s08 (visual representations) is orthogonal — it supports every other sub-skill rather than being a gate for any. I've modeled it as a prerequisite for s02 (fraction notation & unit fractions) since visual partitioning is the usual entry point, but it stays 'connected' to all nodes through shared understanding rather than through edges.",
+      "Layout hint: use the `level` field as a y-axis placement suggestion (0 = bottom/prerequisite, higher = more dependent).",
+      "One decision to verify: I merged 'fraction notation' and 'unit fractions' into s02 because the Acton assessment is unlikely to separate them at grade 3-4. If you want them split, s02a/s02b can replace s02."
+    ]
+  },
+  "nodes": [
+    {
+      "id": "s01_equal_partitioning",
+      "name": "Equal partitioning",
+      "short_description": "Dividing a shape, length, or set into a specified number of equal parts.",
+      "level": 0,
+      "example_problem": "Divide this rectangle into 4 equal parts.",
+      "related_misconception_ids": ["m05_unequal_partitioning"]
+    },
+    {
+      "id": "s02_fraction_notation_and_unit_fractions",
+      "name": "Fraction notation & unit fractions",
+      "short_description": "Reading and writing fraction notation (3/4 as a single quantity) and understanding unit fractions (1/b) as the building block.",
+      "level": 1,
+      "example_problem": "What fraction of this rectangle is shaded? [rectangle with 1 of 4 equal parts shaded]",
+      "related_misconception_ids": ["m07_notational_confusion", "m01_bigger_denominator_bigger"]
+    },
+    {
+      "id": "s03_visual_representations",
+      "name": "Visual representations of fractions",
+      "short_description": "Representing fractions as parts of a shape (area model), positions on a number line, or parts of a set. Translating between forms.",
+      "level": 1,
+      "example_problem": "Place 3/4 on the number line between 0 and 1.",
+      "related_misconception_ids": ["m05_unequal_partitioning", "m06_whole_irrelevant"]
+    },
+    {
+      "id": "s04_equivalent_fractions",
+      "name": "Equivalent fractions",
+      "short_description": "Recognizing and generating fractions that name the same quantity (2/4 = 1/2). Understanding the multiplicative structure.",
+      "level": 2,
+      "example_problem": "Write three fractions equivalent to 2/3.",
+      "related_misconception_ids": ["m04_equivalent_fractions_unrecognized", "m08_additive_equivalence"]
+    },
+    {
+      "id": "s05_fraction_comparison",
+      "name": "Comparing fractions",
+      "short_description": "Determining which of two fractions is larger, using reasoning (same numerator, same denominator, benchmarks like 1/2) or equivalence.",
+      "level": 2,
+      "example_problem": "Which is greater: 3/5 or 3/8? Explain how you know.",
+      "related_misconception_ids": ["m01_bigger_denominator_bigger", "m06_whole_irrelevant"]
+    },
+    {
+      "id": "s06_improper_fractions",
+      "name": "Improper fractions & mixed numbers",
+      "short_description": "Recognizing that fractions can exceed 1 (5/4, 7/3) and converting between improper fractions and mixed numbers.",
+      "level": 2,
+      "example_problem": "Write 7/4 as a mixed number. Draw a picture to show why your answer is right.",
+      "related_misconception_ids": ["m03_fractions_less_than_one"]
+    },
+    {
+      "id": "s07_addition_like_denominators",
+      "name": "Addition & subtraction, like denominators",
+      "short_description": "Adding and subtracting fractions that share a denominator (1/4 + 2/4 = 3/4). Foundation for later unlike-denominator work.",
+      "level": 3,
+      "example_problem": "1/5 + 3/5 = ?",
+      "related_misconception_ids": ["m02_separate_num_den_addition"]
+    },
+    {
+      "id": "s08_intro_unlike_denominators",
+      "name": "Intro to unlike denominators",
+      "short_description": "Adding and subtracting fractions with different denominators in simple, often visually supported cases (1/2 + 1/4). Requires equivalence reasoning.",
+      "level": 4,
+      "example_problem": "1/2 + 1/4 = ? Use a picture if it helps.",
+      "related_misconception_ids": ["m02_separate_num_den_addition", "m04_equivalent_fractions_unrecognized"]
+    }
+  ],
+  "edges": [
+    { "from": "s01_equal_partitioning", "to": "s02_fraction_notation_and_unit_fractions" },
+    { "from": "s01_equal_partitioning", "to": "s03_visual_representations" },
+    { "from": "s02_fraction_notation_and_unit_fractions", "to": "s04_equivalent_fractions" },
+    { "from": "s02_fraction_notation_and_unit_fractions", "to": "s05_fraction_comparison" },
+    { "from": "s02_fraction_notation_and_unit_fractions", "to": "s06_improper_fractions" },
+    { "from": "s03_visual_representations", "to": "s04_equivalent_fractions" },
+    { "from": "s03_visual_representations", "to": "s05_fraction_comparison" },
+    { "from": "s03_visual_representations", "to": "s06_improper_fractions" },
+    { "from": "s02_fraction_notation_and_unit_fractions", "to": "s07_addition_like_denominators" },
+    { "from": "s04_equivalent_fractions", "to": "s08_intro_unlike_denominators" },
+    { "from": "s05_fraction_comparison", "to": "s08_intro_unlike_denominators" },
+    { "from": "s07_addition_like_denominators", "to": "s08_intro_unlike_denominators" }
+  ]
+}
