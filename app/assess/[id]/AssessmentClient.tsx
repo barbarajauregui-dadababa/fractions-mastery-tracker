@@ -118,7 +118,7 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
 
   return (
     <>
-      <main className="flex flex-1 w-full max-w-3xl mx-auto flex-col gap-5 py-6 px-6 pb-24">
+      <main className="flex flex-1 w-full max-w-4xl mx-auto flex-col gap-5 py-6 px-6 pb-24">
         <header className="flex items-baseline justify-between gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           <span>
             Assessment for <strong className="text-zinc-900 dark:text-zinc-100">{learnerName}</strong>
@@ -159,7 +159,7 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
 
       {/* Sticky footer so Back / Next are always visible regardless of scroll. */}
       <footer className="sticky bottom-0 left-0 right-0 z-10 border-t border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur">
-        <div className="flex items-center justify-between gap-4 max-w-3xl mx-auto py-3 px-6">
+        <div className="flex items-center justify-between gap-4 max-w-4xl mx-auto py-3 px-6">
           <button
             type="button"
             onClick={goPrev}

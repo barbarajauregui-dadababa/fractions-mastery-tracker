@@ -27,13 +27,12 @@ import type {
 const BAR_HEIGHT_PX = 56
 const WHOLE_GAP_PX = 16
 
-function widthPerWholePx(numWholes: number): number {
-  // Keep total within ~640px card width accounting for gaps and padding.
-  if (numWholes <= 1) return 320
-  if (numWholes === 2) return 260
-  if (numWholes === 3) return 192
-  return 144 // 4+
-}
+/** Pixel width for one whole unit. Fixed (not adaptive to numWholes) so that
+ *  pieces do NOT change size when the learner adds or removes wholes. The
+ *  container is allowed to scroll horizontally if the drawn wholes exceed the
+ *  card's inner width. Chosen to keep 3 wholes within ~780px (fits comfortably
+ *  within a wider workspace) while keeping 1/12 pieces still draggable (20px). */
+const WIDTH_PER_WHOLE_PX = 240
 
 const PIECE_FILL = 'bg-sky-400'
 const PIECE_BORDER = 'border-sky-700'
@@ -129,7 +128,7 @@ export default function FractionWorkspaceV2({
   const [commitAttempts, setCommitAttempts] = useState(0)
   const [telemetryLog, setTelemetryLog] = useState<TelemetryEvent[]>([])
 
-  const widthPerWhole = widthPerWholePx(numWholes)
+  const widthPerWhole = WIDTH_PER_WHOLE_PX
   const wholesTotalPx = widthPerWhole * numWholes
   const wholesVisualWidthPx = wholesTotalPx + (numWholes - 1) * WHOLE_GAP_PX
   const locked = commitState !== 'idle'
@@ -229,8 +228,33 @@ export default function FractionWorkspaceV2({
   const handleRemoveWhole = useCallback(() => {
     if (locked) return
     if (numWholes <= 1) return
-    setNumWholes((n) => n - 1)
-  }, [locked, numWholes])
+    const newNumWholes = numWholes - 1
+    const newCapacityPx = newNumWholes * WIDTH_PER_WHOLE_PX
+    // Keep only the prefix of pieces that fit inside the new smaller capacity.
+    let runningWidth = 0
+    const keepPieces: PlacedPiece[] = []
+    const removedPieces: PlacedPiece[] = []
+    for (const p of placed) {
+      const pieceWidth = WIDTH_PER_WHOLE_PX / p.denominator
+      if (runningWidth + pieceWidth > newCapacityPx) {
+        removedPieces.push(p)
+      } else {
+        keepPieces.push(p)
+        runningWidth += pieceWidth
+      }
+    }
+    setPlaced(keepPieces)
+    setNumWholes(newNumWholes)
+    // Log each removed piece (pieces removed implicitly along with the whole).
+    for (const rp of removedPieces) {
+      logEvent({
+        type: 'removal',
+        t: Date.now() - startedAt,
+        denominator: rp.denominator,
+        placed_count_after: keepPieces.length,
+      })
+    }
+  }, [locked, numWholes, placed, logEvent, startedAt])
 
   const handleCommit = useCallback(() => {
     if (locked || placed.length === 0) return
@@ -295,7 +319,7 @@ export default function FractionWorkspaceV2({
 
       <div
         key={commitBounceKey}
-        className={commitState === 'failed' ? 'animate-shake' : ''}
+        className={`overflow-x-auto max-w-full ${commitState === 'failed' ? 'animate-shake' : ''}`}
       >
         <div
           ref={setDropZoneEl}
