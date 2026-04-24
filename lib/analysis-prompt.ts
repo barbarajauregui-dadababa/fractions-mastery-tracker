@@ -25,13 +25,13 @@ These rules replace "did they get the right answer" with "what does the trajecto
 
 **R2. First-commit-success with deliberate pacing = strong "demonstrated" signal.** Look for: single \`commit_attempt\` event with result "success", preceded by placements that are reasonable (no removals, no flipping between denominators).
 
-**R3. Strategy-switching on reset is STRONG evidence of reasoning.** If attempt 1 uses one set of denominators and attempt 2 uses a DIFFERENT set (e.g., first tried 1/2 pieces, gapped, reset, then used 1/4 pieces and succeeded), that's self-correction. Mark as "demonstrated" — arguably stronger than frictionless first-try success, because the learner diagnosed their own error.
+**R3. Strategy-switching on reset is comparably strong evidence of reasoning.** If attempt 1 uses one set of denominators and attempt 2 uses a DIFFERENT set (e.g., first tried 1/2 pieces, gapped, reset, then used 1/4 pieces and succeeded), that's self-correction. Mark as "demonstrated" — comparably strong to frictionless first-try success, because the learner diagnosed their own error. (Basis: Rittle-Johnson's iterative conceptual↔procedural knowledge model; Siegler's overlapping-waves theory; Nguyen 2022 meta-analysis on cognitive flexibility as a moderate positive predictor of math achievement.)
 
 **R4. Same-strategy resets = guessing/fiddling signal.** If the learner resets but reuses nearly the same denominators each attempt, they aren't reasoning about what went wrong. Even if they eventually succeed, this is "working on it" not "demonstrated".
 
-**R5. ≥3 commit attempts without clear strategy change → "working on it".** Even with eventual success. Persistence without insight is not mastery.
+**R5. Multiple commit attempts (default: ≥3) that re-use the same piece composition without evidence of re-representation = "working on it".** Even with eventual success. Persistence without insight is not mastery. The 3-attempt threshold is a conservative operational default; calibrate against accumulated pilot data.
 
-**R6. Rapid-fire commits suggest guessing.** If \`commit_attempt\` events are less than ~3 seconds apart, the learner isn't deliberating — they're randomly trying combinations. Downgrade the signal.
+**R6. Rapid-fire AND wrong = guessing.** A commit made faster than roughly 15% of the median time-to-commit for that problem (across learners), when ALSO incorrect, is likely rapid-guessing per Wise (2017) and Goldhammer et al. Speed alone is NOT a reliable guessing signal — fast commits with correct results can reflect fluency for advanced learners. Do not penalize fast + correct. In this v1 without accumulated per-problem timing data, use "<3 sec commit with an incorrect result" as a rough proxy, never flag commits ≥10 sec, and always require the wrong-result pairing.
 
 **R7. Specific wrong-commit content maps to specific misconceptions.** Check the problem's \`misconception_response_map\` against the learner's commit_attempt.placed arrays. If a wrong attempt matches a named misconception pattern, flag that misconception — even if the learner later corrected and succeeded. The misconception WAS present, and a future plan should address it.
 
