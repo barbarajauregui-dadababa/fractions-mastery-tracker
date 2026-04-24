@@ -280,7 +280,7 @@
       "target_whole_value": 1,
       "available_denominators": [2, 3, 4, 6],
       "goal": { "numerator": 4, "denominator": 4 },
-      "real_world_context": { "scenario": "pizza", "framing_text": "Build the whole pizza using fourths." },
+      "real_world_context": { "scenario": "brownies", "framing_text": "Build the whole brownie pan using fourths." },
       "difficulty": 1,
       "show_your_work_note": "Four 1/4 wedges fill the whole. Commit = 4 over 4. Probes that a whole equals a fraction."
     },
