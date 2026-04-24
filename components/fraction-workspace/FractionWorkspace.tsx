@@ -242,11 +242,14 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
         key={commitBounceKey}
         className={commitState === 'failed' ? 'animate-shake' : ''}
       >
-        {/* Drop zone — padded so pieces can land past the rightmost whole too. */}
+        {/* Drop zone — padded so pieces can land past the rightmost whole too.
+            Explicit height because the children are all absolute-positioned and
+            would otherwise collapse this div to zero height (making the drop-hit
+            test succeed only in a tiny padding strip). */}
         <div
           ref={setDropZoneEl}
           className="relative px-4 py-3 rounded-lg"
-          style={{ width: containerWidthPx }}
+          style={{ width: containerWidthPx, height: BAR_HEIGHT_PX + 24 }}
         >
           {/* Whole-unit rectangles, side by side with gaps between them. */}
           {Array.from({ length: numWholes }).map((_, i) => (
