@@ -9,9 +9,15 @@ import type {
   TelemetryEvent,
 } from './types'
 
-/** Pixel width representing one whole unit. Multi-unit targets (goal > 1)
- *  render numWholes separate rounded rectangles with WHOLE_GAP_PX between them. */
-const WIDTH_PER_WHOLE_PX = 320
+/** Pixel width per whole unit, adaptive to how many wholes we're rendering.
+ *  The card that contains the workspace is about 640px wide; we need to keep
+ *  numWholes * WIDTH + (numWholes-1) * GAP inside that with padding. */
+function widthPerWholePx(numWholes: number): number {
+  if (numWholes <= 1) return 320
+  if (numWholes === 2) return 260
+  if (numWholes === 3) return 192
+  return 144 // 4+ wholes
+}
 const WHOLE_GAP_PX = 16
 const BAR_HEIGHT_PX = 64
 
@@ -39,8 +45,8 @@ const PIECE_BORDER: Record<PieceDenominator, string> = {
   12: 'border-teal-600',
 }
 
-function pieceWidthPx(denominator: PieceDenominator): number {
-  return WIDTH_PER_WHOLE_PX / denominator
+function pieceWidthPx(denominator: PieceDenominator, widthPerWhole: number): number {
+  return widthPerWhole / denominator
 }
 
 function pieceLabel(denominator: PieceDenominator): string {
@@ -64,12 +70,12 @@ interface PlacedPieceGeom extends PlacedPiece {
  * boundary — that's a rare case (happens only with awkward piece combos) and
  * acceptable for v1 since the math still resolves correctly.
  */
-function computePlacedGeometry(placed: PlacedPiece[]): PlacedPieceGeom[] {
+function computePlacedGeometry(placed: PlacedPiece[], widthPerWhole: number): PlacedPieceGeom[] {
   const result: PlacedPieceGeom[] = []
   let logicalOffset = 0
   for (const p of placed) {
-    const widthPx = pieceWidthPx(p.denominator)
-    const wholeIndex = Math.floor(logicalOffset / WIDTH_PER_WHOLE_PX)
+    const widthPx = pieceWidthPx(p.denominator, widthPerWhole)
+    const wholeIndex = Math.floor(logicalOffset / widthPerWhole)
     const visualLeft = logicalOffset + wholeIndex * WHOLE_GAP_PX
     result.push({ ...p, leftPx: visualLeft, widthPx })
     logicalOffset += widthPx
@@ -102,7 +108,8 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
   const [telemetryLog, setTelemetryLog] = useState<TelemetryEvent[]>([])
 
   const numWholes = Math.max(1, problem.target_whole_value ?? 1)
-  const wholesTotalPx = WIDTH_PER_WHOLE_PX * numWholes
+  const widthPerWhole = widthPerWholePx(numWholes)
+  const wholesTotalPx = widthPerWhole * numWholes
   const wholesVisualWidthPx = wholesTotalPx + (numWholes - 1) * WHOLE_GAP_PX
   const locked = commitState !== 'idle'
 
@@ -215,7 +222,7 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
 
   // --- Rendering ---
 
-  const placedWithGeom = computePlacedGeometry(placed)
+  const placedWithGeom = computePlacedGeometry(placed, widthPerWhole)
   const totalFilledLogicalPx = placedWithGeom.reduce((acc, p) => acc + p.widthPx, 0)
   const overhangPx = Math.max(0, totalFilledLogicalPx - wholesTotalPx)
   const gapPx = Math.max(0, wholesTotalPx - totalFilledLogicalPx)
@@ -257,9 +264,9 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
               key={i}
               className="absolute rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-50 dark:bg-zinc-900"
               style={{
-                left: 16 + i * (WIDTH_PER_WHOLE_PX + WHOLE_GAP_PX),
+                left: 16 + i * (widthPerWhole + WHOLE_GAP_PX),
                 top: 12,
-                width: WIDTH_PER_WHOLE_PX,
+                width: widthPerWhole,
                 height: BAR_HEIGHT_PX,
               }}
             />
@@ -345,7 +352,7 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
               onPointerUp={handlePalettePointerUp}
               disabled={locked}
               className={`rounded-sm border-2 ${PIECE_COLORS[d]} ${PIECE_BORDER[d]} h-10 flex items-center justify-center text-xs font-bold text-white drop-shadow cursor-grab active:cursor-grabbing touch-none disabled:opacity-40`}
-              style={{ width: pieceWidthPx(d) }}
+              style={{ width: pieceWidthPx(d, widthPerWhole) }}
               aria-label={`Drag a ${pieceLabel(d)} piece`}
             >
               {pieceLabel(d)}
@@ -380,8 +387,8 @@ export default function FractionWorkspace({ problem, onCommitSuccess, onTelemetr
         <div
           className={`fixed pointer-events-none z-50 rounded-sm border-2 ${PIECE_COLORS[drag.denominator]} ${PIECE_BORDER[drag.denominator]} h-10 flex items-center justify-center text-xs font-bold text-white shadow-lg`}
           style={{
-            width: pieceWidthPx(drag.denominator),
-            left: dragPos.x - pieceWidthPx(drag.denominator) / 2,
+            width: pieceWidthPx(drag.denominator, widthPerWhole),
+            left: dragPos.x - pieceWidthPx(drag.denominator, widthPerWhole) / 2,
             top: dragPos.y - 20,
           }}
         >
