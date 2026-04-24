@@ -1,0 +1,231 @@
+{
+  "_meta": {
+    "concept": "fractions",
+    "scope_label": "Option A: 3.NF.A.1–3 + 4.NF.A.1–2 with prerequisites",
+    "draft_status": "Transcribed 2026-04-23 from published CCSS-M and the Progressions document (see sources). Achieve the Core's interactive Coherence Map was consulted as a visualization reference but its data is JS-rendered (not publicly machine-readable), so specific dependency claims are cited against the Progressions PDF rather than the Coherence Map itself.",
+    "verification_notes": "Every node's statement is quoted from the published CCSS-M. Every edge's rationale is grounded in the Progressions document. Where a specific sub-standard-level edge is my interpretation (not explicit in the Progressions), I have marked it with an honest 'interpretation' note in the edge record."
+  },
+
+  "sources": [
+    {
+      "id": "ccss-m",
+      "title": "Common Core State Standards for Mathematics",
+      "url": "http://www.corestandards.org/Math/",
+      "use": "Authoritative source for each standard's statement."
+    },
+    {
+      "id": "progressions-3-5-fractions",
+      "title": "Progressions for the Common Core State Standards for Mathematics: Draft 3–5 Progression on Number and Operations — Fractions",
+      "url": "https://achievethecore.org/content/upload/Draft%203%E2%80%935%20Progression%20on%20Number%20and%20Operations%E2%80%94Fractions.pdf",
+      "use": "Authoritative source for how CCSS-M fraction standards build on each other. Used for all edge rationales."
+    },
+    {
+      "id": "coherence-map",
+      "title": "Achieve the Core — Coherence Map (interactive)",
+      "url": "https://tools.achievethecore.org/coherence-map/",
+      "use": "Interactive visualization of CCSS-M progressions. Consulted as reference. Data is JS-rendered, not publicly machine-readable."
+    }
+  ],
+
+  "nodes": [
+    {
+      "id": "2.G.A.3",
+      "name": "Partition shapes into equal shares",
+      "statement": "Partition circles and rectangles into two, three, or four equal shares, describe the shares using the words halves, thirds, half of, a third of, etc., and describe the whole as two halves, three thirds, four fourths. Recognize that equal shares of identical wholes need not have the same shape.",
+      "grade": 2,
+      "domain": "Geometry",
+      "role": "prerequisite",
+      "source": "ccss-m",
+      "layer": 0
+    },
+    {
+      "id": "3.G.A.2",
+      "name": "Partition shapes into parts with equal areas",
+      "statement": "Partition shapes into parts with equal areas. Express the area of each part as a unit fraction of the whole.",
+      "grade": 3,
+      "domain": "Geometry",
+      "role": "prerequisite",
+      "source": "ccss-m",
+      "layer": 1
+    },
+    {
+      "id": "3.NF.A.1",
+      "name": "Understand unit fractions (1/b)",
+      "statement": "Understand a fraction 1/b as the quantity formed by 1 part when a whole is partitioned into b equal parts; understand a fraction a/b as the quantity formed by a parts of size 1/b.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 2
+    },
+    {
+      "id": "3.NF.A.2.a",
+      "name": "Locate 1/b on a number line",
+      "statement": "Represent a fraction 1/b on a number line diagram by defining the interval from 0 to 1 as the whole and partitioning it into b equal parts. Recognize that each part has size 1/b and that the endpoint of the part based at 0 locates the number 1/b on the number line.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 3
+    },
+    {
+      "id": "3.NF.A.2.b",
+      "name": "Locate a/b on a number line",
+      "statement": "Represent a fraction a/b on a number line diagram by marking off a lengths 1/b from 0. Recognize that the resulting interval has size a/b and that its endpoint locates the number a/b on the number line.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 4
+    },
+    {
+      "id": "3.NF.A.3.a",
+      "name": "Recognize equivalent fractions visually",
+      "statement": "Understand two fractions as equivalent (equal) if they are the same size, or the same point on a number line.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 5
+    },
+    {
+      "id": "3.NF.A.3.b",
+      "name": "Generate simple equivalent fractions",
+      "statement": "Recognize and generate simple equivalent fractions (e.g., 1/2 = 2/4, 4/6 = 2/3). Explain why the fractions are equivalent, e.g., by using a visual fraction model.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 6
+    },
+    {
+      "id": "3.NF.A.3.c",
+      "name": "Whole numbers as fractions",
+      "statement": "Express whole numbers as fractions, and recognize fractions that are equivalent to whole numbers. Examples: Express 3 in the form 3 = 3/1; recognize that 6/1 = 6; locate 4/4 and 1 at the same point of a number line diagram.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 5
+    },
+    {
+      "id": "3.NF.A.3.d",
+      "name": "Compare fractions with same num or denom",
+      "statement": "Compare two fractions with the same numerator or the same denominator by reasoning about their size. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with the symbols >, =, or <, and justify the conclusions.",
+      "grade": 3,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 6
+    },
+    {
+      "id": "4.NF.A.1",
+      "name": "Explain equivalence via a/b = (n×a)/(n×b)",
+      "statement": "Explain why a fraction a/b is equivalent to a fraction (n×a)/(n×b) by using visual fraction models, with attention to how the number and size of the parts differ even though the two fractions themselves are the same size. Use this principle to recognize and generate equivalent fractions.",
+      "grade": 4,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 7
+    },
+    {
+      "id": "4.NF.A.2",
+      "name": "Compare fractions with different num AND denom",
+      "statement": "Compare two fractions with different numerators and different denominators, e.g., by creating common denominators or numerators, or by comparing to a benchmark fraction such as 1/2. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with symbols >, =, or <, and justify the conclusions.",
+      "grade": 4,
+      "domain": "Number and Operations—Fractions",
+      "role": "core",
+      "source": "ccss-m",
+      "layer": 8
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "2.G.A.3",
+      "to": "3.G.A.2",
+      "rationale": "Partitioning understanding deepens from 'equal shares' (described in everyday language) to 'parts with equal areas' (quantitative).",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.G.A.2",
+      "to": "3.NF.A.1",
+      "rationale": "Equal-area partitioning is a direct prerequisite for understanding 1/b as one of b equal parts of a whole. The Progressions explicitly links partitioning geometry to unit fractions.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.1",
+      "to": "3.NF.A.2.a",
+      "rationale": "Understanding 1/b as one equal part precedes placing 1/b on the number line by partitioning [0,1] into b equal parts.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.2.a",
+      "to": "3.NF.A.2.b",
+      "rationale": "Placing a/b on the number line extends placing 1/b by repeating the unit interval a times.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.1",
+      "to": "3.NF.A.3.a",
+      "rationale": "Recognizing equivalence 'same size' requires understanding that fractions name quantities, which is established in 3.NF.A.1.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.2.b",
+      "to": "3.NF.A.3.a",
+      "rationale": "Recognizing equivalence 'same point on a number line' requires the number-line representation from 3.NF.A.2.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.3.a",
+      "to": "3.NF.A.3.b",
+      "rationale": "Visual recognition of equivalence precedes generating equivalent fractions systematically.",
+      "source": "progressions-3-5-fractions",
+      "interpretation_note": "The Progressions discusses these together; the ordering here is pedagogical rather than strictly sequential."
+    },
+    {
+      "from": "3.NF.A.3.a",
+      "to": "3.NF.A.3.c",
+      "rationale": "Recognizing that 3/1 = 3 or 4/4 = 1 depends on understanding equivalence as same-size/same-point.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.2.b",
+      "to": "3.NF.A.3.d",
+      "rationale": "Comparing fractions by reasoning about their size depends on the number-line/area representations; the Progressions uses the number line extensively to justify comparison.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.1",
+      "to": "3.NF.A.3.d",
+      "rationale": "Comparing fractions with the same numerator or denominator requires understanding that 1/b's size depends inversely on b.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.3.b",
+      "to": "4.NF.A.1",
+      "rationale": "4.NF.A.1 formalizes the multiplicative rule a/b = (n×a)/(n×b), building directly on 3.NF.A.3.b's concrete equivalence work.",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "3.NF.A.3.d",
+      "to": "4.NF.A.2",
+      "rationale": "4.NF.A.2 extends grade-3 comparison (same num or denom) to the general case (different num and denom).",
+      "source": "progressions-3-5-fractions"
+    },
+    {
+      "from": "4.NF.A.1",
+      "to": "4.NF.A.2",
+      "rationale": "Comparing fractions with different numerators and denominators typically requires generating equivalent fractions with common denominators, which 4.NF.A.1 makes formal.",
+      "source": "progressions-3-5-fractions"
+    }
+  ],
+
+  "state_values": {
+    "misconception": { "color_hex": "#ef4444", "leaf_label": "red leaf" },
+    "working":       { "color_hex": "#f59e0b", "leaf_label": "yellow leaf" },
+    "demonstrated":  { "color_hex": "#22c55e", "leaf_label": "green leaf" },
+    "not_assessed":  { "color_hex": "#a3a3a3", "leaf_label": "faded / bare" }
+  }
+}

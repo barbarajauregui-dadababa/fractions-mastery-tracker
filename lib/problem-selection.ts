@@ -1,18 +1,31 @@
 import problemBankRaw from '@/content/fractions-problem-bank.json'
+import type { PieceDenominator } from '@/components/fraction-workspace/types'
 
-export type ProblemType = 'procedural' | 'conceptual' | 'applied'
+export type ProblemType =
+  | 'partition_target'
+  | 'build_fraction'
+  | 'identify_fraction'
+  | 'place_on_number_line'
+  | 'equivalent_fractions'
+  | 'compare_fractions'
+
+export type TargetShape = 'bar' | 'circle' | 'number_line' | 'set_of_objects'
 
 export interface Problem {
   id: string
-  sub_skill_id: string
-  problem_type: ProblemType
-  difficulty: number
-  prompt: string
-  expected_answer: string
-  acceptable_equivalents?: string[]
+  ccss_standard_ids: string[]
   target_misconception_ids: string[]
-  misconception_response_map: Record<string, string>
-  show_your_work_expectation: string
+  problem_type: ProblemType
+  target_shape: TargetShape
+  /** Number of whole units the target represents. 1 for standard < 1 fractions,
+   *  > 1 for improper / whole-number-as-fraction problems (e.g. 5/4 → 2). */
+  target_whole_value: number
+  available_denominators: PieceDenominator[]
+  /** Shape depends on problem_type — see the JSON for details. */
+  goal: unknown
+  real_world_context?: { scenario: string | null; framing_text: string } | null
+  difficulty: number
+  show_your_work_note?: string
 }
 
 interface ProblemBank {
@@ -32,58 +45,45 @@ export function getProblemById(id: string): Problem | undefined {
 /**
  * Select a balanced subset of problems for a full assessment.
  *
- * Strategy: for each sub-skill, pick up to `perSubSkill` problems using
- * round-robin across problem_type (procedural → conceptual → applied) so
- * the learner sees a mix rather than all of one kind clustered together.
- * Within each type, easier problems come first.
+ * Strategy: for each primary CCSS standard, round-robin across the 6
+ * problem_types to keep the learner seeing variety rather than clustered
+ * repeats. Within a problem_type pool, easier problems come first.
  *
- * Deterministic — same bank yields same selection. If we want per-learner
- * variation later, seed a PRNG and shuffle within each type. For v1 the
- * stability is a feature (easy to reason about during the pilot).
+ * A problem's "primary standard" is its first entry in ccss_standard_ids.
+ * Deterministic — same bank yields same selection.
+ *
+ * v1: `preferSupported` filters to problem_types the UI can currently render
+ * (today: only build_fraction). Set to false to get the full selection once
+ * all problem_types have UI support.
  */
-export function selectProblems(targetCount = 20): Problem[] {
-  const bySubSkill = new Map<string, Problem[]>()
-  for (const p of problemBank.problems) {
-    if (!bySubSkill.has(p.sub_skill_id)) bySubSkill.set(p.sub_skill_id, [])
-    bySubSkill.get(p.sub_skill_id)!.push(p)
+export function selectProblems(options?: {
+  targetCount?: number
+  preferSupported?: boolean
+  supportedTypes?: ProblemType[]
+}): Problem[] {
+  const targetCount = options?.targetCount ?? 16
+  const supportedTypes = options?.supportedTypes ?? ['build_fraction']
+  const preferSupported = options?.preferSupported ?? true
+
+  const pool = preferSupported
+    ? problemBank.problems.filter((p) => supportedTypes.includes(p.problem_type))
+    : problemBank.problems
+
+  const byStandard = new Map<string, Problem[]>()
+  for (const p of pool) {
+    const primary = p.ccss_standard_ids[0] ?? 'unknown'
+    if (!byStandard.has(primary)) byStandard.set(primary, [])
+    byStandard.get(primary)!.push(p)
   }
 
-  const subSkillIds = [...bySubSkill.keys()].sort()
-  const perSubSkill = Math.max(2, Math.ceil(targetCount / subSkillIds.length))
+  const standardIds = [...byStandard.keys()].sort()
+  const perStandard = Math.max(1, Math.ceil(targetCount / Math.max(1, standardIds.length)))
 
   const selected: Problem[] = []
-  for (const ss of subSkillIds) {
-    selected.push(...pickFromSubSkill(bySubSkill.get(ss)!, perSubSkill))
+  for (const sid of standardIds) {
+    const group = byStandard.get(sid)!
+    group.sort((a, b) => a.difficulty - b.difficulty)
+    selected.push(...group.slice(0, perStandard))
   }
-  return selected
-}
-
-function pickFromSubSkill(pool: Problem[], count: number): Problem[] {
-  const types: ProblemType[] = ['procedural', 'conceptual', 'applied']
-  const byType: Record<ProblemType, Problem[]> = {
-    procedural: [],
-    conceptual: [],
-    applied: [],
-  }
-  for (const p of pool) {
-    byType[p.problem_type].push(p)
-  }
-  for (const t of types) {
-    byType[t].sort((a, b) => a.difficulty - b.difficulty)
-  }
-
-  const picked: Problem[] = []
-  let progress = true
-  while (picked.length < count && progress) {
-    progress = false
-    for (const t of types) {
-      if (picked.length >= count) break
-      const next = byType[t].shift()
-      if (next) {
-        picked.push(next)
-        progress = true
-      }
-    }
-  }
-  return picked
+  return selected.slice(0, targetCount)
 }
