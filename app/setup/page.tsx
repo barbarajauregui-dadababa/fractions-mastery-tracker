@@ -43,11 +43,14 @@ export default function SetupPage() {
         .single()
       if (learnerError) throw learnerError
 
-      const selected = selectProblems(20)
+      // v1 only supports build_fraction problems in the UI; selectProblems filters to those.
+      // Once other problem_types have UI, pass preferSupported: false to get the full mix.
+      const selected = selectProblems({ targetCount: 8, preferSupported: true })
       const responses = selected.map((p) => ({
         problem_id: p.id,
-        answer: null,
-        work_shown: null,
+        telemetry: [],
+        committed_success: false,
+        final_placed_denominators: [],
       }))
 
       const { data: assessment, error: assessmentError } = await supabase

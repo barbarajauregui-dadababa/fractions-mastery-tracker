@@ -1,20 +1,37 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import FractionWorkspace from '@/components/fraction-workspace/FractionWorkspace'
+import type {
+  BuildFractionProblem,
+  PieceDenominator,
+  TelemetryEvent,
+} from '@/components/fraction-workspace/types'
 
 export interface PublicProblem {
   id: string
-  sub_skill_id: string
-  problem_type: 'procedural' | 'conceptual' | 'applied'
-  prompt: string
+  ccss_standard_ids: string[]
+  problem_type:
+    | 'partition_target'
+    | 'build_fraction'
+    | 'identify_fraction'
+    | 'place_on_number_line'
+    | 'equivalent_fractions'
+    | 'compare_fractions'
+  target_shape: 'bar' | 'circle' | 'number_line' | 'set_of_objects'
+  available_denominators: PieceDenominator[]
+  goal: unknown
+  framing_text?: string
 }
 
-interface Response {
+interface StoredResponse {
   problem_id: string
-  answer: string
-  work_shown: string
+  problem_type: string
+  telemetry: TelemetryEvent[]
+  /** Derived at submit time from telemetry (last commit_attempt with success). */
+  committed_success: boolean
 }
 
 interface Props {
@@ -28,30 +45,43 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
   const supabase = createClient()
 
   const [index, setIndex] = useState(0)
-  const [responses, setResponses] = useState<Response[]>(() =>
-    problems.map((p) => ({ problem_id: p.id, answer: '', work_shown: '' }))
-  )
+  const [telemetryByProblem, setTelemetryByProblem] = useState<Record<string, TelemetryEvent[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const total = problems.length
   const current = problems[index]
-  const currentResponse = responses[index]
   const isLast = index === total - 1
+  const currentId = current?.id ?? ''
 
-  function updateCurrent(field: 'answer' | 'work_shown', value: string) {
-    setResponses((prev) => {
-      const next = [...prev]
-      next[index] = { ...next[index], [field]: value }
-      return next
-    })
-  }
+  const recordTelemetry = useCallback(
+    (event: TelemetryEvent) => {
+      if (!currentId) return
+      setTelemetryByProblem((prev) => ({
+        ...prev,
+        [currentId]: [...(prev[currentId] ?? []), event],
+      }))
+    },
+    [currentId]
+  )
 
-  async function submitAssessment() {
+  const submit = useCallback(async () => {
     if (isSubmitting) return
     setIsSubmitting(true)
     setError(null)
     try {
+      const responses: StoredResponse[] = problems.map((p) => {
+        const events = telemetryByProblem[p.id] ?? []
+        const success = events.some(
+          (e) => e.type === 'commit_attempt' && e.result === 'success'
+        )
+        return {
+          problem_id: p.id,
+          problem_type: p.problem_type,
+          telemetry: events,
+          committed_success: success,
+        }
+      })
       const { error: updateError } = await supabase
         .from('assessments')
         .update({ responses, completed_at: new Date().toISOString() })
@@ -63,14 +93,11 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
       setError(message)
       setIsSubmitting(false)
     }
-  }
+  }, [assessmentId, isSubmitting, problems, router, supabase, telemetryByProblem])
 
   function goNext() {
-    if (isLast) {
-      void submitAssessment()
-    } else {
-      setIndex((i) => i + 1)
-    }
+    if (isLast) void submit()
+    else setIndex((i) => i + 1)
   }
 
   function goPrev() {
@@ -89,7 +116,7 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
   }
 
   return (
-    <main className="flex flex-1 w-full max-w-2xl mx-auto flex-col gap-8 py-12 px-8">
+    <main className="flex flex-1 w-full max-w-3xl mx-auto flex-col gap-8 py-8 px-6">
       <header className="flex items-baseline justify-between gap-4 text-sm text-zinc-600 dark:text-zinc-400">
         <span>
           Assessment for <strong className="text-zinc-900 dark:text-zinc-100">{learnerName}</strong>
@@ -106,32 +133,19 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
         />
       </div>
 
-      <section className="flex flex-col gap-6">
-        <p className="text-lg leading-relaxed text-zinc-900 dark:text-zinc-100 whitespace-pre-wrap">
-          {current.prompt}
-        </p>
-
-        <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium">Your answer</span>
-          <input
-            type="text"
-            value={currentResponse.answer}
-            onChange={(e) => updateCurrent('answer', e.target.value)}
-            className="h-11 rounded-md border border-zinc-300 dark:border-zinc-700 px-3 text-base bg-white dark:bg-zinc-950"
-            autoComplete="off"
+      <section className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-8 bg-white dark:bg-zinc-950/40">
+        {current.problem_type === 'build_fraction' ? (
+          <FractionWorkspace
+            key={current.id}
+            problem={toBuildFractionProblem(current)}
+            onTelemetryEvent={recordTelemetry}
           />
-        </label>
-
-        <label className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium">Show your work</span>
-          <textarea
-            value={currentResponse.work_shown}
-            onChange={(e) => updateCurrent('work_shown', e.target.value)}
-            rows={6}
-            className="rounded-md border border-zinc-300 dark:border-zinc-700 p-3 text-base bg-white dark:bg-zinc-950 resize-y"
-            placeholder="Explain how you got your answer — drawings described in words are fine."
+        ) : (
+          <NotYetSupportedPlaceholder
+            problemType={current.problem_type}
+            framing={current.framing_text}
           />
-        </label>
+        )}
       </section>
 
       {error && (
@@ -159,5 +173,37 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
         </button>
       </footer>
     </main>
+  )
+}
+
+function toBuildFractionProblem(p: PublicProblem): BuildFractionProblem {
+  const goal = p.goal as { numerator: number; denominator: number }
+  return {
+    id: p.id,
+    problem_type: 'build_fraction',
+    target_shape: 'bar',
+    goal: { numerator: goal.numerator, denominator: goal.denominator },
+    available_denominators: p.available_denominators,
+    framing_text: p.framing_text,
+  }
+}
+
+function NotYetSupportedPlaceholder({
+  problemType,
+  framing,
+}: {
+  problemType: string
+  framing?: string
+}) {
+  const label = problemType.replace(/_/g, ' ')
+  return (
+    <div className="flex flex-col items-center gap-3 text-center py-10">
+      <div className="text-xs uppercase tracking-wide text-zinc-500">{label}</div>
+      {framing && <p className="max-w-lg text-zinc-700 dark:text-zinc-300">{framing}</p>}
+      <div className="rounded-md border border-dashed border-zinc-300 dark:border-zinc-700 px-6 py-8 text-sm text-zinc-500">
+        This problem type doesn&apos;t have an interactive UI yet — it&apos;ll be built alongside the
+        drag-and-build mechanic. For now, use <strong>Next</strong> to move on.
+      </div>
+    </div>
   )
 }
