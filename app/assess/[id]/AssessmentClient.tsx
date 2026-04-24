@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import FractionWorkspace from '@/components/fraction-workspace/FractionWorkspace'
+import FractionWorkspaceV2 from '@/components/fraction-workspace/FractionWorkspaceV2'
 import type {
   BuildFractionProblem,
   PieceDenominator,
@@ -117,63 +117,68 @@ export default function AssessmentClient({ assessmentId, problems, learnerName }
   }
 
   return (
-    <main className="flex flex-1 w-full max-w-3xl mx-auto flex-col gap-8 py-8 px-6">
-      <header className="flex items-baseline justify-between gap-4 text-sm text-zinc-600 dark:text-zinc-400">
-        <span>
-          Assessment for <strong className="text-zinc-900 dark:text-zinc-100">{learnerName}</strong>
-        </span>
-        <span>
-          Problem {index + 1} of {total}
-        </span>
-      </header>
+    <>
+      <main className="flex flex-1 w-full max-w-3xl mx-auto flex-col gap-5 py-6 px-6 pb-24">
+        <header className="flex items-baseline justify-between gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+          <span>
+            Assessment for <strong className="text-zinc-900 dark:text-zinc-100">{learnerName}</strong>
+          </span>
+          <span>
+            Problem {index + 1} of {total}
+          </span>
+        </header>
 
-      <div className="h-1 w-full bg-zinc-200 dark:bg-zinc-800 rounded">
-        <div
-          className="h-full bg-zinc-900 dark:bg-zinc-100 rounded transition-all"
-          style={{ width: `${((index + 1) / total) * 100}%` }}
-        />
-      </div>
-
-      <section className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-8 bg-white dark:bg-zinc-950/40">
-        {current.problem_type === 'build_fraction' ? (
-          <FractionWorkspace
-            key={current.id}
-            problem={toBuildFractionProblem(current)}
-            onTelemetryEvent={recordTelemetry}
+        <div className="h-1 w-full bg-zinc-200 dark:bg-zinc-800 rounded">
+          <div
+            className="h-full bg-zinc-900 dark:bg-zinc-100 rounded transition-all"
+            style={{ width: `${((index + 1) / total) * 100}%` }}
           />
-        ) : (
-          <NotYetSupportedPlaceholder
-            problemType={current.problem_type}
-            framing={current.framing_text}
-          />
-        )}
-      </section>
-
-      {error && (
-        <div className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
-          {error}
         </div>
-      )}
 
-      <footer className="flex items-center justify-between gap-4">
-        <button
-          type="button"
-          onClick={goPrev}
-          disabled={index === 0 || isSubmitting}
-          className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-700 px-4 text-sm font-medium disabled:opacity-50"
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          onClick={goNext}
-          disabled={isSubmitting}
-          className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-white disabled:opacity-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
-        >
-          {isSubmitting ? 'Submitting…' : isLast ? 'Submit assessment' : 'Next'}
-        </button>
+        <section className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-6 bg-white dark:bg-zinc-950/40">
+          {current.problem_type === 'build_fraction' ? (
+            <FractionWorkspaceV2
+              key={current.id}
+              problem={toBuildFractionProblem(current)}
+              onTelemetryEvent={recordTelemetry}
+            />
+          ) : (
+            <NotYetSupportedPlaceholder
+              problemType={current.problem_type}
+              framing={current.framing_text}
+            />
+          )}
+        </section>
+
+        {error && (
+          <div className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
+            {error}
+          </div>
+        )}
+      </main>
+
+      {/* Sticky footer so Back / Next are always visible regardless of scroll. */}
+      <footer className="sticky bottom-0 left-0 right-0 z-10 border-t border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur">
+        <div className="flex items-center justify-between gap-4 max-w-3xl mx-auto py-3 px-6">
+          <button
+            type="button"
+            onClick={goPrev}
+            disabled={index === 0 || isSubmitting}
+            className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-700 px-4 text-sm font-medium disabled:opacity-50 bg-white dark:bg-zinc-900"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={isSubmitting}
+            className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-5 text-sm font-medium text-white disabled:opacity-50 hover:bg-zinc-800"
+          >
+            {isSubmitting ? 'Submitting…' : isLast ? 'Submit assessment' : 'Next'}
+          </button>
+        </div>
       </footer>
-    </main>
+    </>
   )
 }
 
