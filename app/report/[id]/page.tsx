@@ -13,6 +13,7 @@ interface ResourceRow {
   modality: string
   source_site?: string
   url?: string | null
+  duration_minutes?: number
 }
 const resources = resourcesRaw as unknown as { resources: ResourceRow[] }
 function resourceById(id: string): ResourceRow | undefined {
@@ -123,17 +124,78 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
     }
   }
 
+  // Hero stats — derived from plan + resource library.
+  const focusStandards = [...byState.misconception, ...byState.working]
+  let totalMinutes = 0
+  let handsOnCount = 0
+  let activityCount = 0
+  if (planContent && masteryMap) {
+    for (const gap of planContent.priority_gaps) {
+      for (const act of gap.activities) {
+        activityCount += 1
+        const r = resourceById(act.resource_id)
+        if (r?.duration_minutes) totalMinutes += r.duration_minutes
+        if (r?.modality === 'manipulative') handsOnCount += 1
+      }
+    }
+  }
+  const focusLabel =
+    focusStandards.length === 0
+      ? null
+      : focusStandards.length === 1
+        ? standardName(focusStandards[0])
+        : focusStandards.length <= 3
+          ? focusStandards.map((s) => standardName(s)).join(' · ')
+          : `${focusStandards.length} standards`
+
   return (
-    <main className="flex flex-1 w-full max-w-4xl mx-auto flex-col gap-8 py-12 px-8">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Report</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Mastery map for <strong>{displayName}</strong>
-          {isCompleted
-            ? ` — completed ${new Date(assessment.completed_at!).toLocaleString()}`
-            : ' — not yet completed'}
-        </p>
-      </header>
+    <main className="flex flex-1 w-full max-w-4xl mx-auto flex-col gap-8 py-10 px-8">
+      {masteryMap && focusLabel ? (
+        <section className="rounded-2xl bg-stone-100 dark:bg-zinc-900/60 px-7 py-6 flex flex-col gap-2">
+          <div className="flex items-baseline gap-2 flex-wrap text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-zinc-400">
+            <span>Current focus</span>
+            <span aria-hidden className="text-stone-300 dark:text-zinc-700">·</span>
+            <span className="normal-case tracking-normal text-stone-600 dark:text-zinc-300 font-normal">
+              {displayName}
+            </span>
+          </div>
+          <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-zinc-50">
+            {focusLabel}
+          </h1>
+          {activityCount > 0 && (
+            <div className="mt-1 flex items-center gap-3 text-sm text-stone-600 dark:text-zinc-400">
+              <span>
+                <span className="font-medium text-stone-800 dark:text-zinc-200">{activityCount}</span>{' '}
+                {activityCount === 1 ? 'activity' : 'activities'}
+              </span>
+              {totalMinutes > 0 && (
+                <>
+                  <span aria-hidden className="text-stone-300 dark:text-zinc-700">·</span>
+                  <span>~{totalMinutes} min total</span>
+                </>
+              )}
+              {handsOnCount > 0 && (
+                <>
+                  <span aria-hidden className="text-stone-300 dark:text-zinc-700">·</span>
+                  <span>
+                    {handsOnCount} hands-on
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+        </section>
+      ) : (
+        <header className="flex flex-col gap-2">
+          <h1 className="text-3xl font-semibold tracking-tight">Report</h1>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Mastery map for <strong>{displayName}</strong>
+            {isCompleted
+              ? ` — completed ${new Date(assessment.completed_at!).toLocaleString()}`
+              : ' — not yet completed'}
+          </p>
+        </header>
+      )}
 
       {!isCompleted && (
         <div className="rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">

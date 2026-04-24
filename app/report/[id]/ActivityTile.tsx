@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import ModalityGlyph, { modalityLabel } from './ModalityGlyph'
 
 export interface CompletedActivity {
   resource_id: string
@@ -14,6 +15,7 @@ interface Resource {
   modality: string
   source_site?: string
   url?: string | null
+  duration_minutes?: number
 }
 
 interface Props {
@@ -23,13 +25,11 @@ interface Props {
   rationale: string
   resource: Resource | undefined
   completedAt: string | null
-  /** All completed activities currently stored on the plan; needed for optimistic update. */
   allCompleted: CompletedActivity[]
 }
 
 export default function ActivityTile({
   planId,
-  order,
   resourceId,
   rationale,
   resource,
@@ -46,8 +46,7 @@ export default function ActivityTile({
     setError(null)
     const wasCompleted = completedAt !== null
     const now = new Date().toISOString()
-    const optimistic = wasCompleted ? null : now
-    setCompletedAt(optimistic)
+    setCompletedAt(wasCompleted ? null : now)
 
     startTransition(async () => {
       const { data: row, error: readErr } = await supabase
@@ -79,84 +78,121 @@ export default function ActivityTile({
 
   const isDone = completedAt !== null
   const title = resource?.title ?? resourceId
+  const modality = resource?.modality ?? ''
+  const minutes = resource?.duration_minutes
 
   return (
     <li
-      className={`rounded-md border p-3 transition-colors ${
+      className={`group rounded-xl border transition-colors ${
         isDone
-          ? 'bg-green-50 dark:bg-green-950/30 border-green-300 dark:border-green-900'
-          : 'bg-white dark:bg-zinc-950/50 border-zinc-200 dark:border-zinc-800'
+          ? 'bg-stone-50 dark:bg-zinc-900/40 border-stone-200 dark:border-zinc-800 opacity-75'
+          : 'bg-white dark:bg-zinc-950 border-stone-200 dark:border-zinc-800 hover:border-stone-300 dark:hover:border-zinc-700'
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-start gap-2 min-w-0">
-          <span
-            className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
-              isDone
-                ? 'bg-green-600 text-white'
-                : 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-            }`}
-            aria-hidden
-          >
-            {isDone ? '✓' : order}
-          </span>
-          <div className="flex flex-col gap-0.5 min-w-0">
-            <span className={`font-medium text-sm ${isDone ? 'line-through text-zinc-500' : ''}`}>
+      <div className="flex items-start gap-4 p-4">
+        <div
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${
+            isDone
+              ? 'bg-stone-100 dark:bg-zinc-900 text-stone-400 dark:text-zinc-600'
+              : 'bg-stone-100 dark:bg-zinc-900 text-stone-700 dark:text-zinc-300'
+          }`}
+        >
+          <ModalityGlyph modality={modality} className="h-5 w-5" />
+        </div>
+
+        <div className="flex-1 min-w-0 flex flex-col gap-1">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span
+              className={`text-sm font-medium leading-snug ${
+                isDone ? 'line-through text-stone-500 dark:text-zinc-500' : 'text-stone-900 dark:text-zinc-100'
+              }`}
+            >
               {title}
             </span>
-            {resource?.modality && (
-              <span className="text-xs text-zinc-500">
-                {resource.modality}
-                {resource.source_site && !resource.url ? ` · ${resource.source_site}` : ''}
-              </span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-zinc-400">
+            {modality && <span>{modalityLabel(modality)}</span>}
+            {typeof minutes === 'number' && (
+              <>
+                <span aria-hidden>·</span>
+                <span>~{minutes} min</span>
+              </>
+            )}
+            {resource?.source_site && !resource?.url && (
+              <>
+                <span aria-hidden>·</span>
+                <span>{resource.source_site}</span>
+              </>
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+
+        <div className="flex items-center gap-3 shrink-0">
           {resource?.url && (
             <a
               href={resource.url}
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-blue-700 dark:text-blue-300 hover:underline whitespace-nowrap"
+              className="text-xs text-stone-600 dark:text-zinc-400 underline underline-offset-2 decoration-stone-300 hover:text-stone-900 dark:hover:text-zinc-100"
             >
-              Open ↗
+              Open
             </a>
           )}
           <button
             type="button"
             onClick={toggleDone}
             disabled={isPending}
-            className={`inline-flex h-7 items-center justify-center rounded-md px-2.5 text-xs font-medium transition-colors disabled:opacity-50 ${
+            aria-pressed={isDone}
+            className={`inline-flex h-6 w-6 items-center justify-center rounded-md border transition-colors disabled:opacity-50 ${
               isDone
-                ? 'bg-green-600 text-white hover:bg-green-700'
-                : 'border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900'
+                ? 'bg-emerald-600 border-emerald-600 text-white'
+                : 'bg-white dark:bg-zinc-950 border-stone-300 dark:border-zinc-700 hover:border-stone-400 dark:hover:border-zinc-500'
             }`}
           >
-            {isDone ? 'Done' : 'Mark done'}
+            {isDone && (
+              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="3" aria-hidden>
+                <path d="M5 12.5l4.5 4.5L20 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
-      {isDone && completedAt && (
-        <div className="mt-1 ml-8 text-xs text-green-700 dark:text-green-400">
-          Completed {new Date(completedAt).toLocaleString()}
-        </div>
-      )}
-      <div className="mt-2 ml-8">
+
+      <div className="px-4 pb-3 pl-[calc(1rem+11px+11px+1rem-9px)]">
         <button
           type="button"
           onClick={() => setShowWhy((v) => !v)}
-          className="text-xs text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+          className="text-xs text-stone-500 dark:text-zinc-400 hover:text-stone-800 dark:hover:text-zinc-200 inline-flex items-center gap-1"
         >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className={`h-3 w-3 transition-transform ${showWhy ? 'rotate-90' : ''}`}
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden
+          >
+            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           {showWhy ? 'Hide rationale' : 'Why this activity?'}
         </button>
         {showWhy && (
-          <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+          <p className="mt-2 text-sm text-stone-700 dark:text-zinc-300 leading-relaxed max-w-prose">
             {rationale}
           </p>
         )}
+        {isDone && completedAt && (
+          <div className="mt-1 text-xs text-emerald-700 dark:text-emerald-400">
+            Completed {new Date(completedAt).toLocaleDateString(undefined, {
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            })}
+          </div>
+        )}
+        {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{error}</p>}
       </div>
-      {error && <p className="mt-1 ml-8 text-xs text-red-600 dark:text-red-400">{error}</p>}
     </li>
   )
 }
