@@ -76,7 +76,7 @@ export default function SetupPage() {
   return (
     <main className="flex flex-1 w-full max-w-xl mx-auto flex-col gap-8 py-24 px-8">
       <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Set up a learner</h1>
+        <h1 className="font-serif text-3xl font-semibold tracking-tight">Set up a learner</h1>
         <p className="text-stone-600 dark:text-stone-400">
           Create the learner, then a fractions assessment starts automatically.
         </p>

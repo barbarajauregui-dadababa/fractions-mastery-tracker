@@ -77,7 +77,7 @@ export default async function LearnerDashboardPage(
         <div className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
           Mastery tree
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-50">
           {learner.name}
         </h1>
         {latest?.completed_at && (

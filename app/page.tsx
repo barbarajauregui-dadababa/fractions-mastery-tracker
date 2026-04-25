@@ -7,7 +7,7 @@ export default function Home() {
         <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
           Built with Opus 4.7 hackathon · Acton Academy Falls Church pilot
         </p>
-        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-stone-900">
+        <h1 className="font-serif text-4xl sm:text-5xl font-semibold tracking-tight text-stone-900">
           Fractions Mastery Tracker
         </h1>
         <p className="text-lg text-stone-600 leading-relaxed max-w-2xl">

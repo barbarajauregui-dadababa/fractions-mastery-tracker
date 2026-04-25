@@ -173,7 +173,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               {displayName}
             </span>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50">
+          <h1 className="font-serif text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-50">
             {focusLabel}
           </h1>
           {activityCount > 0 && (
