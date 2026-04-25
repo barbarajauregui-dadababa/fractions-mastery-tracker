@@ -54,6 +54,7 @@ export default function AssessmentClient({
   const [index, setIndex] = useState(0)
   const [telemetryByProblem, setTelemetryByProblem] = useState<Record<string, TelemetryEvent[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStage, setSubmitStage] = useState<'idle' | 'saving' | 'analyzing'>('idle')
   const [error, setError] = useState<string | null>(null)
 
   const total = problems.length
@@ -75,6 +76,7 @@ export default function AssessmentClient({
   const submit = useCallback(async () => {
     if (isSubmitting) return
     setIsSubmitting(true)
+    setSubmitStage('saving')
     setError(null)
     try {
       const responses: StoredResponse[] = problems.map((p) => {
@@ -94,14 +96,41 @@ export default function AssessmentClient({
         .update({ responses, completed_at: new Date().toISOString() })
         .eq('id', assessmentId)
       if (updateError) throw updateError
+
+      // Auto-analyze. We await it so the report page has a mastery_map
+      // when the learner lands. ~15 sec for a typical assessment. If
+      // analysis fails, we still redirect — the report page will show
+      // the manual "Run analysis" button as a fallback.
+      setSubmitStage('analyzing')
+      try {
+        const res = await fetch('/api/analyze-assessment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            assessment_id: assessmentId,
+            parent_assessment_id: parentAssessmentId ?? undefined,
+          }),
+        })
+        if (!res.ok) {
+          // Soft-fail: analysis didn't run, but the assessment is saved.
+          // Report page will offer the manual analyze button.
+          console.warn('Auto-analysis failed; will retry from report page', await res.text())
+        }
+      } catch (analyzeErr) {
+        console.warn('Auto-analysis error; will retry from report page', analyzeErr)
+      }
+
+      // If we ran a focused probe with auto-merge, the parent's report
+      // is the destination (the probe's result was merged in).
       const nextUrl = parentAssessmentId
-        ? `/report/${assessmentId}?parent=${parentAssessmentId}`
+        ? `/report/${parentAssessmentId}`
         : `/report/${assessmentId}`
       router.push(nextUrl)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Could not submit assessment.'
       setError(message)
       setIsSubmitting(false)
+      setSubmitStage('idle')
     }
   }, [assessmentId, isSubmitting, parentAssessmentId, problems, router, supabase, telemetryByProblem])
 
@@ -183,7 +212,13 @@ export default function AssessmentClient({
             disabled={isSubmitting}
             className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-5 text-sm font-medium text-white disabled:opacity-50 hover:bg-zinc-800"
           >
-            {isSubmitting ? 'Submitting…' : isLast ? 'Submit assessment' : 'Next'}
+            {submitStage === 'analyzing'
+              ? 'Analyzing… ~15 sec'
+              : submitStage === 'saving'
+                ? 'Saving…'
+                : isLast
+                  ? 'Submit assessment'
+                  : 'Next'}
           </button>
         </div>
       </footer>
