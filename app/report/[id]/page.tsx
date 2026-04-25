@@ -7,6 +7,7 @@ import type { PlanContent } from './PlanDisplay'
 import FocusedProbeButton from './FocusedProbeButton'
 import ActivityTile, { type CompletedActivity } from './ActivityTile'
 import { FourthGradeOverviewStrip, FractionsSectionStrip } from './RoadmapStrip'
+import { StandardInfo } from '@/app/SourceInfo'
 import resourcesRaw from '@/content/fractions-resources.json'
 
 interface ResourceRow {
@@ -351,11 +352,14 @@ function AtAGlanceSummary({
 
   return (
     <section className="rounded-sm border-2 border-brass-deep/40 bg-paper p-5">
-      <div
-        className="text-[10px] tracking-[0.25em] uppercase text-brass-deep mb-3"
-        style={{ fontFamily: 'var(--font-cinzel)' }}
-      >
-        At a glance · Legend
+      <div className="flex items-center gap-2 mb-3">
+        <span
+          className="text-[10px] tracking-[0.25em] uppercase text-brass-deep"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+        >
+          At a glance · CCSS Standards
+        </span>
+        <StandardInfo />
       </div>
       <ul className="flex flex-col gap-3 text-sm" style={{ fontFamily: 'var(--font-fraunces)' }}>
         {/* Needs attention (red/misconception) */}

@@ -1,5 +1,6 @@
 import type { SectionRoadmapEntry, SectionStatus } from './PlanDisplay'
 import { RomanNumeral } from '@/app/Ornament'
+import { ProgressionInfo, SectionInfo } from '@/app/SourceInfo'
 
 const FOURTH_GRADE_DOMAINS: { code: string; name: string; status: 'in_progress' | 'v15' }[] = [
   { code: '4.OA', name: 'Operations & Algebraic Thinking', status: 'v15' },
@@ -12,11 +13,14 @@ const FOURTH_GRADE_DOMAINS: { code: string; name: string; status: 'in_progress' 
 export function FourthGradeOverviewStrip() {
   return (
     <section className="flex flex-col gap-2">
-      <div
-        className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
-        style={{ fontFamily: 'var(--font-cinzel)' }}
-      >
-        4th-grade math overview
+      <div className="flex items-center gap-2">
+        <span
+          className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+        >
+          4th-grade math · CCSS Domains as Progressions
+        </span>
+        <ProgressionInfo />
       </div>
       <ol className="grid grid-cols-2 sm:grid-cols-5 gap-2">
         {FOURTH_GRADE_DOMAINS.map((d) => {
@@ -80,17 +84,20 @@ export function FractionsSectionStrip({ learnerName, roadmap }: SectionStripProp
   return (
     <section className="flex flex-col gap-2 pl-4 border-l-2 border-brass-deep">
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
-        <div
-          className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
-          style={{ fontFamily: 'var(--font-cinzel)' }}
-        >
-          Inside 4.NF — fractions sections for {learnerName}
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
+            style={{ fontFamily: 'var(--font-cinzel)' }}
+          >
+            Inside 4.NF · IM Sections for {learnerName}
+          </span>
+          <SectionInfo />
         </div>
         <div
           className="text-[10px] text-ink-faint italic"
           style={{ fontFamily: 'var(--font-special-elite)' }}
         >
-          Source: Illustrative Mathematics, Grade 3 Unit 5 and Grade 4 Unit 2
+          Grade 3 Unit 5 + Grade 4 Unit 2
         </div>
       </div>
       <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2">
