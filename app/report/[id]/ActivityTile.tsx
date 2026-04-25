@@ -83,44 +83,54 @@ export default function ActivityTile({
 
   return (
     <li
-      className={`group rounded-xl border transition-colors ${
+      className={`group relative rounded-sm border-2 transition-colors ${
         isDone
-          ? 'bg-stone-50 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800 opacity-75'
-          : 'bg-white dark:bg-stone-950 border-stone-200 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700'
+          ? 'bg-paper-deep/40 border-emerald-700/40 opacity-80'
+          : 'bg-paper border-brass-deep/30 hover:border-brass-deep/60'
       }`}
     >
       <div className="flex items-start gap-4 p-4">
+        {/* Modality glyph in a brass-bordered card */}
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-sm border ${
             isDone
-              ? 'bg-stone-100 dark:bg-stone-900 text-stone-400 dark:text-stone-600'
-              : 'bg-stone-100 dark:bg-stone-900 text-stone-700 dark:text-stone-300'
+              ? 'bg-paper border-stone-300 text-ink-faint'
+              : 'bg-paper-deep border-brass-deep/40 text-brass-deep'
           }`}
         >
           <ModalityGlyph modality={modality} className="h-5 w-5" />
         </div>
 
         <div className="flex-1 min-w-0 flex flex-col gap-1">
+          {/* Activity ribbon — Cinzel small caps */}
+          <div className="flex items-center gap-2">
+            <span
+              className="text-[9px] tracking-[0.2em] uppercase text-brass-deep"
+              style={{ fontFamily: 'var(--font-cinzel)' }}
+            >
+              Activity {modality ? `· ${modalityLabel(modality).toUpperCase()}` : ''}
+            </span>
+          </div>
           <div className="flex items-baseline gap-2 flex-wrap">
             <span
-              className={`text-sm font-medium leading-snug ${
-                isDone ? 'line-through text-stone-500 dark:text-stone-500' : 'text-stone-900 dark:text-stone-100'
+              className={`text-base leading-snug ${
+                isDone
+                  ? 'line-through text-ink-faint'
+                  : 'text-ink'
               }`}
+              style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
             >
               {title}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-            {modality && <span>{modalityLabel(modality)}</span>}
-            {typeof minutes === 'number' && (
-              <>
-                <span aria-hidden>·</span>
-                <span>~{minutes} min</span>
-              </>
-            )}
+          <div
+            className="flex items-center gap-2 text-xs text-ink-faint"
+            style={{ fontFamily: 'var(--font-special-elite)' }}
+          >
+            {typeof minutes === 'number' && <span>~{minutes} min</span>}
             {resource?.source_site && !resource?.url && (
               <>
-                <span aria-hidden>·</span>
+                {typeof minutes === 'number' && <span aria-hidden>·</span>}
                 <span>{resource.source_site}</span>
               </>
             )}
@@ -133,7 +143,8 @@ export default function ActivityTile({
               href={resource.url}
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-stone-600 dark:text-stone-400 underline underline-offset-2 decoration-stone-300 hover:text-stone-900 dark:hover:text-stone-100"
+              className="text-xs text-copper hover:text-brass-deep underline underline-offset-2"
+              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.08em' }}
             >
               Open
             </a>
@@ -143,10 +154,11 @@ export default function ActivityTile({
             onClick={toggleDone}
             disabled={isPending}
             aria-pressed={isDone}
-            className={`inline-flex h-6 w-6 items-center justify-center rounded-md border transition-colors disabled:opacity-50 ${
+            aria-label={isDone ? 'Mark not done' : 'Mark done'}
+            className={`inline-flex h-7 w-7 items-center justify-center rounded-sm border-2 transition-colors disabled:opacity-50 ${
               isDone
                 ? 'bg-emerald-600 border-emerald-600 text-white'
-                : 'bg-white dark:bg-stone-950 border-stone-300 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500'
+                : 'bg-paper border-brass-deep/50 hover:border-brass-deep'
             }`}
           >
             {isDone && (
@@ -158,11 +170,12 @@ export default function ActivityTile({
         </div>
       </div>
 
-      <div className="px-4 pb-3 pl-[calc(1rem+11px+11px+1rem-9px)]">
+      <div className="px-4 pb-3 pl-[calc(1rem+12px+12px+1rem-9px)]">
         <button
           type="button"
           onClick={() => setShowWhy((v) => !v)}
-          className="text-xs text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 inline-flex items-center gap-1"
+          className="text-[11px] tracking-[0.15em] uppercase text-ink-faint hover:text-brass-deep inline-flex items-center gap-1"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           <svg
             viewBox="0 0 24 24"
@@ -177,12 +190,18 @@ export default function ActivityTile({
           {showWhy ? 'Hide rationale' : 'Why this activity?'}
         </button>
         {showWhy && (
-          <div className="mt-2 text-sm text-stone-700 dark:text-stone-300 leading-relaxed max-w-prose">
+          <div
+            className="mt-2 text-sm text-ink-soft leading-relaxed max-w-prose italic"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
             <BulletedSentences text={rationale} />
           </div>
         )}
         {isDone && completedAt && (
-          <div className="mt-1 text-xs text-emerald-700 dark:text-emerald-400">
+          <div
+            className="mt-1 text-xs text-emerald-700 italic"
+            style={{ fontFamily: 'var(--font-special-elite)' }}
+          >
             Completed {new Date(completedAt).toLocaleDateString(undefined, {
               month: 'short',
               day: 'numeric',
@@ -191,7 +210,14 @@ export default function ActivityTile({
             })}
           </div>
         )}
-        {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{error}</p>}
+        {error && (
+          <p
+            className="mt-1 text-xs text-red-700"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
+            {error}
+          </p>
+        )}
       </div>
     </li>
   )
