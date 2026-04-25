@@ -82,7 +82,19 @@
       "goal": { "numerator": 1, "denominator": 4 },
       "real_world_context": { "scenario": null, "framing_text": "Build one-fourth of this bar. You do not have a 1/4 piece — find another way." },
       "difficulty": 1,
-      "show_your_work_note": "Goal denom 4 is intentionally absent from the palette to force equivalence reasoning. Two 1/8 pieces = 1/4. Commit = 1 over 4."
+      "show_your_work_note": "Goal denom 4 is intentionally absent from the palette to force equivalence reasoning. Two 1/8 pieces = 1/4. Commit = 1 over 4.",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed four 1/8 pieces (sum = 4/8 = 1/2). Treats the digits 1 and 4 as 'one piece, four parts' literally rather than naming a quantity.",
+          "placed_denominators_sorted": [8, 8, 8, 8],
+          "misconception_ids": ["m07_notational_confusion"]
+        },
+        {
+          "wrong_pattern_description": "Placed one 1/8 piece (sum = 1/8). Treats numerator 1 as the count of pieces and the available denominator as the size, ignoring the goal denominator entirely.",
+          "placed_denominators_sorted": [8],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        }
+      ]
     },
     {
       "id": "p004",
@@ -389,7 +401,19 @@
       "goal": { "numerator": 2, "denominator": 3 },
       "real_world_context": { "scenario": null, "framing_text": "Build two-thirds of this bar. Only sixths are available — generate an equivalent." },
       "difficulty": 2,
-      "show_your_work_note": "Correct path: four 1/6 pieces = 2/3. Learner must generate equivalent 4/6 from 2/3. An m08 learner may try 3 sixths (adding 1 to each term); the bar shows the gap."
+      "show_your_work_note": "Correct path: four 1/6 pieces = 2/3. Learner must generate equivalent 4/6 from 2/3. An m08 learner may try 3 sixths (adding 1 to each term); the bar shows the gap.",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed three 1/6 pieces (sum = 3/6 = 1/2). Either additive thinking (2+1, 3+1 → 3/4 not in palette so 3/6) or treating the goal denominator (3) as the piece count.",
+          "placed_denominators_sorted": [6, 6, 6],
+          "misconception_ids": ["m08_additive_equivalence", "m04_equivalent_fractions_unrecognized"]
+        },
+        {
+          "wrong_pattern_description": "Placed two 1/6 pieces (sum = 2/6 = 1/3). Treats the goal numerator (2) as the count of pieces, ignoring that 1/6 is half the size of 1/3.",
+          "placed_denominators_sorted": [6, 6],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        }
+      ]
     },
     {
       "id": "p027",
@@ -402,7 +426,19 @@
       "goal": { "numerator": 3, "denominator": 4 },
       "real_world_context": { "scenario": null, "framing_text": "Build three-fourths of this bar using only eighths." },
       "difficulty": 2,
-      "show_your_work_note": "Correct: six 1/8 pieces = 3/4. Probes 4.NF.A.1 scaling-based equivalence (num × 2, denom × 2). m08 learner may attempt 4 eighths (adding 1 to each term); bar shows shortfall."
+      "show_your_work_note": "Correct: six 1/8 pieces = 3/4. Probes 4.NF.A.1 scaling-based equivalence (num × 2, denom × 2). m08 learner may attempt 4 eighths (adding 1 to each term); bar shows shortfall.",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed four 1/8 pieces (sum = 4/8 = 1/2). Additive thinking — adds 1 to numerator (3+1=4) and 1 to denominator (4+1=5, but 5 not available, so resolves with 4/8 instead).",
+          "placed_denominators_sorted": [8, 8, 8, 8],
+          "misconception_ids": ["m08_additive_equivalence"]
+        },
+        {
+          "wrong_pattern_description": "Placed three 1/8 pieces (sum = 3/8). Treats the goal numerator (3) as the count of pieces, missing that 1/8 is half the size of 1/4 so 6 are needed.",
+          "placed_denominators_sorted": [8, 8, 8],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        }
+      ]
     }
   ]
 }
