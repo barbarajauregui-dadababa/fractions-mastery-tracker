@@ -7,13 +7,17 @@ export default function Home() {
         <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
           Built with Opus 4.7 hackathon · Acton Academy Falls Church pilot
         </p>
-        <h1 className="font-serif text-4xl sm:text-5xl font-semibold tracking-tight text-stone-900">
-          Fractions Mastery Tracker
+        <h1 className="font-serif text-5xl sm:text-6xl font-semibold tracking-tight text-stone-900">
+          Strata
         </h1>
+        <p className="font-serif text-xl text-stone-700 italic">
+          Mastery, layer by layer.
+        </p>
         <p className="text-lg text-stone-600 leading-relaxed max-w-2xl">
-          A diagnostic that finds <em>why</em> a child gets fractions wrong, not
-          just <em>whether</em> they did. For grade 3–4, grounded in Illustrative
-          Mathematics and the Common Core.
+          A diagnostic that finds <em>why</em> a child gets math wrong, not just{' '}
+          <em>whether</em> they did. Currently scoped to grade 3–4 fractions —
+          extending to all of 4th-grade math next. Grounded in the Illustrative
+          Mathematics curriculum and the Common Core.
         </p>
         <div className="flex flex-wrap gap-3 mt-2">
           <Link

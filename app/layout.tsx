@@ -22,8 +22,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Fractions Mastery Tracker",
-  description: "A misconception-targeted fractions diagnostic for grade 3–4.",
+  title: "Strata — math mastery diagnostic",
+  description:
+    "A diagnostic that sees what tests miss, and a plan that closes the gap. Layer by layer, mastery is earned.",
 };
 
 export default function RootLayout({

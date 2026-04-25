@@ -1,8 +1,10 @@
-# Fractions Mastery Tracker
+# Strata
 
-A misconception-targeted diagnostic and learning-plan system for grade 3–4 fractions. Built solo in 4 days for the Cerebral Valley **Built with Opus 4.7** hackathon, piloted at Acton Academy Falls Church.
+*Mastery, layer by layer.*
 
-🌐 **Live demo:** https://fractions-mastery-tracker.vercel.app
+A misconception-targeted diagnostic and learning-plan system for grade 3–4 math. Currently scoped to fractions; designed to extend to all of 4th-grade math (and beyond) without changing the engine. Built solo in 4 days for the Cerebral Valley **Built with Opus 4.7** hackathon, piloted at Acton Academy Falls Church.
+
+🌐 **Live demo:** https://fractions-mastery-tracker.vercel.app *(URL will move to a Strata-branded domain post-hackathon)*
 
 ---
 

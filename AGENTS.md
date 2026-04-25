@@ -16,7 +16,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ---
 
-# Fractions Mastery Tracker
+# Strata
 
 ## What this project is
 
