@@ -8,7 +8,7 @@ export default function Home() {
           Built with Opus 4.7 hackathon
         </p>
         <h1 className="font-serif text-5xl sm:text-6xl font-semibold tracking-tight text-stone-900">
-          Strata
+          Strata Mundo
         </h1>
         <p className="font-serif text-xl text-stone-700 italic">
           Mastery, layer by layer.
@@ -155,7 +155,7 @@ function ProblemSection({
         <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50/50 p-5 flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-medium uppercase tracking-wide text-emerald-700">
-              Strata’s solution
+              Strata Mundo’s solution
             </span>
           </div>
           <h3 className="font-serif text-lg font-semibold text-stone-900 leading-snug">

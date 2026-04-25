@@ -22,7 +22,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Strata — math mastery diagnostic",
+  title: "Strata Mundo — math mastery diagnostic",
   description:
     "A diagnostic that sees what tests miss, and a plan that closes the gap. Layer by layer, mastery is earned.",
 };
