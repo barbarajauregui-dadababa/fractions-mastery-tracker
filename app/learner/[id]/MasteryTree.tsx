@@ -134,8 +134,8 @@ export default function MasteryTree({ masteryMap }: Props) {
           </radialGradient>
           {/* Subtle leaf gradient for a touch of depth. */}
           <linearGradient id="leaf-green" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#86efac" />
-            <stop offset="100%" stopColor="#22c55e" />
+            <stop offset="0%" stopColor="#6ee7b7" />
+            <stop offset="100%" stopColor="#059669" />
           </linearGradient>
           <linearGradient id="leaf-yellow" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#fde68a" />
@@ -304,7 +304,7 @@ function leafFill(state: StandardState): string {
 function leafStroke(state: StandardState): string {
   switch (state) {
     case 'demonstrated':
-      return '#15803d'
+      return '#047857'
     case 'working':
       return '#b45309'
     case 'misconception':
@@ -316,7 +316,7 @@ function leafStroke(state: StandardState): string {
 function stateLabel(state: StandardState): string {
   switch (state) {
     case 'demonstrated':
-      return 'Knows well'
+      return 'Mastered'
     case 'working':
       return 'Working on'
     case 'misconception':
@@ -396,7 +396,7 @@ function StateDot({ state }: { state: StandardState }) {
 function gradientStops(state: StandardState): { top: string; bottom: string } {
   switch (state) {
     case 'demonstrated':
-      return { top: '#86efac', bottom: '#22c55e' }
+      return { top: '#6ee7b7', bottom: '#059669' }
     case 'working':
       return { top: '#fde68a', bottom: '#f59e0b' }
     case 'misconception':

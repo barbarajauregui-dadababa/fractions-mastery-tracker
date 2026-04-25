@@ -71,13 +71,13 @@ export default async function LearnerDashboardPage(
 
       {/* Counts strip */}
       <section className="flex items-center justify-center gap-6 rounded-xl bg-stone-100 dark:bg-zinc-900/60 px-6 py-4 text-sm">
-        <Stat label="Knows well" value={counts.demonstrated} accent="text-emerald-700 dark:text-emerald-400" />
+        <Stat label="Mastered" value={counts.demonstrated} accent="text-emerald-700 dark:text-emerald-400" />
         <Divider />
         <Stat label="Working on" value={counts.working} accent="text-amber-700 dark:text-amber-400" />
         <Divider />
         <Stat label="Needs attention" value={counts.misconception} accent="text-red-700 dark:text-red-400" />
         <Divider />
-        <Stat label="Not probed" value={counts.not_assessed} accent="text-stone-500 dark:text-zinc-500" />
+        <Stat label="Not yet probed" value={counts.not_assessed} accent="text-stone-500 dark:text-zinc-500" />
       </section>
 
       <MasteryTree masteryMap={masteryMap} />

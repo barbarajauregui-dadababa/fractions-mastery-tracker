@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AnalyzeButton from './AnalyzeButton'
 import GeneratePlanButton from './GeneratePlanButton'
@@ -228,6 +229,15 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
 
       {masteryMap && (
         <>
+          <div className="flex items-center justify-end">
+            <Link
+              href={`/learner/${assessment.learner_id}`}
+              className="text-sm text-stone-700 dark:text-zinc-300 hover:text-stone-900 dark:hover:text-zinc-50 underline underline-offset-2 decoration-stone-300"
+            >
+              View {displayName}&apos;s mastery tree →
+            </Link>
+          </div>
+
           {/* At-a-glance summary — deterministically derived from the mastery
               map. Structured + scannable. The Plan Architect's / analysis
               engine's narrative appears below as supplementary notes. */}
@@ -251,7 +261,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
           <section className="flex flex-col gap-4">
             <Bucket
               title="Needs attention"
-              subtitle="Misconceptions detected. Start here."
+              subtitle="Specific misconception detected. Start here."
               dot="bg-red-500"
               containerClass="bg-red-50/60 dark:bg-red-950/20 border-red-200 dark:border-red-900"
               standardIds={sortedByLayer(byState.misconception)}
@@ -264,10 +274,10 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               defaultOpen
             />
             <Bucket
-              title="Working on it"
-              subtitle="Partial understanding. Support with activities."
-              dot="bg-yellow-500"
-              containerClass="bg-yellow-50/60 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-900"
+              title="Working on"
+              subtitle="Building the skill. Support with practice."
+              dot="bg-amber-500"
+              containerClass="bg-amber-50/60 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900"
               standardIds={sortedByLayer(byState.working)}
               masteryMap={masteryMap}
               plan={planContent}
@@ -278,10 +288,10 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               defaultOpen
             />
             <Bucket
-              title="Demonstrated"
-              subtitle="Solid — no action needed this week."
-              dot="bg-green-500"
-              containerClass="bg-green-50/60 dark:bg-green-950/20 border-green-200 dark:border-green-900"
+              title="Mastered"
+              subtitle="Reliably understood. No action needed."
+              dot="bg-emerald-600"
+              containerClass="bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900"
               standardIds={sortedByLayer(byState.demonstrated)}
               masteryMap={masteryMap}
               plan={planContent}
@@ -382,10 +392,10 @@ function AtAGlanceSummary({
           </li>
         )}
 
-        {/* Working on it (yellow) */}
+        {/* Working on (yellow) */}
         {byState.working.length > 0 && (
           <li className="flex items-start gap-2">
-            <span className="mt-1.5 h-2 w-2 rounded-full bg-yellow-500 shrink-0" />
+            <span className="mt-1.5 h-2 w-2 rounded-full bg-amber-500 shrink-0" />
             <div>
               <div className="font-medium">
                 Working on ({byState.working.length})
@@ -397,12 +407,12 @@ function AtAGlanceSummary({
           </li>
         )}
 
-        {/* Knows well (green/demonstrated) */}
+        {/* Mastered (green/demonstrated) */}
         <li className="flex items-start gap-2">
-          <span className="mt-1.5 h-2 w-2 rounded-full bg-green-500 shrink-0" />
+          <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-600 shrink-0" />
           <div>
             <div className="font-medium">
-              Knows well ({byState.demonstrated.length})
+              Mastered ({byState.demonstrated.length})
             </div>
             <div className="text-zinc-600 dark:text-zinc-400">
               {byState.demonstrated.length === 0
@@ -412,13 +422,13 @@ function AtAGlanceSummary({
           </div>
         </li>
 
-        {/* Probe next session (not_assessed) */}
+        {/* Not yet probed (not_assessed) */}
         {notAssessed.length > 0 && (
           <li className="flex items-start gap-2">
-            <span className="mt-1.5 h-2 w-2 rounded-full bg-zinc-400 shrink-0" />
+            <span className="mt-1.5 h-2 w-2 rounded-full bg-stone-400 shrink-0" />
             <div>
               <div className="font-medium">
-                Probe next session ({notAssessed.length})
+                Not yet probed ({notAssessed.length})
               </div>
               <div className="text-zinc-600 dark:text-zinc-400">
                 {notAssessed.map((sid) => standardName(sid)).join('; ')}
