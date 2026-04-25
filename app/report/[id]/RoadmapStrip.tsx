@@ -1,4 +1,4 @@
-import type { ProgressionRoadmapEntry, ProgressionStatus } from './PlanDisplay'
+import type { SectionRoadmapEntry, SectionStatus } from './PlanDisplay'
 
 const FOURTH_GRADE_DOMAINS: { code: string; name: string; status: 'in_progress' | 'v15' }[] = [
   { code: '4.OA', name: 'Operations & Algebraic Thinking', status: 'v15' },
@@ -62,31 +62,36 @@ export function FourthGradeOverviewStrip() {
   )
 }
 
-interface ProgressionStripProps {
+interface SectionStripProps {
   learnerName: string
-  roadmap: ProgressionRoadmapEntry[]
+  roadmap: SectionRoadmapEntry[]
 }
 
-export function FractionsProgressionStrip({ learnerName, roadmap }: ProgressionStripProps) {
+export function FractionsSectionStrip({ learnerName, roadmap }: SectionStripProps) {
   return (
     <section className="flex flex-col gap-2">
-      <div className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-zinc-400">
-        Fractions progressions for {learnerName}
+      <div className="flex items-baseline justify-between gap-3 flex-wrap">
+        <div className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-zinc-400">
+          Fractions sections for {learnerName}
+        </div>
+        <div className="text-[10px] text-stone-500 dark:text-zinc-500 italic">
+          Source: Illustrative Mathematics, Grade 3 Unit 5 and Grade 4 Unit 2
+        </div>
       </div>
-      <ol className="grid grid-cols-1 sm:grid-cols-5 gap-2">
+      <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2">
         {roadmap.map((p, i) => (
-          <ProgressionTile key={p.name} entry={p} index={i + 1} />
+          <SectionTile key={p.name} entry={p} index={i + 1} />
         ))}
       </ol>
     </section>
   )
 }
 
-function ProgressionTile({
+function SectionTile({
   entry,
   index,
 }: {
-  entry: ProgressionRoadmapEntry
+  entry: SectionRoadmapEntry
   index: number
 }) {
   const cls = tileClass(entry.status)
@@ -101,7 +106,7 @@ function ProgressionTile({
   )
 }
 
-function StatusBadge({ status }: { status: ProgressionStatus }) {
+function StatusBadge({ status }: { status: SectionStatus }) {
   switch (status) {
     case 'mastered':
       return (
@@ -134,7 +139,7 @@ function StatusBadge({ status }: { status: ProgressionStatus }) {
   }
 }
 
-function tileClass(status: ProgressionStatus): {
+function tileClass(status: SectionStatus): {
   container: string
   index: string
   title: string

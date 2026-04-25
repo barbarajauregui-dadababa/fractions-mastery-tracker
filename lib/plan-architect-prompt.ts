@@ -59,28 +59,30 @@ You receive a learner's completed mastery map (produced by the prior analysis st
 
 **P10. Keep the plan short and actionable.** A guide scans this in 2 minutes and acts within the week. Avoid jargon. No academic citations in the plan output — save those for Librarian/research memory.
 
-## Fractions progressions (use these EXACT names and standards)
+## Fractions sections (use these EXACT names — verbatim from Illustrative Mathematics)
 
-The fractions domain is organized into 5 pedagogical progressions. The roadmap you produce uses these names:
+The fractions domain is organized into 7 sections, taken verbatim from the Illustrative Mathematics K–5 curriculum (Grade 3 Unit 5 and Grade 4 Unit 2). The roadmap you produce uses these exact names and source identifiers:
 
-1. **"Unit fractions and partitioning"** — standards: 2.G.A.3, 3.G.A.2, 3.NF.A.1
-2. **"Fractions on a number line"** — standards: 3.NF.A.2.a, 3.NF.A.2.b
-3. **"Equivalent fractions"** — standards: 3.NF.A.3.a, 3.NF.A.3.b, 4.NF.A.1
-4. **"Comparing fractions"** — standards: 3.NF.A.3.d, 4.NF.A.2
-5. **"Whole numbers as fractions"** — standards: 3.NF.A.3.c
+1. **"Introduction to Fractions"** — IM source: G3 U5 Section A — standards: 2.G.A.3, 3.G.A.2, 3.NF.A.1
+2. **"Fractions on the Number Line"** — IM source: G3 U5 Section B — standards: 3.NF.A.2.a, 3.NF.A.2.b
+3. **"Equivalent Fractions"** — IM source: G3 U5 Section C — standards: 3.NF.A.3.a, 3.NF.A.3.b, 3.NF.A.3.c
+4. **"Fraction Comparisons"** — IM source: G3 U5 Section D — standards: 3.NF.A.3.d
+5. **"Size and Location of Fractions"** — IM source: G4 U2 Section A — bridge/review section, no NEW standards (revisits 3.NF.A.1, 3.NF.A.2.a, 3.NF.A.3.b before extending in Section 6+)
+6. **"Equivalent Fractions (4th grade)"** — IM source: G4 U2 Section B — standards: 4.NF.A.1
+7. **"Fraction Comparison (4th grade)"** — IM source: G4 U2 Section C — standards: 4.NF.A.2
 
-Order is fixed (1 → 5). Earlier progressions are prerequisites for later ones.
+Order is fixed (1 → 7). Earlier sections are prerequisites for later ones. Section 5 is a bridge/consolidation section that IM uses to revisit 3rd-grade content before introducing 4th-grade extensions; it has no unique standards.
 
-## Smart-skip rule for the current progression
+## Smart-skip rule for the current section
 
-For each progression in order, look at the standards inside it:
+For each section in order, look at the standards it covers:
 
-- If ALL standards in the progression are \`"demonstrated"\` (or are \`"not_assessed"\` AND every standard in EVERY EARLIER progression is also \`"demonstrated"\` or \`"not_assessed"\`), mark that progression \`"mastered"\`.
-- Otherwise, the FIRST progression containing at least one \`"misconception"\` or \`"working"\` standard is \`"now"\` — the current focus.
-- All progressions AFTER \`"now"\` are \`"later"\`.
-- A progression with NO probed standards (everything \`"not_assessed"\`) and which comes BEFORE the "now" progression is \`"not_yet_assessed"\` — neutral state, neither mastered nor active.
+- If ALL its standards are \`"demonstrated"\` (or its standards list is empty AND all referenced earlier-section standards are demonstrated), mark the section \`"mastered"\`.
+- Otherwise, the FIRST section containing at least one \`"misconception"\` or \`"working"\` standard is \`"now"\` — the current focus.
+- All sections AFTER \`"now"\` are \`"later"\`.
+- A section with NO probed standards (everything \`"not_assessed"\`) and which comes BEFORE the "now" section is \`"not_yet_assessed"\` — neutral state.
 
-Only generate priority_gaps for standards inside the \`"now"\` progression. Standards in "later" progressions get no activities yet — they'll be planned after the current progression resolves.
+Only generate priority_gaps for standards inside the \`"now"\` section. Standards in "later" sections get no activities yet — they'll be planned after the current section resolves.
 
 ## Output format
 
@@ -88,31 +90,48 @@ Return a single JSON object with this exact shape. No prose before or after, no 
 
 \`\`\`json
 {
-  "current_progression": "Equivalent fractions",
-  "progression_roadmap": [
+  "current_section": "Equivalent Fractions",
+  "section_roadmap": [
     {
-      "name": "Unit fractions and partitioning",
+      "name": "Introduction to Fractions",
+      "im_source": "G3 U5 Section A",
       "standard_ids": ["2.G.A.3", "3.G.A.2", "3.NF.A.1"],
       "status": "mastered"
     },
     {
-      "name": "Fractions on a number line",
+      "name": "Fractions on the Number Line",
+      "im_source": "G3 U5 Section B",
       "standard_ids": ["3.NF.A.2.a", "3.NF.A.2.b"],
       "status": "not_yet_assessed"
     },
     {
-      "name": "Equivalent fractions",
-      "standard_ids": ["3.NF.A.3.a", "3.NF.A.3.b", "4.NF.A.1"],
+      "name": "Equivalent Fractions",
+      "im_source": "G3 U5 Section C",
+      "standard_ids": ["3.NF.A.3.a", "3.NF.A.3.b", "3.NF.A.3.c"],
       "status": "now"
     },
     {
-      "name": "Comparing fractions",
-      "standard_ids": ["3.NF.A.3.d", "4.NF.A.2"],
+      "name": "Fraction Comparisons",
+      "im_source": "G3 U5 Section D",
+      "standard_ids": ["3.NF.A.3.d"],
       "status": "later"
     },
     {
-      "name": "Whole numbers as fractions",
-      "standard_ids": ["3.NF.A.3.c"],
+      "name": "Size and Location of Fractions",
+      "im_source": "G4 U2 Section A",
+      "standard_ids": [],
+      "status": "later"
+    },
+    {
+      "name": "Equivalent Fractions (4th grade)",
+      "im_source": "G4 U2 Section B",
+      "standard_ids": ["4.NF.A.1"],
+      "status": "later"
+    },
+    {
+      "name": "Fraction Comparison (4th grade)",
+      "im_source": "G4 U2 Section C",
+      "standard_ids": ["4.NF.A.2"],
       "status": "later"
     }
   ],
@@ -148,9 +167,9 @@ Return a single JSON object with this exact shape. No prose before or after, no 
 - **All \`resource_id\` values** must exist in the provided resource library.
 - **All \`standard_id\` values** must exist in the provided Coherence Map subgraph.
 - **All \`flagged_misconception_ids\`** must exist in the provided misconception taxonomy.
-- **\`current_progression\`** must equal the name of the progression in \`progression_roadmap\` whose status is \`"now"\` (or be empty string if every progression is mastered).
-- **\`progression_roadmap\`** must contain all 5 fractions progressions in order, with valid status values: \`"mastered" | "now" | "later" | "not_yet_assessed"\`. At most one progression has status \`"now"\`.
-- **priority_gaps ordered by severity**: misconceptions before "working on it". Within each severity, order by Coherence Map layer (prerequisites first). Only standards inside the \`"now"\` progression appear here.
+- **\`current_section\`** must equal the name of the section in \`section_roadmap\` whose status is \`"now"\` (or be empty string if every section is mastered).
+- **\`section_roadmap\`** must contain all 7 fractions sections in order, with valid status values: \`"mastered" | "now" | "later" | "not_yet_assessed"\`. At most one section has status \`"now"\`. Each entry includes \`im_source\` (verbatim identifier).
+- **priority_gaps ordered by severity**: misconceptions before "working on it". Within each severity, order by Coherence Map layer (prerequisites first). Only standards inside the \`"now"\` section appear here.
 - **prerequisite_check_recommendations**: optional array of CCSS standard IDs the guide should probe on the NEXT assessment because the current assessment didn't cover them well. Standards in "not_assessed" state that are prerequisites for any flagged red/yellow standard go here.
 
 ## Do not

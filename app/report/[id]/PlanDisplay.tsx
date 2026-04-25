@@ -19,20 +19,24 @@ interface PriorityGap {
   rationale_for_this_gap: string
 }
 
-export type ProgressionStatus = 'mastered' | 'now' | 'later' | 'not_yet_assessed'
+export type SectionStatus = 'mastered' | 'now' | 'later' | 'not_yet_assessed'
 
-export interface ProgressionRoadmapEntry {
+export interface SectionRoadmapEntry {
   name: string
+  im_source?: string
   standard_ids: string[]
-  status: ProgressionStatus
+  status: SectionStatus
 }
 
 export interface PlanContent {
   priority_gaps: PriorityGap[]
   overall_notes: string
   prerequisite_check_recommendations?: string[]
+  current_section?: string
+  section_roadmap?: SectionRoadmapEntry[]
+  /** Backwards compatibility — previous schema used "progression" terminology. */
   current_progression?: string
-  progression_roadmap?: ProgressionRoadmapEntry[]
+  progression_roadmap?: SectionRoadmapEntry[]
   _completed_activities?: CompletedActivity[]
 }
 

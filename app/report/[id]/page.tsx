@@ -5,7 +5,7 @@ import GeneratePlanButton from './GeneratePlanButton'
 import type { PlanContent } from './PlanDisplay'
 import FocusedProbeButton from './FocusedProbeButton'
 import ActivityTile, { type CompletedActivity } from './ActivityTile'
-import { FourthGradeOverviewStrip, FractionsProgressionStrip } from './RoadmapStrip'
+import { FourthGradeOverviewStrip, FractionsSectionStrip } from './RoadmapStrip'
 import resourcesRaw from '@/content/fractions-resources.json'
 
 interface ResourceRow {
@@ -140,9 +140,10 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
       }
     }
   }
-  const nowProgression = planContent?.progression_roadmap?.find((p) => p.status === 'now')
-  const focusLabel = nowProgression
-    ? nowProgression.name
+  const roadmapEntries = planContent?.section_roadmap ?? planContent?.progression_roadmap
+  const nowSection = roadmapEntries?.find((p) => p.status === 'now')
+  const focusLabel = nowSection
+    ? nowSection.name
     : focusStandards.length === 0
       ? null
       : focusStandards.length === 1
@@ -155,12 +156,12 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
     <main className="flex flex-1 w-full max-w-4xl mx-auto flex-col gap-8 py-10 px-8">
       {masteryMap && <FourthGradeOverviewStrip />}
 
-      {masteryMap && planContent?.progression_roadmap && planContent.progression_roadmap.length > 0 && (
-        <FractionsProgressionStrip
-          learnerName={displayName}
-          roadmap={planContent.progression_roadmap}
-        />
-      )}
+      {masteryMap &&
+        (() => {
+          const roadmap = planContent?.section_roadmap ?? planContent?.progression_roadmap
+          if (!roadmap || roadmap.length === 0) return null
+          return <FractionsSectionStrip learnerName={displayName} roadmap={roadmap} />
+        })()}
 
       {masteryMap && focusLabel ? (
         <section className="rounded-2xl bg-stone-100 dark:bg-zinc-900/60 px-7 py-6 flex flex-col gap-2">
