@@ -107,7 +107,19 @@
       "goal": { "numerator": 3, "denominator": 4 },
       "real_world_context": { "scenario": null, "framing_text": "Build three-fourths of this bar." },
       "difficulty": 1,
-      "show_your_work_note": "Three 1/4 pieces. Commit = 3 over 4. (Framing kept abstract pending illustrated real-world targets.)"
+      "show_your_work_note": "Three 1/4 pieces. Commit = 3 over 4. (Framing kept abstract pending illustrated real-world targets.)",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed four 1/4 pieces (sum = 4/4 = 1 whole). Treats the digits 3 and 4 as 'three over four pieces' — the denominator becomes a count of pieces.",
+          "placed_denominators_sorted": [4, 4, 4, 4],
+          "misconception_ids": ["m07_notational_confusion"]
+        },
+        {
+          "wrong_pattern_description": "Placed four 1/8 pieces (sum = 4/8 = 1/2). Used the goal numerator as count of available pieces, ignoring that 1/8 is half the size of 1/4.",
+          "placed_denominators_sorted": [8, 8, 8, 8],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        }
+      ]
     },
     {
       "id": "p005",
@@ -133,7 +145,19 @@
       "goal": { "numerator": 5, "denominator": 4 },
       "real_world_context": { "scenario": null, "framing_text": "Here are two bars. Build 5/4 — five pieces that are each one-fourth of a bar." },
       "difficulty": 3,
-      "show_your_work_note": "Target is two bars (two wholes). Five 1/4 pieces = 1 full bar + 1/4 of the second bar. Probes acceptance of numerator > denominator. Commit = 5 over 4."
+      "show_your_work_note": "Target is two bars (two wholes). Five 1/4 pieces = 1 full bar + 1/4 of the second bar. Probes acceptance of numerator > denominator. Commit = 5 over 4.",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed four 1/4 pieces (sum = 4/4 = one whole bar). Stopped exactly at the whole, refusing to extend past 1 — the classic 'fractions can't be greater than one' misconception.",
+          "placed_denominators_sorted": [4, 4, 4, 4],
+          "misconception_ids": ["m03_fractions_less_than_one"]
+        },
+        {
+          "wrong_pattern_description": "Placed two 1/2 pieces (sum = 1). Same refusal to go past one whole, expressed via halves instead of fourths.",
+          "placed_denominators_sorted": [2, 2],
+          "misconception_ids": ["m03_fractions_less_than_one"]
+        }
+      ]
     },
     {
       "id": "p007",
@@ -388,7 +412,24 @@
       "goal": { "numerator": 1, "denominator": 2 },
       "real_world_context": { "scenario": null, "framing_text": "Build one-half of this bar. You do not have a 1/2 piece — find another way." },
       "difficulty": 2,
-      "show_your_work_note": "Goal denom 2 is absent from palette to force equivalence reasoning. Two 1/4 pieces OR four 1/8 pieces both succeed. Which path the learner takes is diagnostic for 3.NF.A.3.a recognition."
+      "show_your_work_note": "Goal denom 2 is absent from palette to force equivalence reasoning. Two 1/4 pieces OR four 1/8 pieces both succeed. Which path the learner takes is diagnostic for 3.NF.A.3.a recognition.",
+      "misconception_response_map": [
+        {
+          "wrong_pattern_description": "Placed one 1/4 piece (sum = 1/4). Treated the goal numerator (1) as the count of pieces, regardless of piece size.",
+          "placed_denominators_sorted": [4],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        },
+        {
+          "wrong_pattern_description": "Placed one 1/8 piece (sum = 1/8). Same numerator-as-count error, with 1/8 pieces.",
+          "placed_denominators_sorted": [8],
+          "misconception_ids": ["m04_equivalent_fractions_unrecognized"]
+        },
+        {
+          "wrong_pattern_description": "Placed three 1/4 pieces (sum = 3/4). Additive equivalence: added 1 to numerator and 1 to denominator from 1/2 -> 2/3 (not in palette) -> attempted 3/4.",
+          "placed_denominators_sorted": [4, 4, 4],
+          "misconception_ids": ["m08_additive_equivalence"]
+        }
+      ]
     },
     {
       "id": "p026",
