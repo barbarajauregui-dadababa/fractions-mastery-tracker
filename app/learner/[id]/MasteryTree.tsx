@@ -134,74 +134,21 @@ export default function MasteryTree({ masteryMap, completedByStandard }: Props) 
         aria-label="Mastery tree visualization"
       >
         <defs>
-          {/* Soft ground shadow under the tree. */}
+          {/* Soft ground shadow under the tree — kept; subtle and grounding. */}
           <radialGradient id="ground-shadow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0%" stopColor="rgba(0,0,0,0.15)" />
+            <stop offset="0%" stopColor="rgba(0,0,0,0.12)" />
             <stop offset="100%" stopColor="rgba(0,0,0,0)" />
           </radialGradient>
-          {/* Subtle leaf gradient for a touch of depth. */}
-          <linearGradient id="leaf-green" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6ee7b7" />
-            <stop offset="100%" stopColor="#059669" />
-          </linearGradient>
-          <linearGradient id="leaf-yellow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fde68a" />
-            <stop offset="100%" stopColor="#f59e0b" />
-          </linearGradient>
-          <linearGradient id="leaf-red" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fca5a5" />
-            <stop offset="100%" stopColor="#ef4444" />
-          </linearGradient>
-          {/* Flower gradient — soft pink-cream petals */}
-          <radialGradient id="flower-petal" cx="0.4" cy="0.4" r="0.6">
-            <stop offset="0%" stopColor="#fff1f2" />
-            <stop offset="100%" stopColor="#fda4af" />
-          </radialGradient>
-          {/* Fruit gradient — glossy emerald, slight highlight */}
-          <radialGradient id="fruit-skin" cx="0.35" cy="0.3" r="0.7">
-            <stop offset="0%" stopColor="#a7f3d0" />
-            <stop offset="50%" stopColor="#10b981" />
-            <stop offset="100%" stopColor="#047857" />
-          </radialGradient>
-          {/* Soft sky / atmosphere */}
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fef9c3" stopOpacity="0.0" />
-            <stop offset="100%" stopColor="#fef9c3" stopOpacity="0.45" />
-          </linearGradient>
-          {/* Soft grass at the base */}
-          <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#a3e635" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#65a30d" stopOpacity="0.9" />
-          </linearGradient>
         </defs>
 
-        {/* Soft sun-warm background wash */}
-        <rect x="0" y="0" width="600" height="720" fill="url(#sky)" />
-
-        {/* Grass at the base */}
-        {Array.from({ length: 14 }).map((_, i) => {
-          const x = 110 + i * 28 + ((i * 13) % 17)
-          const h = 6 + ((i * 7) % 5)
-          return (
-            <path
-              key={i}
-              d={`M ${x} 690 Q ${x + 2} ${690 - h - 2}, ${x + 4} ${690 - h}`}
-              stroke="url(#grass)"
-              strokeWidth="1.6"
-              fill="none"
-              strokeLinecap="round"
-            />
-          )
-        })}
-
         {/* Ground shadow under the tree */}
-        <ellipse cx="300" cy="690" rx="220" ry="14" fill="url(#ground-shadow)" />
+        <ellipse cx="300" cy="690" rx="220" ry="10" fill="url(#ground-shadow)" />
 
-        {/* Trunk */}
-        <path d={TRUNK_PATH} fill="#8b5e3c" stroke="#5a3a22" strokeWidth="1.2" />
-        {/* Trunk grain for texture */}
-        <path d="M 285 600 C 290 540, 295 480, 290 420" stroke="#6e4424" strokeWidth="1" fill="none" opacity="0.5" />
-        <path d="M 305 620 C 305 560, 300 490, 308 430" stroke="#6e4424" strokeWidth="1" fill="none" opacity="0.5" />
+        {/* Trunk — calmer, less saturated brown */}
+        <path d={TRUNK_PATH} fill="#6b5544" stroke="#4a392c" strokeWidth="1" />
+        {/* Trunk grain — subtle */}
+        <path d="M 285 600 C 290 540, 295 480, 290 420" stroke="#56432f" strokeWidth="1" fill="none" opacity="0.4" />
+        <path d="M 305 620 C 305 560, 300 490, 308 430" stroke="#56432f" strokeWidth="1" fill="none" opacity="0.4" />
 
         {/* Branches */}
         {SECTIONS.map((s) => (
@@ -360,7 +307,7 @@ function Leaf({
 }
 
 function Flower({ cx, cy }: { cx: number; cy: number }) {
-  // 5-petal flower with a yellow center, scaled small to fit alongside leaves.
+  // Flat 5-petal mark — deliberate, not glossy.
   return (
     <g transform={`translate(${cx} ${cy})`}>
       <title>Practice activity completed</title>
@@ -371,13 +318,13 @@ function Flower({ cx, cy }: { cx: number; cy: number }) {
           cy="-3.5"
           rx="2.2"
           ry="3.2"
-          fill="url(#flower-petal)"
-          stroke="#fb7185"
+          fill="#fda4af"
+          stroke="#e11d48"
           strokeWidth="0.4"
           transform={`rotate(${deg})`}
         />
       ))}
-      <circle cx="0" cy="0" r="1.4" fill="#fbbf24" stroke="#d97706" strokeWidth="0.3" />
+      <circle cx="0" cy="0" r="1.4" fill="#fbbf24" />
     </g>
   )
 }
@@ -411,14 +358,10 @@ function Fruit({ cx, cy }: { cx: number; cy: number }) {
   return (
     <g transform={`translate(${cx} ${cy})`}>
       <title>Section mastered</title>
-      {/* Stem */}
-      <line x1="0" y1="-7" x2="0" y2="-3" stroke="#5a3a22" strokeWidth="1.2" />
-      {/* Tiny leaf on stem */}
+      <line x1="0" y1="-7" x2="0" y2="-3" stroke="#4a392c" strokeWidth="1" />
       <ellipse cx="2" cy="-6" rx="2" ry="1.2" fill="#10b981" transform="rotate(35 2 -6)" />
-      {/* Fruit body */}
-      <circle cx="0" cy="0" r="6" fill="url(#fruit-skin)" stroke="#065f46" strokeWidth="0.6" />
-      {/* Highlight */}
-      <ellipse cx="-2" cy="-2" rx="1.5" ry="1" fill="rgba(255,255,255,0.5)" />
+      {/* Flat fruit body — deliberate, not glossy */}
+      <circle cx="0" cy="0" r="6" fill="#059669" stroke="#065f46" strokeWidth="0.5" />
     </g>
   )
 }
@@ -426,13 +369,13 @@ function Fruit({ cx, cy }: { cx: number; cy: number }) {
 function leafFill(state: StandardState): string {
   switch (state) {
     case 'demonstrated':
-      return 'url(#leaf-green)'
+      return '#10b981' // emerald-500 — flat, deliberate
     case 'working':
-      return 'url(#leaf-yellow)'
+      return '#f59e0b' // amber-500
     case 'misconception':
-      return 'url(#leaf-red)'
+      return '#ef4444' // red-500
     case 'not_assessed':
-      return '#e7e5e4' // pale stone — bare leaf outline feel
+      return '#d6d3d1' // stone-300 — bare leaf
   }
 }
 function leafStroke(state: StandardState): string {
