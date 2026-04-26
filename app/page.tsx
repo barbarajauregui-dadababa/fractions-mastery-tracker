@@ -285,8 +285,8 @@ function DiagramPlate({
           className="text-7xl sm:text-8xl text-brass-deep leading-none"
         />
         <p
-          className="text-[10px] tracking-[0.25em] uppercase text-brass-deep mt-1 italic"
-          style={{ fontFamily: 'var(--font-fraunces)' }}
+          className="text-xl sm:text-2xl text-brass-deep mt-1 italic leading-snug"
+          style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
         >
           {kicker}
         </p>
