@@ -18,7 +18,7 @@ export function FourthGradeOverviewStrip() {
           className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
-          4th-grade math · CCSS Domains as Progressions
+          The 5 Progressions of 4th-grade math
         </span>
         <ProgressionInfo />
       </div>

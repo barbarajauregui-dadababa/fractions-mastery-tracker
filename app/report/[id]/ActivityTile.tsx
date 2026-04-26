@@ -113,12 +113,12 @@ export default function ActivityTile({
           </div>
           <div className="flex items-baseline gap-2 flex-wrap">
             <span
-              className={`text-base leading-snug ${
+              className={`text-sm sm:text-base leading-snug uppercase ${
                 isDone
                   ? 'line-through text-ink-faint'
                   : 'text-ink'
               }`}
-              style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.06em', fontWeight: 700 }}
             >
               {title}
             </span>

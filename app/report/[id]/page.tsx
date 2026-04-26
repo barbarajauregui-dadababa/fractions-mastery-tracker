@@ -144,14 +144,26 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
     <main className="bg-paper min-h-screen">
       <div className="max-w-4xl mx-auto px-6 py-10 flex flex-col gap-8">
       {masteryMap && (
-        <div className="flex flex-col gap-3">
-          <FourthGradeOverviewStrip />
-          {(() => {
-            const roadmap = planContent?.section_roadmap ?? planContent?.progression_roadmap
-            if (!roadmap || roadmap.length === 0) return null
-            return <FractionsSectionStrip learnerName={displayName} roadmap={roadmap} />
-          })()}
-        </div>
+        <>
+          <div className="flex flex-col gap-3">
+            <FourthGradeOverviewStrip />
+            {(() => {
+              const roadmap = planContent?.section_roadmap ?? planContent?.progression_roadmap
+              if (!roadmap || roadmap.length === 0) return null
+              return <FractionsSectionStrip learnerName={displayName} roadmap={roadmap} />
+            })()}
+          </div>
+          {/* Mastery voyage link — directly under the 5-progression strip, per Barbara */}
+          <div className="flex items-center justify-end -mt-2">
+            <Link
+              href={`/learner/${assessment.learner_id}`}
+              className="inline-flex items-center gap-1.5 text-sm text-copper hover:text-brass-deep underline underline-offset-2 decoration-brass-deep/40 hover:decoration-brass-deep"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+            >
+              Open {displayName}&apos;s mastery voyage →
+            </Link>
+          </div>
+        </>
       )}
 
       {masteryMap && focusLabel ? (
@@ -234,16 +246,6 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
             byState={byState}
           />
 
-          <div className="flex items-center justify-end">
-            <Link
-              href={`/learner/${assessment.learner_id}`}
-              className="text-sm text-copper hover:text-brass-deep underline underline-offset-2 decoration-brass-deep/40 hover:decoration-brass-deep"
-              style={{ fontFamily: 'var(--font-fraunces)' }}
-            >
-              Open {displayName}&apos;s mastery voyage →
-            </Link>
-          </div>
-
           {(planContent?.overall_notes ?? masteryMap.overall_notes) && (
             <section className="rounded-sm border border-stone-300/80 bg-paper p-5 text-sm leading-relaxed text-ink-soft" style={{ fontFamily: 'var(--font-fraunces)' }}>
               <div
@@ -275,8 +277,8 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               defaultOpen
             />
             <Bucket
-              title="Working on"
-              subtitle="Building the skill. Support with practice."
+              title="Needs work"
+              subtitle="Building the skill. Targeted activities required."
               dot="bg-amber-600"
               containerClass="bg-paper border border-amber-700/30 border-l-4 border-l-amber-600"
               standardIds={sortedByLayer(byState.working)}
@@ -361,25 +363,32 @@ function AtAGlanceSummary({
         </span>
         <StandardInfo />
       </div>
-      <ul className="flex flex-col gap-3 text-sm" style={{ fontFamily: 'var(--font-fraunces)' }}>
+      <ul className="flex flex-col gap-4 text-sm" style={{ fontFamily: 'var(--font-fraunces)' }}>
         {/* Needs attention (red/misconception) */}
         {byState.misconception.length > 0 && (
           <li className="flex items-start gap-3">
             <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-red-600 shrink-0" />
-            <div>
+            <div className="flex-1">
               <div className="text-ink">
                 <span className="font-semibold">Needs attention</span>
                 <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                   ({byState.misconception.length})
                 </span>
               </div>
-              <div className="text-ink-soft italic">
-                {byState.misconception.map((sid) => standardName(sid)).join('; ')}
-              </div>
+              <ul className="mt-1 flex flex-col gap-0.5 text-ink-soft">
+                {byState.misconception.map((sid) => (
+                  <li key={sid} className="italic">
+                    {standardName(sid)}{' '}
+                    <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
+                      ({sid})
+                    </span>
+                  </li>
+                ))}
+              </ul>
               {byState.misconception.some(
                 (sid) => masteryMap.standards[sid].flagged_misconception_ids.length > 0
               ) && (
-                <div className="text-xs text-ink-faint mt-1">
+                <div className="text-xs text-ink-faint mt-1.5">
                   Flagged misconceptions:{' '}
                   {Array.from(
                     new Set(
@@ -396,20 +405,27 @@ function AtAGlanceSummary({
           </li>
         )}
 
-        {/* Working on (amber) */}
+        {/* Needs work (amber, formerly "Working on") */}
         {byState.working.length > 0 && (
           <li className="flex items-start gap-3">
             <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-amber-600 shrink-0" />
-            <div>
+            <div className="flex-1">
               <div className="text-ink">
-                <span className="font-semibold">Working on</span>
+                <span className="font-semibold">Needs work</span>
                 <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                   ({byState.working.length})
                 </span>
               </div>
-              <div className="text-ink-soft italic">
-                {byState.working.map((sid) => standardName(sid)).join('; ')}
-              </div>
+              <ul className="mt-1 flex flex-col gap-0.5 text-ink-soft">
+                {byState.working.map((sid) => (
+                  <li key={sid} className="italic">
+                    {standardName(sid)}{' '}
+                    <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
+                      ({sid})
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </li>
         )}
@@ -417,18 +433,27 @@ function AtAGlanceSummary({
         {/* Mastered (emerald) */}
         <li className="flex items-start gap-3">
           <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-emerald-600 shrink-0" />
-          <div>
+          <div className="flex-1">
             <div className="text-ink">
               <span className="font-semibold">Mastered</span>
               <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                 ({byState.demonstrated.length})
               </span>
             </div>
-            <div className="text-ink-soft italic">
-              {byState.demonstrated.length === 0
-                ? '—'
-                : byState.demonstrated.map((sid) => standardName(sid)).join('; ')}
-            </div>
+            {byState.demonstrated.length === 0 ? (
+              <div className="text-ink-soft italic mt-1">—</div>
+            ) : (
+              <ul className="mt-1 flex flex-col gap-0.5 text-ink-soft">
+                {byState.demonstrated.map((sid) => (
+                  <li key={sid} className="italic">
+                    {standardName(sid)}{' '}
+                    <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
+                      ({sid})
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </li>
 
@@ -436,16 +461,23 @@ function AtAGlanceSummary({
         {notAssessed.length > 0 && (
           <li className="flex items-start gap-3">
             <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-stone-400 shrink-0" />
-            <div>
+            <div className="flex-1">
               <div className="text-ink">
                 <span className="font-semibold">Not yet probed</span>
                 <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                   ({notAssessed.length})
                 </span>
               </div>
-              <div className="text-ink-soft italic">
-                {notAssessed.map((sid) => standardName(sid)).join('; ')}
-              </div>
+              <ul className="mt-1 flex flex-col gap-0.5 text-ink-soft">
+                {notAssessed.map((sid) => (
+                  <li key={sid} className="italic">
+                    {standardName(sid)}{' '}
+                    <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
+                      ({sid})
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </li>
         )}
@@ -484,12 +516,27 @@ function Bucket({
   const completed: CompletedActivity[] = plan?._completed_activities ?? []
   if (standardIds.length === 0) return null
   return (
-    <details open={defaultOpen} className={`rounded-md border ${containerClass}`}>
+    <details open={defaultOpen} className={`rounded-sm border-2 ${containerClass}`}>
       <summary className="cursor-pointer px-4 py-3 flex items-center gap-3 list-none">
         <span className={`inline-block h-2.5 w-2.5 rounded-full ${dot}`} />
-        <span className="font-medium">{title}</span>
-        <span className="text-xs text-stone-600">({standardIds.length})</span>
-        <span className="text-xs text-stone-500 ml-2">{subtitle}</span>
+        <span
+          className="font-bold uppercase text-ink"
+          style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em', fontSize: 13 }}
+        >
+          {title}
+        </span>
+        <span
+          className="text-xs text-ink-faint"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+        >
+          ({standardIds.length})
+        </span>
+        <span
+          className="text-xs text-ink-soft italic ml-2"
+          style={{ fontFamily: 'var(--font-fraunces)' }}
+        >
+          {subtitle}
+        </span>
       </summary>
       <ul className="flex flex-col gap-3 px-4 pb-4">
         {standardIds.map((sid) => {
@@ -498,38 +545,63 @@ function Bucket({
           return (
             <li
               key={sid}
-              className="rounded-md bg-white border border-stone-200 px-4 py-3"
+              className="rounded-sm bg-paper-deep/40 border border-brass-deep/30 px-4 py-3"
             >
               <div className="flex items-baseline justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">{standardName(sid)}</span>
-                  <span className="text-xs font-mono text-stone-500">{sid}</span>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span
+                    className="text-ink"
+                    style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+                  >
+                    {standardName(sid)}
+                  </span>
+                  <span
+                    className="text-xs text-ink-faint"
+                    style={{ fontFamily: 'var(--font-special-elite)' }}
+                  >
+                    ({sid})
+                  </span>
                 </div>
               </div>
               {report.reasoning && (
-                <div className="mt-2 text-sm text-stone-700">
+                <div
+                  className="mt-2 text-sm text-ink-soft"
+                  style={{ fontFamily: 'var(--font-fraunces)' }}
+                >
                   <BulletedSentences text={report.reasoning} />
                 </div>
               )}
               {report.flagged_misconception_ids.length > 0 && (
-                <div className="mt-2 text-xs text-stone-600">
-                  <span className="font-medium">Flagged misconception:</span>{' '}
+                <div
+                  className="mt-2 text-xs text-ink-soft"
+                  style={{ fontFamily: 'var(--font-fraunces)' }}
+                >
+                  <span className="font-medium text-ink">Flagged misconception:</span>{' '}
                   {report.flagged_misconception_ids.map((m) => misconceptionName(m)).join(', ')}
                 </div>
               )}
               {report.evidence_problem_ids.length > 0 && (
-                <details className="mt-1 text-xs text-stone-500">
-                  <summary className="cursor-pointer select-none">
+                <details className="mt-1 text-xs text-ink-faint">
+                  <summary
+                    className="cursor-pointer select-none uppercase tracking-[0.15em]"
+                    style={{ fontFamily: 'var(--font-cinzel)' }}
+                  >
                     Audit — which problems informed this?
                   </summary>
-                  <div className="mt-1 font-mono">
+                  <div
+                    className="mt-1"
+                    style={{ fontFamily: 'var(--font-special-elite)' }}
+                  >
                     {report.evidence_problem_ids.join(', ')}
                   </div>
                 </details>
               )}
               {gap && planId && (
-                <div className="mt-3 pt-3 border-t border-stone-200">
-                  <div className="text-xs font-medium uppercase tracking-wide text-stone-500 mb-2">
+                <div className="mt-3 pt-3 border-t border-brass-deep/30">
+                  <div
+                    className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-2"
+                    style={{ fontFamily: 'var(--font-cinzel)' }}
+                  >
                     Prescribed activities
                     {gap.diagnosis === 'prerequisite-gap' && (
                       <span className="ml-2 text-amber-700">
@@ -537,11 +609,6 @@ function Bucket({
                       </span>
                     )}
                   </div>
-                  {gap.rationale_for_this_gap && (
-                    <div className="text-sm text-stone-700 mb-3">
-                      <BulletedSentences text={gap.rationale_for_this_gap} />
-                    </div>
-                  )}
                   <ol className="flex flex-col gap-2">
                     {gap.activities
                       .slice()
@@ -549,13 +616,22 @@ function Bucket({
                       .map((act) => {
                         const r = resourceById(act.resource_id)
                         const done = completed.find((c) => c.resource_id === act.resource_id)
+                        // Compose the long-form rationale for the activity:
+                        // gap-level + activity-level concatenated. This is what
+                        // the learner sees when they tap "Why this activity?".
+                        const fullRationale = [
+                          gap.rationale_for_this_gap?.trim(),
+                          act.rationale?.trim(),
+                        ]
+                          .filter(Boolean)
+                          .join(' ')
                         return (
                           <ActivityTile
                             key={act.resource_id}
                             planId={planId}
                             order={act.order}
                             resourceId={act.resource_id}
-                            rationale={act.rationale}
+                            rationale={fullRationale}
                             resource={r}
                             completedAt={done?.done_at ?? null}
                             allCompleted={completed}
@@ -564,16 +640,18 @@ function Bucket({
                       })}
                   </ol>
 
-                  {/* Verify-mastery affordance — only shown when the bucket
-                      allows probing (red / amber). After activities are done,
-                      run a focused probe to confirm the misconception
-                      resolved. */}
                   {showProbeButton && (
-                    <div className="mt-4 pt-3 border-t border-dashed border-stone-300 flex flex-col gap-2">
-                      <div className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                    <div className="mt-4 pt-3 border-t border-dashed border-brass-deep/40 flex flex-col gap-2">
+                      <div
+                        className="text-[10px] tracking-[0.2em] uppercase text-brass-deep"
+                        style={{ fontFamily: 'var(--font-cinzel)' }}
+                      >
                         Verify mastery
                       </div>
-                      <p className="text-xs text-stone-600 leading-relaxed">
+                      <p
+                        className="text-xs text-ink-soft leading-relaxed italic"
+                        style={{ fontFamily: 'var(--font-fraunces)' }}
+                      >
                         Once the activities above are complete, run a focused probe — a short re-test of just this standard, ~10 minutes — to confirm the misconception has resolved.
                       </p>
                       <FocusedProbeButton
