@@ -82,6 +82,14 @@ body {
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Cinzel reads paper-thin at the small caps sizes we use for
+ * "AT A GLANCE", "ANALYST'S NOTES", section ribbons, etc. Default any
+ * inline-styled Cinzel element to semibold so labels are legible.
+ * Buttons that explicitly set font-bold will still win (700 > 600). */
+[style*="--font-cinzel"] {
+  font-weight: 600;
+}
+
 /* ========================================================================
  * Animations
  * ======================================================================== */
