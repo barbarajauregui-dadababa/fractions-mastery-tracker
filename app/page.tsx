@@ -82,7 +82,7 @@ export default function Home() {
               className="text-[10px] tracking-[0.4em] uppercase text-brass"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
-              Built with Opus 4.7 · A math mastery voyage
+              Built with Opus 4.7
             </p>
 
             <h1
@@ -123,13 +123,6 @@ export default function Home() {
                 style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
               >
                 Begin the voyage
-              </Link>
-              <Link
-                href="/methodology"
-                className="inline-flex h-12 items-center justify-center rounded-sm border-2 border-brass-deep bg-transparent px-7 text-sm font-bold uppercase text-cream hover:bg-brass-deep/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass-glow focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
-              >
-                Methodology
               </Link>
             </div>
 
@@ -179,73 +172,66 @@ export default function Home() {
               className="text-[10px] tracking-[0.4em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
-              Three questions · the math mastery voyage
+              ◇ The three questions ◇
             </p>
             <h2
               className="text-3xl sm:text-4xl tracking-tight text-ink max-w-3xl"
               style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
             >
-              Three questions every guide and parent needs answered
+              Three questions Strata Mundo answers
             </h2>
             <OrnamentalRule className="h-5 text-brass-deep mt-2" width={320} />
           </div>
 
           <DiagramPlate
             index={1}
-            kicker="Where is the learner in their math journey, really?"
-            problemTitle="No comprehensive diagnostic that names what is mastered and what is misunderstood"
+            kicker="Where is the learner, really?"
+            problemTitle="No tool reads how a learner reasons"
             problemBullets={[
-              'Traditional schools push a fixed curriculum — ignoring what each learner has already mastered or where the foundation is shaky',
-              'Mastery-based settings want to tailor — but no tool maps mastered concepts, named misconceptions, and areas to work on',
-              'Khan’s course challenge probes only some skills, measures performance (right/wrong), not true mastery',
-              'Without the full picture, a tailored curriculum is guesswork',
+              'Schools push a fixed curriculum, ignoring what each learner has mastered',
+              'Khan-style probes measure performance, not understanding',
+              'Without the full picture, tailored learning is guesswork',
             ]}
             solutionTitle="A telemetry-based diagnostic, with a probe loop"
             solutionBullets={[
-              'Reads the trajectory — drags, removals, commits, resets, timing — not just the final answer',
-              'Names specific misconceptions with evidence pointing to the problems where they fired',
-              'Categorical states — Mastered / Working on / Needs attention / Not yet probed — never percentages',
-              'Loop, not one-shot: assess → diagnose → plan → activities → focused probe → mastery declared, or re-plan',
-              'The probe loop is what distinguishes a diagnostic of current misconception from proof of mastery',
+              'Reads the full trajectory, not just the final answer',
+              'Names specific misconceptions with traceable evidence',
+              'Categorical states — never percentages',
+              'Loop: assess → diagnose → plan → probe → declare',
             ]}
           />
 
           <DiagramPlate
             index={2}
-            kicker="What should they work on next, exactly?"
-            problemTitle="Knowing the gaps does not tell you what to work on first"
+            kicker="What should they work on next?"
+            problemTitle="Knowing the gaps doesn’t tell you the order"
             problemBullets={[
               'Concept dependencies are real but invisible',
-              'Boxed curricula assume linear order — ignoring what is already known',
-              'Without a map, guides re-cover mastered material or skip foundational gaps',
+              'Boxed curricula assume linear order',
+              'Guides re-cover mastered material or skip foundational gaps',
             ]}
-            solutionTitle="A mastery atlas that shows the whole universe"
+            solutionTitle="A mastery atlas grounded in published progressions"
             solutionBullets={[
               'Every standard, every prerequisite, in one view',
-              'Concept dependencies visible at a glance',
               'Skip what is mastered; focus where it is needed',
-              'Built on the published Common Core Coherence Map and the Illustrative Mathematics curriculum sections',
-              'Maximum flexibility for a tailored learning path',
+              'Built on the Coherence Map and the IM Sections',
             ]}
           />
 
           <DiagramPlate
             index={3}
-            kicker="What different effective tools are out there to truly master that skill?"
-            problemTitle="No easy way to find varied ways of learning a concept"
+            kicker="What tools will actually work for them?"
+            problemTitle="Hours hunting for the right activity"
             problemBullets={[
-              'Hours hunting for videos, exercises, and hands-on activities across sources',
-              'Boxed curricula offer the same type of practice — limited variation',
-              'Off-screen, real-world, hands-on activities are especially hard to find',
-              'Math learned in isolation gets forgotten — true mastery comes from APPLYING it',
+              'Boxed curricula offer one type of practice',
+              'Hands-on, real-world activities are hard to find',
+              'Math learned in isolation gets forgotten',
             ]}
             solutionTitle="A tailored plan from a curated, multimodal library"
             solutionBullets={[
-              'Concrete → representational → abstract sequencing per gap',
-              'On-screen + off-screen + hands-on activities per concept',
-              'Math applied across contexts — not learned in isolation',
-              'Plan is a living document — shifts as the learner’s mastery evolves',
-              'Library grown by the community: AI-vetted, human-approved (vision)',
+              'Concrete → representational → abstract per gap',
+              'On-screen + off-screen + hands-on per concept',
+              'Library grown by the community: AI-vetted, human-approved',
             ]}
           />
         </div>

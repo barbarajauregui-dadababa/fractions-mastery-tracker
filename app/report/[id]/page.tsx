@@ -742,6 +742,42 @@ function Bucket({
 function BulletedSentences({ text }: { text: string }) {
   const trimmed = text.trim()
   if (!trimmed) return null
+
+  // 1. If the analysis returned dash-prefixed bullets ("- foo\n- bar"),
+  //    split on those bullets.
+  const dashSplit = /(?:^|\n)\s*[-*•]\s+/
+  if (dashSplit.test(trimmed)) {
+    const items = trimmed
+      .split(dashSplit)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0)
+    if (items.length > 0) {
+      return (
+        <ul className="list-disc ml-5 space-y-1.5 leading-relaxed">
+          {items.map((s, i) => (
+            <li key={i}>{s}</li>
+          ))}
+        </ul>
+      )
+    }
+  }
+
+  // 2. Newline-separated lines.
+  const newlineLines = trimmed
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0)
+  if (newlineLines.length > 1) {
+    return (
+      <ul className="list-disc ml-5 space-y-1.5 leading-relaxed">
+        {newlineLines.map((s, i) => (
+          <li key={i}>{s}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  // 3. Fallback: sentence-split.
   const sentences = trimmed
     .split(/(?<=[.!?])\s+/)
     .map((s) => s.trim())

@@ -60,10 +60,10 @@ export const ANALYSIS_USER_INSTRUCTIONS = `Return a single JSON object with this
       "state": "misconception" | "working" | "demonstrated" | "not_assessed",
       "evidence_problem_ids": ["p003", "p024"],
       "flagged_misconception_ids": ["m08_additive_equivalence"],
-      "reasoning": "One or two sentences in PLAIN LANGUAGE explaining the state. Describe what the learner did in natural terms (no internal problem IDs, no bracketed piece-count arrays). Put the problem IDs in evidence_problem_ids, not in this narrative. Written for a guide or parent to read, not for the learner."
+      "reasoning": "Bulleted list of 1–3 short bullets, each starting with '- ' (dash + space) and at most 10 words. Plain language, no internal problem IDs (p003 etc.), no bracketed piece arrays like [1/8,1/8,1/8]. Describe what the learner did or where they got stuck. Example: '- First-try success on three unit-fraction problems.\\n- Reset, switched denominators, then succeeded.' Never write paragraphs."
     }
   },
-  "overall_notes": "Two or three sentences summarizing the learner's strongest area and the most prominent misconception pattern, if any. Written for the guide in PLAIN LANGUAGE. Do NOT reference problem IDs (p003, p024) — say 'on the unit-fraction problems' or similar. Do NOT use bracketed piece arrays. Never address the learner in second person. Never use percentages or numerical scores."
+  "overall_notes": "Bulleted list of 2–4 short bullets, each starting with '- ' (dash + space) and at most 10 words. Plain language summary for the guide: strongest area, prominent misconception pattern, notable strategy moves. No problem IDs, no piece arrays, no percentages, no second-person. Never write paragraphs."
 }
 
 Use CCSS-M standard IDs (e.g., "3.NF.A.1", "4.NF.A.2") as the keys, NOT the old sub_skill_ids. Produce an entry for every standard in the SUB-SKILL LIST below, even if "not_assessed".

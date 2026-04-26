@@ -34,23 +34,36 @@ export default function MethodologyPage() {
         </header>
 
         <Section id="three-questions">
-          <H2>The three questions Strata Mundo answers</H2>
+          <H2>Three questions every guide and parent needs answered</H2>
           <ThreeQuestions
             questions={[
               {
                 kicker: 'Question I',
-                title: 'Where is the learner in their math journey, really?',
-                body: 'A telemetry-based assessment that reads the trajectory — drags, removals, commits, resets, timing — and produces a categorical mastery map per CCSS standard. Four states (Mastered / Working on / Needs attention / Not yet probed) with named misconceptions and traceable evidence.',
+                title: 'Where is the learner, really?',
+                bullets: [
+                  'Reads drags, removals, commits, resets, timing — not just answers',
+                  'Produces a categorical mastery map per CCSS standard',
+                  'Four states with named misconceptions and traceable evidence',
+                ],
               },
               {
                 kicker: 'Question II',
-                title: 'What should they work on next, exactly?',
-                body: 'A mastery atlas grounded in the published Common Core Coherence Map and the Illustrative Mathematics curriculum sections. Concept dependencies are visible. The Plan Architect skips what is mastered and starts at the first section with any flagged standard.',
+                title: 'What should they work on next?',
+                bullets: [
+                  'Mastery atlas grounded in the Coherence Map and IM Sections',
+                  'Concept dependencies visible',
+                  'Plan Architect skips mastered, starts at the first flagged section',
+                ],
               },
               {
                 kicker: 'Question III',
-                title: 'What different effective tools are out there to truly master that skill?',
-                body: 'A tailored plan from a curated, multimodal library. Concrete → representational → abstract sequencing. On-screen + off-screen + hands-on activities per concept. The plan is a living document — it shifts as the learner’s mastery evolves.',
+                title: 'What tools will work for them?',
+                bullets: [
+                  'Tailored plan from a curated multimodal library',
+                  'Concrete → representational → abstract sequencing per gap',
+                  'On-screen + off-screen + hands-on per concept',
+                  'Plan shifts as mastery evolves',
+                ],
               },
             ]}
           />
@@ -371,7 +384,7 @@ function Bullets({ children }: { children: React.ReactNode }) {
 function ThreeQuestions({
   questions,
 }: {
-  questions: { kicker: string; title: string; body: string }[]
+  questions: { kicker: string; title: string; bullets: string[] }[]
 }) {
   return (
     <ol className="flex flex-col gap-5 mt-2">
@@ -398,12 +411,14 @@ function ThreeQuestions({
           >
             {q.title}
           </h3>
-          <p
-            className="text-sm sm:text-base text-ink-soft leading-relaxed"
+          <ul
+            className="list-disc ml-5 space-y-1 text-sm sm:text-base text-ink-soft leading-relaxed"
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
-            {q.body}
-          </p>
+            {q.bullets.map((b, j) => (
+              <li key={j}>{b}</li>
+            ))}
+          </ul>
         </li>
       ))}
     </ol>
