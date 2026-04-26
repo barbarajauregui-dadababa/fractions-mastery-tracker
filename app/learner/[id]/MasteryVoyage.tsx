@@ -140,8 +140,8 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
         <Image
           src="/images/balloon-flying.jpg"
           alt="Airship with eleven weights for the eleven 4.NF standards"
-          width={253}
-          height={373}
+          width={270}
+          height={447}
           className="w-full h-auto"
           style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
         />
@@ -198,18 +198,16 @@ function buildSandbagList(
   })
 }
 
-/** Two arcs of sandbags hanging beneath the basket. */
+/** Smile-shaped arc of sandbags wrapping around the balloon — edges curve
+ *  up alongside the balloon body, middle dips below the basket. */
 function sandbagPosition(i: number, total: number): { x: number; y: number } {
-  // Top arc gets the first 6, bottom arc the rest.
-  const topRow = Math.min(6, total)
-  const bottomRow = total - topRow
-  if (i < topRow) {
-    const t = topRow === 1 ? 0.5 : i / (topRow - 1)
-    return { x: 22 + t * 56, y: 60 + Math.sin(t * Math.PI) * -3 }
-  }
-  const j = i - topRow
-  const t = bottomRow === 1 ? 0.5 : j / (bottomRow - 1)
-  return { x: 26 + t * 48, y: 75 + Math.sin(t * Math.PI) * -2 }
+  const t = total === 1 ? 0.5 : i / (total - 1)
+  const x = 10 + t * 80 // 10..90 (edges close to balloon's outer silhouette)
+  // Parabolic dip: 0 at edges, 1 at middle. Edges sit at y_top (alongside
+  // the balloon's mid-body), middle sits at y_bot (just below the basket).
+  const dip = 1 - 4 * Math.pow(t - 0.5, 2)
+  const y = 30 + dip * 46 // 30..76
+  return { x, y }
 }
 
 function Sandbag({
@@ -230,17 +228,24 @@ function Sandbag({
   const fill = sandbagFill(state)
   return (
     <div
-      className="absolute pointer-events-auto"
+      className="absolute pointer-events-auto group"
       style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, 0)' }}
-      title={title}
       role="img"
       aria-label={title}
     >
+      {/* Custom hover tooltip — appears immediately on mouseover with the
+          standard name. Replaces the slow native `title` tooltip. */}
+      <div
+        className="hidden group-hover:block absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 whitespace-nowrap rounded-sm border-2 border-brass-deep bg-paper px-2.5 py-1 text-[10px] text-ink shadow-[0_4px_10px_oklch(0_0_0/0.5)] pointer-events-none"
+        style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.06em' }}
+      >
+        {title}
+      </div>
       <svg
         width="28"
         height="42"
         viewBox="0 0 28 42"
-        className="drop-shadow-[0_2px_3px_oklch(0_0_0/0.5)] hover:scale-110 transition-transform cursor-help"
+        className="drop-shadow-[0_2px_3px_oklch(0_0_0/0.5)] hover:scale-110 transition-transform cursor-pointer"
       >
         {/* Hanging rope — dark ink, slight twist */}
         <line x1="14" y1="0" x2="14" y2="8" stroke={ink} strokeWidth="1.2" />

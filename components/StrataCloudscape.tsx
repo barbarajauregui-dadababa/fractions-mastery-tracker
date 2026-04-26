@@ -104,8 +104,8 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
           <Image
             src="/images/balloon-flying.jpg"
             alt="Airship at the active stratum"
-            width={253}
-            height={373}
+            width={270}
+            height={447}
             className="w-full h-auto"
             style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
           />

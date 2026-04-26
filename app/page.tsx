@@ -138,8 +138,8 @@ export default function Home() {
               <Image
                 src="/images/balloon-flying.jpg"
                 alt="Aerostat of the Marquis de Brantes, 1784"
-                width={253}
-                height={373}
+                width={270}
+                height={447}
                 className="w-full h-auto"
                 style={{ filter: 'sepia(0.4) contrast(1.05) brightness(1.05)', mixBlendMode: 'screen' }}
               />
