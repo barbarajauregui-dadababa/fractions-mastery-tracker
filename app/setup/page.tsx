@@ -10,6 +10,7 @@ export default function SetupPage() {
   const supabase = createClient()
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [age, setAge] = useState('')
   const [gradeLevel, setGradeLevel] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -35,6 +36,7 @@ export default function SetupPage() {
         .from('learners')
         .insert({
           name: name.trim(),
+          email: email.trim().toLowerCase(),
           age: age ? Number(age) : null,
           grade_level: gradeLevel ? Number(gradeLevel) : null,
           guide_id: guideId,
@@ -42,6 +44,24 @@ export default function SetupPage() {
         .select('id')
         .single()
       if (learnerError) throw learnerError
+
+      // Fire welcome email — best-effort, doesn't block the redirect to /assess.
+      // The email contains a permanent link to /learner/<id> so the learner
+      // can return to their voyage any time. If Resend isn't configured, the
+      // API route silently no-ops and the bookmark URL becomes the only
+      // recovery path.
+      void fetch('/api/welcome-learner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          learner_id: learner.id,
+          learner_name: name.trim(),
+          email: email.trim().toLowerCase(),
+        }),
+        keepalive: true,
+      }).catch(() => {
+        // Non-fatal — proceed to the assessment regardless.
+      })
 
       // v1 only supports build_fraction problems in the UI; selectProblems filters to those.
       // Once other problem_types have UI, pass preferSupported: false to get the full mix.
@@ -119,6 +139,30 @@ export default function SetupPage() {
             />
           </label>
 
+          <label className="flex flex-col gap-1.5">
+            <span
+              className="text-[10px] tracking-[0.2em] uppercase text-brass-deep"
+              style={{ fontFamily: 'var(--font-cinzel)' }}
+            >
+              Email
+            </span>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-10 rounded-sm border-2 border-brass-deep/60 bg-paper text-ink px-3 text-sm focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/40 placeholder:text-ink-faint"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+              placeholder="you@example.com"
+            />
+            <span
+              className="text-[11px] text-ink-faint italic"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+            >
+              We&apos;ll email a permanent link so the learner can return to this voyage any time.
+            </span>
+          </label>
+
           <div className="flex gap-4">
             <label className="flex flex-col gap-1.5 flex-1">
               <span
@@ -174,7 +218,11 @@ export default function SetupPage() {
 
           <button
             type="submit"
-            disabled={isSubmitting || !name.trim()}
+            disabled={
+              isSubmitting ||
+              !name.trim() ||
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+            }
             className="inline-flex h-11 items-center justify-center rounded-sm bg-brass-deep px-6 text-sm font-bold uppercase text-cream hover:bg-brass disabled:opacity-50 transition-colors w-fit border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
             style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
