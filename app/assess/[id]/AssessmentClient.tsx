@@ -177,13 +177,13 @@ export default function AssessmentClient({
       <div className="max-w-4xl mx-auto px-6 py-8 pb-28 flex flex-col gap-5">
         <header className="flex items-baseline justify-between gap-4">
           <span
-            className="text-[10px] tracking-[0.25em] uppercase text-brass"
+            className="text-xs tracking-[0.25em] uppercase text-brass"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Assessment for <span className="text-cream font-bold ml-1">{learnerName}</span>
           </span>
           <span
-            className="text-[10px] tracking-[0.25em] uppercase text-cream-faint"
+            className="text-xs tracking-[0.25em] uppercase text-cream-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Problem {index + 1} of {total}

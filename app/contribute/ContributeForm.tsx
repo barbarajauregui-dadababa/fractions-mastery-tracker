@@ -203,7 +203,7 @@ export default function ContributeForm({ initialStandardId }: Props) {
                 {m.label}
               </div>
               <div
-                className="text-[11px] text-ink-soft italic mt-0.5"
+                className="text-xs text-ink-soft italic mt-0.5"
                 style={{ fontFamily: 'var(--font-fraunces)' }}
               >
                 {m.hint}
@@ -316,7 +316,7 @@ export default function ContributeForm({ initialStandardId }: Props) {
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
             <div
-              className="text-[10px] tracking-[0.2em] uppercase text-red-800 mb-1 font-bold"
+              className="text-xs tracking-[0.2em] uppercase text-red-800 mb-1 font-bold"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Before you can submit
@@ -359,7 +359,7 @@ function FormField({
       {children}
       {hint && (
         <span
-          className="text-[11px] text-ink-faint italic"
+          className="text-xs text-ink-faint italic"
           style={{ fontFamily: 'var(--font-fraunces)' }}
         >
           {hint}
@@ -439,7 +439,7 @@ function ResultPanel({
   return (
     <div className={`relative rounded-sm border-2 ${verdictColor} p-6 flex flex-col gap-3 shadow-[0_0_20px_oklch(0.74_0.14_80/0.18)]`}>
       <span
-        className="text-[10px] tracking-[0.25em] uppercase text-brass-deep"
+        className="text-xs tracking-[0.25em] uppercase text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {verdictLabel}
@@ -457,7 +457,7 @@ function ResultPanel({
       {bullets.length > 0 && (
         <div className="rounded-sm bg-paper px-4 py-3 border border-brass-deep/30">
           <div
-            className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-1.5"
+            className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1.5"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             AI reviewer notes
@@ -487,7 +487,7 @@ function ResultPanel({
           <button
             type="button"
             onClick={onBackToEdit}
-            className="inline-flex h-9 items-center justify-center rounded-sm bg-brass-deep px-4 text-[10px] font-bold uppercase text-cream hover:bg-brass transition-colors border border-brass shadow-[0_0_12px_oklch(0.74_0.14_80/0.4)]"
+            className="inline-flex h-9 items-center justify-center rounded-sm bg-brass-deep px-4 text-xs font-bold uppercase text-cream hover:bg-brass transition-colors border border-brass shadow-[0_0_12px_oklch(0.74_0.14_80/0.4)]"
             style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
             Edit and resubmit ◇
@@ -496,7 +496,7 @@ function ResultPanel({
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex h-9 items-center justify-center rounded-sm border-2 border-brass-deep px-4 text-[10px] font-bold uppercase text-ink hover:bg-brass-deep/10 transition-colors"
+          className="inline-flex h-9 items-center justify-center rounded-sm border-2 border-brass-deep px-4 text-xs font-bold uppercase text-ink hover:bg-brass-deep/10 transition-colors"
           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
         >
           {verdict === 'reject' ? 'Start over' : 'Submit another'}

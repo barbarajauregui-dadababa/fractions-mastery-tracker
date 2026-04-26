@@ -48,7 +48,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
     return (
       <div className="rounded-sm border-2 border-brass-deep/60 bg-paper-deep/40 px-4 py-3">
         <div
-          className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-1"
+          className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Mapped to standard
@@ -121,7 +121,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
               >
                 <div className="flex items-baseline gap-2">
                   <span
-                    className="text-[11px] text-brass-deep"
+                    className="text-xs text-brass-deep"
                     style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.1em' }}
                   >
                     {s.id}
@@ -133,7 +133,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
                     {s.name}
                   </span>
                   <span
-                    className="text-[10px] text-ink-faint italic"
+                    className="text-xs text-ink-faint italic"
                     style={{ fontFamily: 'var(--font-fraunces)' }}
                   >
                     Grade {s.grade}
@@ -151,7 +151,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
         })}
       </ul>
       <p
-        className="text-[11px] text-ink-faint italic"
+        className="text-xs text-ink-faint italic"
         style={{ fontFamily: 'var(--font-fraunces)' }}
       >
         Click a standard to add or remove. Multiple standards are allowed for activities that span concepts.

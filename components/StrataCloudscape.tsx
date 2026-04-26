@@ -75,7 +75,7 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
       {!compact && (
         <div className="absolute top-4 left-0 right-0 text-center pointer-events-none">
           <p
-            className="text-[10px] tracking-[0.4em] uppercase text-cream-soft"
+            className="text-xs tracking-[0.4em] uppercase text-cream-soft"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Apex of the voyage
@@ -115,7 +115,7 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
       {!compact && (
         <div className="absolute bottom-3 left-0 right-0 text-center pointer-events-none">
           <p
-            className="text-[10px] tracking-[0.4em] uppercase text-cream-faint"
+            className="text-xs tracking-[0.4em] uppercase text-cream-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             ◇ Foundation ◇
@@ -154,7 +154,7 @@ function ProgressionStratum({
     >
       <div className="flex flex-col items-center justify-center min-w-[48px]">
         <span
-          className={`${compact ? 'text-[10px]' : 'text-xs'} ${active ? 'text-brass-deep' : 'text-cream-faint'}`}
+          className={`${compact ? 'text-xs' : 'text-xs'} ${active ? 'text-brass-deep' : 'text-cream-faint'}`}
           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.12em' }}
         >
           {progression.code}
@@ -182,7 +182,7 @@ function ProgressionStratum({
           </div>
         ) : !compact ? (
           <p
-            className="mt-1 text-[11px] italic text-cream-faint tracking-[0.15em] uppercase"
+            className="mt-1 text-xs italic text-cream-faint tracking-[0.15em] uppercase"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Coming in v1.5
@@ -190,7 +190,7 @@ function ProgressionStratum({
         ) : null}
         {!compact && active && totalProbed > 0 && (
           <p
-            className="mt-1 text-[11px] text-ink-faint italic"
+            className="mt-1 text-xs text-ink-faint italic"
             style={{ fontFamily: 'var(--font-special-elite)' }}
           >
             {totalProbed} of {totalStandards} standards probed so far.

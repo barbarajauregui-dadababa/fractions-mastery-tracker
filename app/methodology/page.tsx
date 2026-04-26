@@ -13,7 +13,7 @@ export default function MethodologyPage() {
       <div className="max-w-3xl mx-auto px-6 py-12 flex flex-col gap-12 leading-relaxed">
         <header className="flex flex-col gap-3 items-center text-center">
           <p
-            className="text-[10px] tracking-[0.3em] uppercase text-ink-faint"
+            className="text-xs tracking-[0.3em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Methodology · A field manual
@@ -332,7 +332,7 @@ export default function MethodologyPage() {
         <footer className="mt-4 pt-6 border-t border-stone-300/40 flex flex-col items-center gap-3">
           <OrnamentalRule className="h-4 text-brass-deep/40" width={200} />
           <p
-            className="text-[11px] text-ink-faint italic text-center"
+            className="text-xs text-ink-faint italic text-center"
             style={{ fontFamily: 'var(--font-special-elite)' }}
           >
             This is a v0.5 field manual — accurate but not yet exhaustive. The product blueprint, glossary, and source ledger have additional detail.
@@ -399,7 +399,7 @@ function ThreeQuestions({
               className="text-3xl text-brass-deep leading-none"
             />
             <p
-              className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
+              className="text-xs tracking-[0.25em] uppercase text-ink-faint"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               {q.kicker}
@@ -446,7 +446,7 @@ function SourceRow({
     <li className="rounded-sm border-2 border-brass-deep/30 bg-paper p-4 flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span
-          className="text-[10px] font-medium tracking-[0.2em] uppercase text-brass-deep border border-brass-deep/40 bg-brass/10 px-2 py-0.5 rounded-sm"
+          className="text-xs font-medium tracking-[0.2em] uppercase text-brass-deep border border-brass-deep/40 bg-brass/10 px-2 py-0.5 rounded-sm"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           {label}
@@ -498,7 +498,7 @@ function CriteriaBlock({
   return (
     <div className="rounded-sm border border-brass-deep/40 bg-paper-deep/40 p-4">
       <div
-        className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-2"
+        className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-2"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {title}

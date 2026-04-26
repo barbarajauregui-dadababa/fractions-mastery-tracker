@@ -49,7 +49,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
       {masteryMap?.standards && (
         <details className="mt-8 rounded-sm border-2 border-brass-deep/40 bg-paper p-5">
           <summary
-            className="cursor-pointer list-none flex items-center justify-between text-[10px] tracking-[0.25em] uppercase text-brass-deep"
+            className="cursor-pointer list-none flex items-center justify-between text-xs tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Standard-by-standard list (11 standards)
@@ -68,13 +68,13 @@ export default function MasteryVoyage({ masteryMap }: Props) {
                 />
                 <span className="text-ink flex-1">{standardName(id)}</span>
                 <span
-                  className="text-[10px] tracking-[0.15em] uppercase text-ink-faint"
+                  className="text-xs tracking-[0.15em] uppercase text-ink-faint"
                   style={{ fontFamily: 'var(--font-cinzel)' }}
                 >
                   {stateLabel(state)}
                 </span>
                 <span
-                  className="text-[10px] font-mono text-ink-faint"
+                  className="text-xs font-mono text-ink-faint"
                   style={{ fontFamily: 'var(--font-special-elite)' }}
                 >
                   {id}
@@ -125,7 +125,7 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
       {/* Apex label */}
       <div className="absolute top-4 left-0 right-0 text-center pointer-events-none z-10">
         <p
-          className="text-[10px] tracking-[0.4em] uppercase text-cream-soft"
+          className="text-xs tracking-[0.4em] uppercase text-cream-soft"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           ◇ Eleven weights · 4.NF standards ◇
@@ -168,7 +168,7 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
       {/* Legend strip at bottom */}
       <div className="absolute bottom-3 left-0 right-0 px-4 z-10">
         <div
-          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] text-cream-soft"
+          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-cream-soft"
           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.15em' }}
         >
           <LegendDot color="bg-emerald-500" label="Mastered" />
@@ -236,7 +236,7 @@ function Sandbag({
       {/* Custom hover tooltip — appears immediately on mouseover with the
           standard name. Replaces the slow native `title` tooltip. */}
       <div
-        className="hidden group-hover:block absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 whitespace-nowrap rounded-sm border-2 border-brass-deep bg-paper px-2.5 py-1 text-[10px] text-ink shadow-[0_4px_10px_oklch(0_0_0/0.5)] pointer-events-none"
+        className="hidden group-hover:block absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 whitespace-nowrap rounded-sm border-2 border-brass-deep bg-paper px-2.5 py-1 text-xs text-ink shadow-[0_4px_10px_oklch(0_0_0/0.5)] pointer-events-none"
         style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.06em' }}
       >
         {title}
@@ -359,7 +359,7 @@ function Legend() {
   ]
   return (
     <div
-      className="mt-6 flex items-center justify-center gap-5 flex-wrap text-[11px] text-cream-soft"
+      className="mt-6 flex items-center justify-center gap-5 flex-wrap text-xs text-cream-soft"
       style={{ fontFamily: 'var(--font-special-elite)' }}
     >
       {items.map((it) => (

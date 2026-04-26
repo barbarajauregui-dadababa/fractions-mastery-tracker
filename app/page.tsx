@@ -69,7 +69,7 @@ export default function Home() {
               <div className="absolute inset-0 rounded-full border-2 border-brass-deep/40 pointer-events-none" />
             </div>
             <p
-              className="text-center text-[10px] tracking-[0.2em] uppercase text-cream-faint mt-4 italic"
+              className="text-center text-xs tracking-[0.2em] uppercase text-cream-faint mt-4 italic"
               style={{ fontFamily: 'var(--font-special-elite)' }}
             >
               Celestial globe with clockwork — Emmoser, Vienna 1579
@@ -79,7 +79,7 @@ export default function Home() {
           {/* RIGHT: brand wordmark + tagline + balloon ascending */}
           <div className="relative flex flex-col gap-6 items-start text-left">
             <p
-              className="text-[10px] tracking-[0.4em] uppercase text-brass"
+              className="text-xs tracking-[0.4em] uppercase text-brass"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Built with Opus 4.7
@@ -169,7 +169,7 @@ export default function Home() {
         <div className="relative max-w-5xl mx-auto flex flex-col gap-16">
           <div className="flex flex-col items-center gap-3 text-center">
             <p
-              className="text-[10px] tracking-[0.4em] uppercase text-brass-deep"
+              className="text-xs tracking-[0.4em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               ◇ The three questions ◇
@@ -241,13 +241,13 @@ export default function Home() {
       <footer className="bg-background py-10 px-6 text-center border-t border-brass-deep/40">
         <OrnamentalRule className="h-4 text-brass-deep mx-auto mb-4" width={220} />
         <p
-          className="text-[11px] text-cream-faint italic max-w-3xl mx-auto leading-relaxed"
+          className="text-xs text-cream-faint italic max-w-3xl mx-auto leading-relaxed"
           style={{ fontFamily: 'var(--font-fraunces)' }}
         >
           Imagery: cloudscape by Simon Alexandre-Clément Denis (1786, Getty Museum, public domain). Celestial globe by Gerhard Emmoser (1579, Met Museum, CC0). Aerostat of the Marquis de Brantes, J. B. Guibert sculp. (1784, Bibliothèque nationale de France / Gallica, public domain).
         </p>
         <p
-          className="text-[11px] text-cream-faint italic max-w-3xl mx-auto leading-relaxed mt-2"
+          className="text-xs text-cream-faint italic max-w-3xl mx-auto leading-relaxed mt-2"
           style={{ fontFamily: 'var(--font-fraunces)' }}
         >
           Sections from Illustrative Mathematics K-5 (CC BY 4.0). Standards from CCSS-M and the Coherence Map. Progressions from Bill McCallum, hosted at mathematicalmusings.org. MIT licensed.
@@ -338,7 +338,7 @@ function PanelCard({
       <CornerFlourish corner="br" className={`absolute bottom-1.5 right-1.5 h-5 w-5 ${accent ? 'text-brass-deep' : 'text-stone-400'}`} />
 
       <span
-        className={`inline-flex w-fit text-[9px] tracking-[0.2em] uppercase border-2 px-2 py-1 rounded-sm ${ribbonClass}`}
+        className={`inline-flex w-fit text-[11px] tracking-[0.2em] uppercase border-2 px-2 py-1 rounded-sm ${ribbonClass}`}
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {ribbonLabel}

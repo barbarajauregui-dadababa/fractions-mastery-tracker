@@ -489,7 +489,7 @@ export default function FractionWorkspaceV2({
           Entries stack vertically so the pieces stay at exact placed-size. */}
       <div className="w-full border-t-2 border-brass-deep/40 pt-6 flex flex-col items-center gap-3">
         <p
-          className="text-[10px] uppercase tracking-[0.25em] text-brass-deep"
+          className="text-xs uppercase tracking-[0.25em] text-brass-deep"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           ◇ Pieces ◇
@@ -596,7 +596,7 @@ function GoalDisplay({
   return (
     <div className="flex flex-col items-center gap-1.5">
       <span
-        className="text-[10px] uppercase tracking-[0.25em] text-brass-deep"
+        className="text-xs uppercase tracking-[0.25em] text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         ◇ Goal ◇

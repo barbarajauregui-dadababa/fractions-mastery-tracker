@@ -24,7 +24,7 @@ export function SourceInfo({ layer, description, sourceName, authors, url }: Pro
   return (
     <details className="inline-block relative align-middle group">
       <summary
-        className="cursor-help inline-flex h-4 w-4 items-center justify-center rounded-full border border-brass-deep/50 bg-paper-deep/40 text-[9px] text-brass-deep hover:bg-brass/15 list-none"
+        className="cursor-help inline-flex h-4 w-4 items-center justify-center rounded-full border border-brass-deep/50 bg-paper-deep/40 text-[11px] text-brass-deep hover:bg-brass/15 list-none"
         aria-label={`About: ${layer}`}
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
@@ -32,7 +32,7 @@ export function SourceInfo({ layer, description, sourceName, authors, url }: Pro
       </summary>
       <div className="absolute left-0 top-5 z-30 w-72 rounded-sm border-2 border-brass-deep/50 bg-paper p-3 text-xs shadow-lg">
         <div
-          className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-1"
+          className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           {layer}
@@ -50,7 +50,7 @@ export function SourceInfo({ layer, description, sourceName, authors, url }: Pro
           Source: {sourceName}
         </div>
         <div
-          className="text-[10px] text-ink-faint mt-1"
+          className="text-xs text-ink-faint mt-1"
           style={{ fontFamily: 'var(--font-special-elite)' }}
         >
           {authors}
@@ -59,7 +59,7 @@ export function SourceInfo({ layer, description, sourceName, authors, url }: Pro
           href={url}
           target="_blank"
           rel="noreferrer"
-          className="text-[11px] text-copper hover:text-brass-deep underline underline-offset-2 mt-2 inline-block break-all"
+          className="text-xs text-copper hover:text-brass-deep underline underline-offset-2 mt-2 inline-block break-all"
           style={{ fontFamily: 'var(--font-special-elite)' }}
         >
           View source →

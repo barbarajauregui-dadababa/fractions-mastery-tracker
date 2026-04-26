@@ -107,7 +107,7 @@ export default async function AdminQueuePage({ searchParams }: PageProps) {
       <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col gap-6">
         <header className="flex flex-col gap-1">
           <p
-            className="text-[10px] tracking-[0.3em] uppercase text-ink-faint"
+            className="text-xs tracking-[0.3em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Admin · activity-submission queue
@@ -131,7 +131,7 @@ export default async function AdminQueuePage({ searchParams }: PageProps) {
               <Link
                 key={f.label}
                 href={href}
-                className={`inline-flex items-center gap-1.5 rounded-sm border-2 px-3 py-1 text-[10px] tracking-[0.18em] uppercase ${
+                className={`inline-flex items-center gap-1.5 rounded-sm border-2 px-3 py-1 text-xs tracking-[0.18em] uppercase ${
                   active
                     ? 'border-brass-deep bg-brass/20 text-ink'
                     : 'border-brass-deep/40 bg-paper text-ink-soft hover:border-brass-deep'
@@ -177,7 +177,7 @@ export default async function AdminQueuePage({ searchParams }: PageProps) {
                     {r.title}
                   </Link>
                   <span
-                    className="text-[10px] tracking-[0.18em] uppercase text-brass-deep ml-auto"
+                    className="text-xs tracking-[0.18em] uppercase text-brass-deep ml-auto"
                     style={{ fontFamily: 'var(--font-cinzel)' }}
                   >
                     {r.modality}
@@ -201,7 +201,7 @@ export default async function AdminQueuePage({ searchParams }: PageProps) {
                 </div>
                 <Link
                   href={`/admin/submissions/${r.id}?key=${encodeURIComponent(key)}`}
-                  className="mt-2 inline-flex h-8 items-center justify-center rounded-sm border-2 border-brass-deep px-3 text-[10px] font-bold uppercase text-ink hover:bg-brass-deep/15 transition-colors"
+                  className="mt-2 inline-flex h-8 items-center justify-center rounded-sm border-2 border-brass-deep px-3 text-xs font-bold uppercase text-ink hover:bg-brass-deep/15 transition-colors"
                   style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
                 >
                   Review →
@@ -226,7 +226,7 @@ function StatusPill({ status }: { status: string }) {
   const { label, cls } = pillFor(status)
   return (
     <span
-      className={`inline-flex items-center rounded-sm border px-2 py-0.5 text-[9px] tracking-[0.18em] uppercase ${cls}`}
+      className={`inline-flex items-center rounded-sm border px-2 py-0.5 text-[11px] tracking-[0.18em] uppercase ${cls}`}
       style={{ fontFamily: 'var(--font-cinzel)' }}
     >
       {label}

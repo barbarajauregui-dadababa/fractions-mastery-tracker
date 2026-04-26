@@ -38,7 +38,7 @@ export default function PlanWaiting({ assessmentId }: Props) {
     return (
       <section className="flex flex-col gap-3 rounded-sm border-2 border-amber-700/40 bg-paper-deep p-5">
         <div
-          className="text-[10px] tracking-[0.25em] uppercase text-amber-800"
+          className="text-xs tracking-[0.25em] uppercase text-amber-800"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           The Plan Architect did not return in time
@@ -60,7 +60,7 @@ export default function PlanWaiting({ assessmentId }: Props) {
       <SteampunkSpinner />
       <div className="flex-1">
         <div
-          className="text-[10px] tracking-[0.25em] uppercase text-brass-deep"
+          className="text-xs tracking-[0.25em] uppercase text-brass-deep"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           The Plan Architect is at work

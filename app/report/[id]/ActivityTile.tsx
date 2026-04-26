@@ -105,7 +105,7 @@ export default function ActivityTile({
           {/* Activity ribbon — Cinzel small caps */}
           <div className="flex items-center gap-2">
             <span
-              className="text-[9px] tracking-[0.2em] uppercase text-brass-deep"
+              className="text-[11px] tracking-[0.2em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Activity {modality ? `· ${modalityLabel(modality).toUpperCase()}` : ''}
@@ -174,7 +174,7 @@ export default function ActivityTile({
         <button
           type="button"
           onClick={() => setShowWhy((v) => !v)}
-          className="text-[11px] tracking-[0.15em] uppercase text-ink-faint hover:text-brass-deep inline-flex items-center gap-1"
+          className="text-xs tracking-[0.15em] uppercase text-ink-faint hover:text-brass-deep inline-flex items-center gap-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           <svg

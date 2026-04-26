@@ -75,7 +75,7 @@ export default async function LearnerDashboardPage(
       <div className="max-w-4xl mx-auto px-6 py-12 flex flex-col gap-8">
         <header className="flex flex-col gap-2 items-center text-center">
           <p
-            className="text-[10px] tracking-[0.4em] uppercase text-brass"
+            className="text-xs tracking-[0.4em] uppercase text-brass"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Mastery voyage of
@@ -88,7 +88,7 @@ export default async function LearnerDashboardPage(
           </h1>
           {latest?.completed_at && (
             <p
-              className="text-[11px] text-cream-faint italic mt-1"
+              className="text-xs text-cream-faint italic mt-1"
               style={{ fontFamily: 'var(--font-special-elite)' }}
             >
               Snapshot from{' '}
@@ -125,7 +125,7 @@ export default async function LearnerDashboardPage(
         )}
 
         <footer
-          className="text-[10px] text-cream-faint italic text-center"
+          className="text-xs text-cream-faint italic text-center"
           style={{ fontFamily: 'var(--font-special-elite)' }}
         >
           Cloudscape: Simon Alexandre-Clément Denis, 1786 (Getty Museum, public domain). Balloon: Versailles ascent, 1783 (Library of Congress, public domain). Progressions sourced from Bill McCallum, hosted at mathematicalmusings.org.

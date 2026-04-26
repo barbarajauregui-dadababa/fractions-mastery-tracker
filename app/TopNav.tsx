@@ -33,7 +33,7 @@ export default function TopNav() {
         </Link>
 
         <ul
-          className="flex items-center gap-1 text-[11px]"
+          className="flex items-center gap-1 text-xs"
           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
         >
           <li>

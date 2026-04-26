@@ -15,7 +15,7 @@ export function FourthGradeOverviewStrip() {
     <section className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span
-          className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
+          className="text-xs tracking-[0.25em] uppercase text-ink-faint"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           The 5 Progressions of 4th-grade math
@@ -36,7 +36,7 @@ export function FourthGradeOverviewStrip() {
             >
               <div className="flex items-center gap-1.5">
                 <span
-                  className={`text-[10px] tracking-[0.15em] ${
+                  className={`text-xs tracking-[0.15em] ${
                     inProgress ? 'text-brass-deep' : 'text-ink-faint'
                   }`}
                   style={{ fontFamily: 'var(--font-cinzel)' }}
@@ -56,7 +56,7 @@ export function FourthGradeOverviewStrip() {
                 className={`mt-1 ${
                   inProgress
                     ? 'text-base text-brass-deep'
-                    : 'text-[10px] text-ink-faint italic'
+                    : 'text-xs text-ink-faint italic'
                 }`}
                 style={{
                   fontFamily: inProgress
@@ -86,7 +86,7 @@ export function FractionsSectionStrip({ learnerName, roadmap }: SectionStripProp
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2">
           <span
-            className="text-[10px] tracking-[0.25em] uppercase text-ink-faint"
+            className="text-xs tracking-[0.25em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Inside 4.NF · IM Sections for {learnerName}
@@ -94,7 +94,7 @@ export function FractionsSectionStrip({ learnerName, roadmap }: SectionStripProp
           <SectionInfo />
         </div>
         <div
-          className="text-[10px] text-ink-faint italic"
+          className="text-xs text-ink-faint italic"
           style={{ fontFamily: 'var(--font-special-elite)' }}
         >
           Grade 3 Unit 5 + Grade 4 Unit 2
@@ -122,7 +122,7 @@ function SectionTile({
       <div className="flex items-center gap-1.5">
         <RomanNumeral
           n={index}
-          className={`text-[11px] ${cls.index}`}
+          className={`text-xs ${cls.index}`}
         />
         <StatusBadge status={entry.status} />
       </div>
@@ -141,7 +141,7 @@ function StatusBadge({ status }: { status: SectionStatus }) {
     case 'mastered':
       return (
         <span
-          className="ml-auto inline-flex items-center gap-1 text-[9px] tracking-[0.15em] uppercase text-emerald-700"
+          className="ml-auto inline-flex items-center gap-1 text-[11px] tracking-[0.15em] uppercase text-emerald-700"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="h-3 w-3" stroke="currentColor" strokeWidth="3" aria-hidden>
@@ -153,7 +153,7 @@ function StatusBadge({ status }: { status: SectionStatus }) {
     case 'now':
       return (
         <span
-          className="ml-auto inline-flex items-center gap-1 text-[9px] tracking-[0.15em] uppercase text-brass-deep"
+          className="ml-auto inline-flex items-center gap-1 text-[11px] tracking-[0.15em] uppercase text-brass-deep"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           <span className="h-1.5 w-1.5 rounded-full bg-brass-deep animate-pulse" aria-hidden />
@@ -163,7 +163,7 @@ function StatusBadge({ status }: { status: SectionStatus }) {
     case 'later':
       return (
         <span
-          className="ml-auto text-[9px] tracking-[0.15em] uppercase text-ink-faint"
+          className="ml-auto text-[11px] tracking-[0.15em] uppercase text-ink-faint"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Later
@@ -172,7 +172,7 @@ function StatusBadge({ status }: { status: SectionStatus }) {
     case 'not_yet_assessed':
       return (
         <span
-          className="ml-auto text-[9px] tracking-[0.15em] uppercase text-ink-faint italic"
+          className="ml-auto text-[11px] tracking-[0.15em] uppercase text-ink-faint italic"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Not yet probed

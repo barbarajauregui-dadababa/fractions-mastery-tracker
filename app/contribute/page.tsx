@@ -77,7 +77,7 @@ export default async function ContributePage({ searchParams }: SearchParamsShape
           style={{ fontFamily: 'var(--font-fraunces)' }}
         >
           <p
-            className="text-[10px] tracking-[0.25em] uppercase text-brass-deep"
+            className="text-xs tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             How submissions are reviewed
