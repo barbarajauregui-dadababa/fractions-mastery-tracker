@@ -74,36 +74,36 @@ export default function SetupPage() {
   }
 
   return (
-    <main className="bg-paper min-h-screen">
+    <main className="bg-background min-h-screen">
       <div className="max-w-xl mx-auto px-6 py-16 flex flex-col gap-8">
         <header className="flex flex-col gap-2 items-center text-center">
           <p
-            className="text-[10px] tracking-[0.3em] uppercase text-ink-faint"
+            className="text-[10px] tracking-[0.4em] uppercase text-brass"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Begin a voyage
           </p>
           <h1
-            className="text-3xl tracking-tight text-ink"
+            className="text-3xl sm:text-4xl tracking-tight text-cream"
             style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
           >
-            Set up a learner
+            New Learner Profile
           </h1>
           <p
-            className="text-sm italic text-ink-soft max-w-md"
+            className="text-sm italic text-cream-soft max-w-md"
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
-            Create the learner. The fractions assessment starts automatically.
+            Set up the profile — for a learner you guide, or for yourself if you&apos;re an older learner. The fractions assessment starts automatically.
           </p>
         </header>
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-5 rounded-sm border-2 border-brass-deep/40 bg-paper-deep/30 p-6"
+          className="flex flex-col gap-5 rounded-sm border-2 border-brass-deep bg-paper p-6 shadow-[0_0_20px_oklch(0.74_0.14_80/0.25)]"
         >
           <label className="flex flex-col gap-1.5">
             <span
-              className="text-[10px] tracking-[0.2em] uppercase text-ink-faint"
+              className="text-[10px] tracking-[0.2em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Name
@@ -113,7 +113,7 @@ export default function SetupPage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="h-10 rounded-sm border-2 border-stone-300 bg-paper px-3 text-sm focus:border-brass-deep focus:outline-none focus:ring-2 focus:ring-brass-deep/30"
+              className="h-10 rounded-sm border-2 border-brass-deep/60 bg-paper text-ink px-3 text-sm focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/40 placeholder:text-ink-faint"
               style={{ fontFamily: 'var(--font-fraunces)' }}
               placeholder="First name"
             />
@@ -122,7 +122,7 @@ export default function SetupPage() {
           <div className="flex gap-4">
             <label className="flex flex-col gap-1.5 flex-1">
               <span
-                className="text-[10px] tracking-[0.2em] uppercase text-ink-faint"
+                className="text-[10px] tracking-[0.2em] uppercase text-brass-deep"
                 style={{ fontFamily: 'var(--font-cinzel)' }}
               >
                 Age
@@ -133,13 +133,13 @@ export default function SetupPage() {
                 max={18}
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="h-10 rounded-sm border-2 border-stone-300 bg-paper px-3 text-sm focus:border-brass-deep focus:outline-none focus:ring-2 focus:ring-brass-deep/30"
+                className="h-10 rounded-sm border-2 border-brass-deep/60 bg-paper text-ink px-3 text-sm focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/40 placeholder:text-ink-faint"
                 style={{ fontFamily: 'var(--font-fraunces)' }}
               />
             </label>
             <label className="flex flex-col gap-1.5 flex-1">
               <span
-                className="text-[10px] tracking-[0.2em] uppercase text-ink-faint"
+                className="text-[10px] tracking-[0.2em] uppercase text-brass-deep"
                 style={{ fontFamily: 'var(--font-cinzel)' }}
               >
                 Grade level
@@ -150,7 +150,7 @@ export default function SetupPage() {
                 max={12}
                 value={gradeLevel}
                 onChange={(e) => setGradeLevel(e.target.value)}
-                className="h-10 rounded-sm border-2 border-stone-300 bg-paper px-3 text-sm focus:border-brass-deep focus:outline-none focus:ring-2 focus:ring-brass-deep/30"
+                className="h-10 rounded-sm border-2 border-brass-deep/60 bg-paper text-ink px-3 text-sm focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/40 placeholder:text-ink-faint"
                 style={{ fontFamily: 'var(--font-fraunces)' }}
               />
             </label>
@@ -175,8 +175,8 @@ export default function SetupPage() {
           <button
             type="submit"
             disabled={isSubmitting || !name.trim()}
-            className="inline-flex h-11 items-center justify-center rounded-md bg-ink px-5 text-sm font-semibold uppercase text-paper hover:bg-ink-soft disabled:opacity-50 transition-colors w-fit"
-            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.12em' }}
+            className="inline-flex h-11 items-center justify-center rounded-sm bg-brass-deep px-6 text-sm font-bold uppercase text-cream hover:bg-brass disabled:opacity-50 transition-colors w-fit border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
             {isSubmitting ? 'Beginning the voyage…' : 'Begin the voyage'}
           </button>

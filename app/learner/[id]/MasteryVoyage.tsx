@@ -3,18 +3,32 @@
  * math Progressions.
  *
  * Five strata = the 5 CCSS-M Progressions for 4th grade. Below them,
- * the LAUNCH FROM THE FOUNDATION (ground, where every voyage begins).
- * The airship parks at the active Progression — currently Fractions
- * (the only one Strata Mundo has content for in v1).
+ * the LAUNCH FROM THE FOUNDATION (ground, where every voyage begins
+ * AND where the balloon currently sits — until the v1.5 "11 weights"
+ * mechanic is built, the balloon stays on the ground).
  *
  * The cloudscape painting (Denis, 1786) becomes the full-bleed
  * atmospheric backdrop. Strata float over it; the painting darkens
  * toward the bottom, fades to bright atmosphere at the top.
  *
+ * Below the voyage scene, a collapsible standard-by-standard list
+ * shows every probed CCSS standard with its current state.
+ *
  * Per Barbara: 5 strata, not 6. Strata = Progressions, not IM Sections.
- * Sections live inside the Progression box on the report page.
+ * Balloon on the GROUND, not at a stratum. Sections live inside the
+ * Progression box on the report page.
  */
 import Image from 'next/image'
+import coherenceMapRaw from '@/content/coherence-map-fractions.json'
+
+interface CoherenceNode {
+  id: string
+  name: string
+}
+const coherenceMap = coherenceMapRaw as unknown as { nodes: CoherenceNode[] }
+function standardName(id: string): string {
+  return coherenceMap.nodes.find((n) => n.id === id)?.name ?? id
+}
 
 type StandardState = 'misconception' | 'working' | 'demonstrated' | 'not_assessed'
 
@@ -94,7 +108,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
         </div>
 
         {/* The 5 strata, stacked from index=5 (top) down to index=1 (bottom) */}
-        <ol className="relative z-10 flex flex-col gap-1 px-6 sm:px-12 py-16">
+        <ol className="relative z-10 flex flex-col gap-1 px-6 sm:px-12 pt-16 pb-32">
           {PROGRESSIONS.map((p) => (
             <ProgressionStratum
               key={p.code}
@@ -106,18 +120,76 @@ export default function MasteryVoyage({ masteryMap }: Props) {
           ))}
         </ol>
 
-        {/* Ground / launch label */}
-        <div className="absolute bottom-3 left-0 right-0 text-center pointer-events-none">
-          <p
-            className="text-[10px] tracking-[0.4em] uppercase text-cream-faint"
+        {/* Ground band — where the balloon sits */}
+        <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none">
+          {/* Ground line */}
+          <div
+            className="absolute left-6 right-6 top-2 border-t border-dashed border-brass-deep/60"
+          />
+          {/* Balloon — anchored to the ground, gently floating */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-10 animate-balloon-float ember-glow pointer-events-none"
+            style={{ width: 100 }}
+          >
+            <Image
+              src="/images/balloon-versailles.jpg"
+              alt="Airship at the foundation, ready to begin the voyage"
+              width={300}
+              height={490}
+              className="w-full h-auto"
+              style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
+            />
+          </div>
+          <div className="absolute bottom-1 left-0 right-0 text-center">
+            <p
+              className="text-[10px] tracking-[0.4em] uppercase text-cream-faint"
+              style={{ fontFamily: 'var(--font-cinzel)' }}
+            >
+              ◇ Launch from the foundation ◇
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Standard-by-standard list — collapsible details element */}
+      {masteryMap?.standards && (
+        <details className="mt-8 rounded-sm border-2 border-brass-deep/40 bg-paper p-5">
+          <summary
+            className="cursor-pointer list-none flex items-center justify-between text-[10px] tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
-            ◇ Launch from the foundation ◇
-          </p>
-        </div>
-
-        {/* Subtle foreground vignette helper from class */}
-      </section>
+            Standard-by-standard list (11 standards)
+            <span className="text-ink-faint">▼</span>
+          </summary>
+          <ul className="mt-4 flex flex-col gap-2">
+            {sortedStandards(masteryMap.standards).map(({ id, state }) => (
+              <li
+                key={id}
+                className="flex items-baseline gap-3 text-sm border-b border-stone-300/50 last:border-0 pb-2 last:pb-0"
+                style={{ fontFamily: 'var(--font-fraunces)' }}
+              >
+                <span
+                  className={`inline-block h-2 w-2 rounded-full shrink-0 mt-1.5 ${stateDot(state)}`}
+                  aria-hidden
+                />
+                <span className="text-ink flex-1">{standardName(id)}</span>
+                <span
+                  className="text-[10px] tracking-[0.15em] uppercase text-ink-faint"
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                >
+                  {stateLabel(state)}
+                </span>
+                <span
+                  className="text-[10px] font-mono text-ink-faint"
+                  style={{ fontFamily: 'var(--font-special-elite)' }}
+                >
+                  {id}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
 
       <Legend />
     </div>
@@ -192,29 +264,6 @@ function ProgressionStratum({
         )}
       </div>
 
-      {/* Airship floats AT the active stratum (right side, animated) */}
-      {active && (
-        <div
-          className="absolute right-2 sm:right-6 -top-12 sm:-top-16 animate-balloon-float ember-glow pointer-events-none"
-          style={{ width: 88 }}
-        >
-          <Image
-            src="/images/balloon-versailles.jpg"
-            alt="Airship parked at the Fractions Progression"
-            width={300}
-            height={490}
-            className="w-full h-auto"
-            style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
-          />
-          <p
-            className="text-center text-[8px] tracking-[0.2em] uppercase text-brass-deep mt-1"
-            style={{ fontFamily: 'var(--font-cinzel)' }}
-          >
-            ◊ You are here
-          </p>
-        </div>
-      )}
-
       {/* Stratum number (Roman) on far left for the active one */}
       {active && (
         <div
@@ -226,6 +275,46 @@ function ProgressionStratum({
       )}
     </li>
   )
+}
+
+function sortedStandards(
+  standards: Record<string, { state: StandardState }>,
+): { id: string; state: StandardState }[] {
+  const order: Record<StandardState, number> = {
+    misconception: 0,
+    working: 1,
+    not_assessed: 2,
+    demonstrated: 3,
+  }
+  return Object.entries(standards)
+    .map(([id, v]) => ({ id, state: v.state }))
+    .sort((a, b) => order[a.state] - order[b.state] || a.id.localeCompare(b.id))
+}
+
+function stateLabel(state: StandardState): string {
+  switch (state) {
+    case 'misconception':
+      return 'Needs attention'
+    case 'working':
+      return 'Needs work'
+    case 'demonstrated':
+      return 'Mastered'
+    case 'not_assessed':
+      return 'Not yet probed'
+  }
+}
+
+function stateDot(state: StandardState): string {
+  switch (state) {
+    case 'misconception':
+      return 'bg-red-600'
+    case 'working':
+      return 'bg-amber-600'
+    case 'demonstrated':
+      return 'bg-emerald-600'
+    case 'not_assessed':
+      return 'bg-stone-400'
+  }
 }
 
 function CountChip({
