@@ -115,6 +115,19 @@ body {
   animation: drift-slow 60s linear infinite alternate;
 }
 
+/* Balloon rise — slow upward drift then settle, ~14s cycle. Used on the
+ * report page so the airship looks like it's continually trying to rise.
+ * Uses individual translate property so a parent rotation transform on
+ * the photo border doesn't fight this animation. */
+@keyframes rise-slow {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -16px; }
+}
+
+.animate-rise-slow {
+  animation: rise-slow 14s ease-in-out infinite;
+}
+
 /* Slow turn, for ornamental gears */
 @keyframes turn-slow {
   0%   { transform: rotate(0deg); }

@@ -6,6 +6,7 @@ import {
   OrnamentalRule,
   RomanNumeral,
 } from './Ornament'
+import OldPhotoBalloon from '@/components/OldPhotoBalloon'
 
 export default function Home() {
   return (
@@ -53,27 +54,9 @@ export default function Home() {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 py-20 sm:py-28 grid sm:grid-cols-[1fr_1.2fr] gap-8 sm:gap-12 items-center">
-          {/* LEFT: clockwork globe, framed as a museum plate */}
-          <div className="relative">
-            <div className="relative aspect-square max-w-md mx-auto">
-              <Image
-                src="/images/clockwork-globe.jpg"
-                alt="Celestial globe with clockwork — Gerhard Emmoser, 1579"
-                fill
-                priority
-                sizes="(max-width: 640px) 80vw, 480px"
-                className="object-contain drop-shadow-[0_8px_30px_oklch(0.74_0.14_80/0.4)]"
-                style={{ filter: 'sepia(0.2) contrast(1.1) brightness(1.05)' }}
-              />
-              {/* Bronze frame ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-brass-deep/40 pointer-events-none" />
-            </div>
-            <p
-              className="text-center text-xs tracking-[0.2em] uppercase text-cream-faint mt-4 italic"
-              style={{ fontFamily: 'var(--font-special-elite)' }}
-            >
-              Celestial globe with clockwork — Emmoser, Vienna 1579
-            </p>
+          {/* LEFT: aerostat as an old photograph, slightly tilted as if pinned to a journal */}
+          <div className="relative flex items-center justify-center">
+            <OldPhotoBalloon tilt={-4} size={420} />
           </div>
 
           {/* RIGHT: brand wordmark + tagline + balloon ascending */}
@@ -133,17 +116,8 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Balloon — small, rising in the upper-right of this column */}
-            <div className="absolute -top-12 -right-4 sm:-right-12 w-32 sm:w-44 animate-balloon-float pointer-events-none ember-glow">
-              <Image
-                src="/images/balloon-flying.jpg"
-                alt="Aerostat of the Marquis de Brantes, 1784"
-                width={270}
-                height={447}
-                className="w-full h-auto"
-                style={{ filter: 'sepia(0.4) contrast(1.05) brightness(1.05)', mixBlendMode: 'screen' }}
-              />
-            </div>
+            {/* Small upper-right balloon removed — the big OldPhotoBalloon
+                in the left column is now the hero piece. */}
           </div>
         </div>
       </section>

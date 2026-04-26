@@ -9,6 +9,7 @@
  * Other strata read as dim "coming in v1.5" placeholders.
  */
 import Image from 'next/image'
+import OldPhotoBalloon from './OldPhotoBalloon'
 
 type StandardState = 'misconception' | 'working' | 'demonstrated' | 'not_assessed'
 
@@ -98,16 +99,17 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
 
       {showBalloon && (
         <div
-          className="absolute left-1/2 -translate-x-1/2 animate-balloon-float ember-glow pointer-events-none z-20"
-          style={{ width: compact ? 70 : 110, top: '46%' }}
+          className="absolute left-1/2 -translate-x-1/2 pointer-events-none z-20"
+          style={{ width: compact ? 110 : 150, top: compact ? '36%' : '40%' }}
         >
-          <Image
-            src="/images/balloon-flying.jpg"
-            alt="Airship at the active stratum"
-            width={270}
-            height={447}
-            className="w-full h-auto"
-            style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
+          {/* Compact (report page): old-photo treatment, rises slowly.
+              Non-compact (voyage left, currently unused): same treatment but
+              hidden on the voyage anyway via showBalloon=false. */}
+          <OldPhotoBalloon
+            size={compact ? 110 : 150}
+            tilt={-2}
+            motion="rise"
+            showCaption={false}
           />
         </div>
       )}

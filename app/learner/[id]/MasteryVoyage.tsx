@@ -16,6 +16,7 @@
  */
 import Image from 'next/image'
 import StrataCloudscape from '@/components/StrataCloudscape'
+import OldPhotoBalloon from '@/components/OldPhotoBalloon'
 import coherenceMapRaw from '@/content/coherence-map-fractions.json'
 
 interface CoherenceNode {
@@ -132,19 +133,12 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
         </p>
       </div>
 
-      {/* Big balloon, centered upper-mid */}
+      {/* Big balloon as old photo, centered upper-mid, static (sandbags hang from it) */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 animate-balloon-float ember-glow z-10 pointer-events-none"
-        style={{ width: '62%', top: '8%' }}
+        className="absolute left-1/2 -translate-x-1/2 z-10 pointer-events-none"
+        style={{ width: '60%', top: '6%' }}
       >
-        <Image
-          src="/images/balloon-flying.jpg"
-          alt="Airship with eleven weights for the eleven 4.NF standards"
-          width={270}
-          height={447}
-          className="w-full h-auto"
-          style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
-        />
+        <OldPhotoBalloon size={400} showCaption={false} />
       </div>
 
       {/* Sandbag overlays — 11 weights hanging from the basket area.
