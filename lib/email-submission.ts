@@ -51,22 +51,33 @@ export async function sendSubmissionEmails({
   const reviewUrl = `${siteUrl}/admin/submissions/${submissionId}${adminKey ? `?key=${encodeURIComponent(adminKey)}` : ''}`
 
   try {
-    const adminRes = await resend.emails.send({
-      from: FROM_ADDRESS,
-      to: ADMIN_EMAIL,
-      subject: `[Strata Mundo] New activity submission: ${submission.title}`,
-      html: adminEmailHtml({ submissionId, submission, vet, reviewUrl }),
-    })
+    // AI-rejected submissions don't go to human review — the AI's rationale
+    // is the full feedback to the contributor. Skip the admin notification
+    // (Barbara can still see rejections by filtering the admin queue).
+    const adminEmailId =
+      vet.verdict === 'reject'
+        ? undefined
+        : (
+            await resend.emails.send({
+              from: FROM_ADDRESS,
+              to: ADMIN_EMAIL,
+              subject: `[Strata Mundo] New activity submission: ${submission.title}`,
+              html: adminEmailHtml({ submissionId, submission, vet, reviewUrl }),
+            })
+          ).data?.id
 
     const contributorRes = await resend.emails.send({
       from: FROM_ADDRESS,
       to: submission.contributor_email,
-      subject: 'Thank you for contributing to Strata Mundo',
+      subject:
+        vet.verdict === 'reject'
+          ? "Your Strata Mundo submission needs revision"
+          : 'Thank you for contributing to Strata Mundo',
       html: contributorEmailHtml({ submission, vet }),
     })
 
     return {
-      adminEmailId: adminRes.data?.id,
+      adminEmailId,
       contributorEmailId: contributorRes.data?.id,
     }
   } catch (err) {
@@ -141,8 +152,9 @@ function contributorEmailHtml({
             'You’ll receive a follow-up email with the decision.',
           ]
         : [
-            'Our automated reviewer found issues. A human reviewer will still look at it.',
-            'You’ll receive a follow-up email with either an approval or an explanation of why it was rejected.',
+            'Our automated reviewer didn’t accept this submission as written.',
+            'The specific issues are below. Please revise and resubmit through the Contribute page.',
+            'AI-rejected submissions don’t go to human review — the AI’s rationale is the full feedback. Once you address the issues, your revised submission will be re-vetted from scratch.',
           ]
 
   const reasoningBullets = vet.reasoning

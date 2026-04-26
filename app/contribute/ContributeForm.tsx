@@ -95,15 +95,24 @@ export default function ContributeForm({ initialStandardId }: Props) {
   }
 
   if (result) {
-    return <ResultPanel result={result} onReset={() => {
-      setResult(null)
-      setTitle('')
-      setDescription('')
-      setUrl('')
-      setSourceSite('')
-      setDuration('')
-      setStandardIds(initialStandardId ? [initialStandardId] : [])
-    }} />
+    return (
+      <ResultPanel
+        result={result}
+        onReset={() => {
+          setResult(null)
+          setTitle('')
+          setDescription('')
+          setUrl('')
+          setSourceSite('')
+          setDuration('')
+          setStandardIds(initialStandardId ? [initialStandardId] : [])
+        }}
+        onBackToEdit={() => {
+          // Keep all fields populated so the contributor can revise.
+          setResult(null)
+        }}
+      />
+    )
   }
 
   const missing: string[] = []
@@ -303,11 +312,11 @@ export default function ContributeForm({ initialStandardId }: Props) {
         </div>
         {missing.length > 0 && !isSubmitting && (
           <div
-            className="rounded-sm border border-brass-deep/40 bg-paper-deep/60 px-4 py-3 text-sm text-ink-soft"
+            className="rounded-sm border-2 border-red-700/60 bg-red-50 px-4 py-3 text-sm text-red-800"
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
             <div
-              className="text-[10px] tracking-[0.2em] uppercase text-brass-deep mb-1"
+              className="text-[10px] tracking-[0.2em] uppercase text-red-800 mb-1 font-bold"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Before you can submit
@@ -389,12 +398,14 @@ function reasoningBullets(reasoning: string): string[] {
 function ResultPanel({
   result,
   onReset,
+  onBackToEdit,
 }: {
   result: { verdict: 'pass' | 'borderline' | 'reject' | null; reasoning: string | null; flags: string[]; submission_id: string }
   onReset: () => void
+  onBackToEdit: () => void
 }) {
   const verdict = result.verdict
-  // All verdicts get the same warm thank-you opener — Barbara, 2026-04-26.
+  // All verdicts get the same warm thank-you opener.
   const headline = 'Thank you for contributing a learning activity to our community.'
   const next =
     verdict === 'pass'
@@ -402,7 +413,7 @@ function ResultPanel({
       : verdict === 'borderline'
         ? 'Our automated reviewer flagged a few things for closer human review. You’ll receive an email when a human reviewer reaches a decision.'
         : verdict === 'reject'
-          ? 'Our automated reviewer found issues a human will look at next. You’ll receive an email with either an approval or an explanation of why it was rejected.'
+          ? 'Our automated reviewer didn’t accept this submission. The specific issues are listed below — please revise and resubmit. (No human reviewer is queued for AI-rejected submissions; the AI’s rationale is the full feedback.)'
           : 'A human reviewer will take it from here. You’ll receive an email with the outcome.'
 
   const verdictLabel =
@@ -471,14 +482,26 @@ function ResultPanel({
       <p className="text-xs text-ink-faint italic" style={{ fontFamily: 'var(--font-fraunces)' }}>
         Submission ID: <span style={{ fontFamily: 'var(--font-special-elite)' }}>{result.submission_id}</span>
       </p>
-      <button
-        type="button"
-        onClick={onReset}
-        className="self-start mt-2 inline-flex h-9 items-center justify-center rounded-sm border-2 border-brass-deep px-4 text-[10px] font-bold uppercase text-ink hover:bg-brass-deep/10 transition-colors"
-        style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
-      >
-        Submit another
-      </button>
+      <div className="flex flex-wrap gap-2 mt-2">
+        {verdict === 'reject' && (
+          <button
+            type="button"
+            onClick={onBackToEdit}
+            className="inline-flex h-9 items-center justify-center rounded-sm bg-brass-deep px-4 text-[10px] font-bold uppercase text-cream hover:bg-brass transition-colors border border-brass shadow-[0_0_12px_oklch(0.74_0.14_80/0.4)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
+          >
+            Edit and resubmit ◇
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onReset}
+          className="inline-flex h-9 items-center justify-center rounded-sm border-2 border-brass-deep px-4 text-[10px] font-bold uppercase text-ink hover:bg-brass-deep/10 transition-colors"
+          style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
+        >
+          {verdict === 'reject' ? 'Start over' : 'Submit another'}
+        </button>
+      </div>
     </div>
   )
 }
