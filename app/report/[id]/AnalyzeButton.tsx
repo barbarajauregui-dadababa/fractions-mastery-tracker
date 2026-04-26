@@ -49,12 +49,13 @@ export default function AnalyzeButton({
         type="button"
         onClick={runAnalysis}
         disabled={isRunning}
-        className="inline-flex h-10 items-center justify-center rounded-md bg-stone-900 px-4 text-sm font-medium text-white disabled:opacity-50 hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200 w-fit"
+        className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-6 text-xs font-bold uppercase text-cream hover:bg-brass disabled:opacity-50 transition-colors w-fit border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+        style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
       >
-        {isRunning ? 'Analyzing… this takes ~10–20 seconds' : 'Run analysis'}
+        {isRunning ? 'Analyzing… ~10–20 sec' : 'Run analysis ◇'}
       </button>
       {error && (
-        <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+        <p className="text-sm text-red-700 italic" style={{ fontFamily: 'var(--font-fraunces)' }}>{error}</p>
       )}
     </div>
   )

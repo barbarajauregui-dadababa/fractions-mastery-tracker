@@ -86,7 +86,7 @@ export default function ActivityTile({
       className={`group relative rounded-sm border-2 transition-colors ${
         isDone
           ? 'bg-paper-deep/40 border-emerald-700/40 opacity-80'
-          : 'bg-paper border-brass-deep/30 hover:border-brass-deep/60'
+          : 'bg-[oklch(0.99_0.008_80)] border-brass-deep/30 hover:border-brass-deep/60'
       }`}
     >
       <div className="flex items-start gap-4 p-4">

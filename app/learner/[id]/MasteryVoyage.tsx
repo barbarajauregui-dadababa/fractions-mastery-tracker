@@ -1,24 +1,21 @@
 /**
- * Mastery Voyage — vertical scene of cloud strata across the 4th-grade
- * math Progressions.
+ * Mastery Voyage — 2-column scene.
  *
- * Five strata = the 5 CCSS-M Progressions for 4th grade. Below them,
- * the LAUNCH FROM THE FOUNDATION (ground, where every voyage begins
- * AND where the balloon currently sits — until the v1.5 "11 weights"
- * mechanic is built, the balloon stays on the ground).
+ * LEFT: the 5-strata cloudscape with the balloon at the active 4.NF
+ * stratum (the "you are here" view across the 4th-grade math
+ * Progressions). Same component used in the report's hero.
  *
- * The cloudscape painting (Denis, 1786) becomes the full-bleed
- * atmospheric backdrop. Strata float over it; the painting darkens
- * toward the bottom, fades to bright atmosphere at the top.
+ * RIGHT: an expanded view of the balloon itself, with a sandbag for
+ * each of the 11 fractions standards. Sandbags are colored by state
+ * (red=misconception, amber=working, emerald=mastered, grey=not
+ * yet probed). Hover reveals the standard name + state. The "11
+ * weights drop as standards are mastered" mechanic ships in v1.5
+ * — for now, all sandbags hang and signal state via color.
  *
- * Below the voyage scene, a collapsible standard-by-standard list
- * shows every probed CCSS standard with its current state.
- *
- * Per Barbara: 5 strata, not 6. Strata = Progressions, not IM Sections.
- * Balloon on the GROUND, not at a stratum. Sections live inside the
- * Progression box on the report page.
+ * Below both panels, a collapsible standard-by-standard list.
  */
 import Image from 'next/image'
+import StrataCloudscape from '@/components/StrataCloudscape'
 import coherenceMapRaw from '@/content/coherence-map-fractions.json'
 
 interface CoherenceNode {
@@ -32,26 +29,6 @@ function standardName(id: string): string {
 
 type StandardState = 'misconception' | 'working' | 'demonstrated' | 'not_assessed'
 
-interface ProgressionDef {
-  /** CCSS Domain code */
-  code: string
-  /** Display name */
-  name: string
-  /** Status in v1 */
-  status: 'active' | 'v15'
-  /** Roman numeral position (top to bottom in the visual; low = foundation) */
-  index: number
-}
-
-/** The 5 4th-grade math Progressions, ordered low → high (visual top = high). */
-const PROGRESSIONS: ProgressionDef[] = [
-  { code: '4.G',   name: 'Geometry',                    status: 'v15',    index: 5 },
-  { code: '4.MD',  name: 'Measurement & Data',          status: 'v15',    index: 4 },
-  { code: '4.NF',  name: 'Number & Operations — Fractions', status: 'active', index: 3 },
-  { code: '4.OA',  name: 'Operations & Algebraic Thinking', status: 'v15',    index: 2 },
-  { code: '4.NBT', name: 'Number & Operations in Base Ten', status: 'v15',    index: 1 },
-]
-
 interface Props {
   masteryMap: { standards: Record<string, { state: StandardState }> } | null
   /** Number of completed activities per standard. */
@@ -59,97 +36,12 @@ interface Props {
 }
 
 export default function MasteryVoyage({ masteryMap }: Props) {
-  // Counts within the active (Fractions) Progression — the only one
-  // we have data for in v1.
-  const counts = { demonstrated: 0, working: 0, misconception: 0, not_assessed: 0 }
-  if (masteryMap?.standards) {
-    for (const entry of Object.values(masteryMap.standards)) {
-      counts[entry.state] = (counts[entry.state] ?? 0) + 1
-    }
-  }
-  const totalProbed =
-    counts.demonstrated + counts.working + counts.misconception
-  const totalStandards = totalProbed + counts.not_assessed
-
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <section
-        className="relative overflow-hidden rounded-sm border-2 border-brass-deep/50 vignette"
-        style={{ minHeight: 720 }}
-      >
-        {/* Cloudscape painting full-bleed backdrop */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/cloudscape-denis.jpg"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 800px"
-            className="object-cover"
-            style={{ filter: 'sepia(0.15) brightness(1.05) contrast(1.05)' }}
-          />
-          {/* Atmospheric darken: bottom warm-dark, mid clear, top sky-light */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(180deg, oklch(0.30 0.04 230 / 0.45) 0%, oklch(0.40 0.06 220 / 0.30) 30%, oklch(0.45 0.05 75 / 0.20) 60%, oklch(0.20 0.05 50 / 0.55) 92%, oklch(0.13 0.014 50 / 0.85) 100%)',
-            }}
-          />
-        </div>
-
-        {/* Top of frame — APEX label */}
-        <div className="absolute top-4 left-0 right-0 text-center pointer-events-none">
-          <p
-            className="text-[10px] tracking-[0.4em] uppercase text-cream-soft"
-            style={{ fontFamily: 'var(--font-cinzel)' }}
-          >
-            Apex of the voyage
-          </p>
-        </div>
-
-        {/* The 5 strata, stacked from index=5 (top) down to index=1 (bottom) */}
-        <ol className="relative z-10 flex flex-col gap-1 px-6 sm:px-12 pt-16 pb-32">
-          {PROGRESSIONS.map((p) => (
-            <ProgressionStratum
-              key={p.code}
-              progression={p}
-              counts={p.code === '4.NF' ? counts : null}
-              totalProbed={p.code === '4.NF' ? totalProbed : 0}
-              totalStandards={p.code === '4.NF' ? totalStandards : 0}
-            />
-          ))}
-        </ol>
-
-        {/* Ground band — where the balloon sits */}
-        <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none">
-          {/* Ground line */}
-          <div
-            className="absolute left-6 right-6 top-2 border-t border-dashed border-brass-deep/60"
-          />
-          {/* Balloon — anchored to the ground, gently floating */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-10 animate-balloon-float ember-glow pointer-events-none"
-            style={{ width: 100 }}
-          >
-            <Image
-              src="/images/balloon-versailles.jpg"
-              alt="Airship at the foundation, ready to begin the voyage"
-              width={300}
-              height={490}
-              className="w-full h-auto"
-              style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
-            />
-          </div>
-          <div className="absolute bottom-1 left-0 right-0 text-center">
-            <p
-              className="text-[10px] tracking-[0.4em] uppercase text-cream-faint"
-              style={{ fontFamily: 'var(--font-cinzel)' }}
-            >
-              ◇ Launch from the foundation ◇
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="w-full max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <StrataCloudscape masteryMap={masteryMap} />
+        <ExpandedBalloonPanel masteryMap={masteryMap} />
+      </div>
 
       {/* Standard-by-standard list — collapsible details element */}
       {masteryMap?.standards && (
@@ -196,84 +88,198 @@ export default function MasteryVoyage({ masteryMap }: Props) {
   )
 }
 
-function ProgressionStratum({
-  progression,
-  counts,
-  totalProbed,
-  totalStandards,
-}: {
-  progression: ProgressionDef
-  counts: { demonstrated: number; working: number; misconception: number; not_assessed: number } | null
-  totalProbed: number
-  totalStandards: number
-}) {
-  const active = progression.status === 'active'
+/**
+ * Right-side panel: the balloon enlarged, with 11 sandbag overlays
+ * arranged in an arc beneath the basket. Each sandbag's color reflects
+ * the state of one fractions standard. Native title attribute shows
+ * the standard name on hover.
+ */
+function ExpandedBalloonPanel({ masteryMap }: Props) {
+  const sandbags = buildSandbagList(masteryMap)
   return (
-    <li
-      className={`relative flex items-center gap-4 px-4 py-5 sm:py-6 rounded-sm transition-colors ${
-        active
-          ? 'border-2 border-brass-glow bg-paper/85 backdrop-blur-sm shadow-[0_0_25px_oklch(0.74_0.14_80/0.45)]'
-          : 'border border-cream-faint/30 bg-background/40 backdrop-blur-sm opacity-70'
-      }`}
+    <section
+      className="relative overflow-hidden rounded-sm border-2 border-brass-deep/50 vignette"
+      style={{ minHeight: 720 }}
     >
-      {/* Code chip */}
-      <div className="flex flex-col items-center justify-center min-w-[54px]">
-        <span
-          className={`text-xs ${active ? 'text-brass-deep' : 'text-cream-faint'}`}
-          style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.12em' }}
-        >
-          {progression.code}
-        </span>
-      </div>
-
-      {/* Title + body */}
-      <div className="flex-1 min-w-0">
-        <h3
-          className={`text-base sm:text-lg leading-snug ${
-            active ? 'text-ink' : 'text-cream-soft'
-          }`}
-          style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
-        >
-          {progression.name}
-        </h3>
-        {active && counts ? (
-          <div
-            className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs sm:text-sm text-ink-soft"
-            style={{ fontFamily: 'var(--font-fraunces)' }}
-          >
-            <CountChip label="Mastered" value={counts.demonstrated} colorClass="bg-emerald-600" />
-            <CountChip label="Working on" value={counts.working} colorClass="bg-amber-600" />
-            <CountChip label="Needs attention" value={counts.misconception} colorClass="bg-red-600" />
-            <CountChip label="Not yet probed" value={counts.not_assessed} colorClass="bg-stone-400" />
-          </div>
-        ) : (
-          <p
-            className="mt-1 text-[11px] italic text-cream-faint tracking-[0.15em] uppercase"
-            style={{ fontFamily: 'var(--font-cinzel)' }}
-          >
-            Coming in v1.5
-          </p>
-        )}
-        {active && totalProbed > 0 && (
-          <p
-            className="mt-1 text-[11px] text-ink-faint italic"
-            style={{ fontFamily: 'var(--font-special-elite)' }}
-          >
-            {totalProbed} of {totalStandards} standards probed so far.
-          </p>
-        )}
-      </div>
-
-      {/* Stratum number (Roman) on far left for the active one */}
-      {active && (
+      {/* Cloudscape painting backdrop, dimmer here so balloon dominates */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/cloudscape-denis.jpg"
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 600px"
+          className="object-cover"
+          style={{ filter: 'sepia(0.25) brightness(1.0) contrast(1.05)' }}
+        />
         <div
-          className="absolute left-2 -top-2 text-brass-deep"
-          style={{ fontFamily: 'var(--font-cinzel)', fontSize: 14, letterSpacing: '0.15em' }}
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 35%, oklch(0.40 0.06 220 / 0.20) 0%, oklch(0.18 0.020 50 / 0.65) 60%, oklch(0.13 0.014 50 / 0.85) 100%)',
+          }}
+        />
+      </div>
+
+      {/* Apex label */}
+      <div className="absolute top-4 left-0 right-0 text-center pointer-events-none z-10">
+        <p
+          className="text-[10px] tracking-[0.4em] uppercase text-cream-soft"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
         >
-          STRATUM {romanFor(progression.index)}
+          ◇ Eleven weights · 4.NF standards ◇
+        </p>
+      </div>
+
+      {/* Big balloon, centered upper-mid */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 animate-balloon-float ember-glow z-10 pointer-events-none"
+        style={{ width: '62%', top: '8%' }}
+      >
+        <Image
+          src="/images/balloon-versailles.jpg"
+          alt="Airship with eleven weights for the eleven 4.NF standards"
+          width={300}
+          height={490}
+          className="w-full h-auto"
+          style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)', mixBlendMode: 'screen' }}
+        />
+      </div>
+
+      {/* Sandbag overlays — 11 weights hanging from the basket area.
+          Positioned in two rows so 11 fit cleanly without overlap.
+          Each <Sandbag> uses `title` for the native hover tooltip. */}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        {sandbags.map((s, i) => {
+          const { x, y } = sandbagPosition(i, sandbags.length)
+          return (
+            <Sandbag
+              key={s.id}
+              x={x}
+              y={y}
+              state={s.state}
+              title={`${s.name} — ${stateLabel(s.state)} · ${s.id}`}
+            />
+          )
+        })}
+      </div>
+
+      {/* Legend strip at bottom */}
+      <div className="absolute bottom-3 left-0 right-0 px-4 z-10">
+        <div
+          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] text-cream-soft"
+          style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.15em' }}
+        >
+          <LegendDot color="bg-emerald-500" label="Mastered" />
+          <LegendDot color="bg-amber-500" label="Needs work" />
+          <LegendDot color="bg-red-500" label="Needs attention" />
+          <LegendDot color="bg-stone-400" label="Not yet probed" />
         </div>
-      )}
-    </li>
+      </div>
+    </section>
+  )
+}
+
+interface SandbagEntry {
+  id: string
+  name: string
+  state: StandardState
+}
+
+function buildSandbagList(
+  masteryMap: { standards: Record<string, { state: StandardState }> } | null,
+): SandbagEntry[] {
+  // Always show one sandbag per Coherence Map node (11 standards).
+  // If the masteryMap is missing, all default to 'not_assessed'.
+  return coherenceMap.nodes.map((n) => {
+    const state = masteryMap?.standards?.[n.id]?.state ?? 'not_assessed'
+    return { id: n.id, name: n.name, state }
+  })
+}
+
+/** Two arcs of sandbags hanging beneath the basket. */
+function sandbagPosition(i: number, total: number): { x: number; y: number } {
+  // Top arc gets the first 6, bottom arc the rest.
+  const topRow = Math.min(6, total)
+  const bottomRow = total - topRow
+  if (i < topRow) {
+    const t = topRow === 1 ? 0.5 : i / (topRow - 1)
+    return { x: 22 + t * 56, y: 60 + Math.sin(t * Math.PI) * -3 }
+  }
+  const j = i - topRow
+  const t = bottomRow === 1 ? 0.5 : j / (bottomRow - 1)
+  return { x: 26 + t * 48, y: 75 + Math.sin(t * Math.PI) * -2 }
+}
+
+function Sandbag({
+  x,
+  y,
+  state,
+  title,
+}: {
+  x: number
+  y: number
+  state: StandardState
+  title: string
+}) {
+  const fill = sandbagFill(state)
+  const stroke = 'oklch(0.30 0.04 50)'
+  return (
+    <div
+      className="absolute pointer-events-auto"
+      style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, 0)' }}
+      title={title}
+      role="img"
+      aria-label={title}
+    >
+      <svg
+        width="26"
+        height="36"
+        viewBox="0 0 26 36"
+        className="drop-shadow-[0_2px_3px_oklch(0_0_0/0.45)] hover:scale-110 transition-transform cursor-help"
+      >
+        {/* Hanging rope */}
+        <line x1="13" y1="0" x2="13" y2="8" stroke="oklch(0.55 0.12 70)" strokeWidth="1.2" />
+        {/* Brass clasp */}
+        <ellipse cx="13" cy="9.5" rx="3" ry="1.6" fill="oklch(0.74 0.14 80)" stroke={stroke} strokeWidth="0.4" />
+        {/* Bag body */}
+        <path
+          d="M5.5 11 Q 5 9.5 13 9.5 Q 21 9.5 20.5 11 L 22 30 Q 22 34 13 34 Q 4 34 4 30 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="0.7"
+        />
+        {/* Tie ridge */}
+        <path
+          d="M 5 14 Q 13 16 21 14"
+          fill="none"
+          stroke={stroke}
+          strokeWidth="0.7"
+          opacity="0.7"
+        />
+      </svg>
+    </div>
+  )
+}
+
+function sandbagFill(state: StandardState): string {
+  switch (state) {
+    case 'misconception':
+      return 'oklch(0.55 0.20 25)' // red
+    case 'working':
+      return 'oklch(0.65 0.16 65)' // amber
+    case 'demonstrated':
+      return 'oklch(0.55 0.15 150)' // emerald
+    case 'not_assessed':
+      return 'oklch(0.60 0.020 70)' // warm stone
+  }
+}
+
+function LegendDot({ color, label }: { color: string; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className={`inline-block h-2 w-2 rounded-full ${color}`} aria-hidden />
+      {label}
+    </span>
   )
 }
 
@@ -317,33 +323,10 @@ function stateDot(state: StandardState): string {
   }
 }
 
-function CountChip({
-  label,
-  value,
-  colorClass,
-}: {
-  label: string
-  value: number
-  colorClass: string
-}) {
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className={`inline-block h-2 w-2 rounded-full ${colorClass}`} aria-hidden />
-      <span className="text-ink-soft">
-        <strong className="text-ink">{value}</strong> {label.toLowerCase()}
-      </span>
-    </span>
-  )
-}
-
-function romanFor(n: number): string {
-  return ['', 'I', 'II', 'III', 'IV', 'V'][n] ?? String(n)
-}
-
 function Legend() {
   const items: { color: string; label: string }[] = [
     { color: 'bg-emerald-600', label: 'Mastered' },
-    { color: 'bg-amber-600', label: 'Working on' },
+    { color: 'bg-amber-600', label: 'Needs work' },
     { color: 'bg-red-600', label: 'Needs attention' },
     { color: 'bg-stone-400', label: 'Not yet probed' },
   ]

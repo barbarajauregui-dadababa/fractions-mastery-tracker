@@ -54,7 +54,7 @@ export default function Home() {
 
         <div className="relative max-w-6xl mx-auto px-6 py-20 sm:py-28 grid sm:grid-cols-[1fr_1.2fr] gap-8 sm:gap-12 items-center">
           {/* LEFT: clockwork globe, framed as a museum plate */}
-          <div className="relative animate-lantern">
+          <div className="relative">
             <div className="relative aspect-square max-w-md mx-auto">
               <Image
                 src="/images/clockwork-globe.jpg"
@@ -86,19 +86,13 @@ export default function Home() {
             </p>
 
             <h1
-              className="text-5xl sm:text-7xl lg:text-8xl font-bold text-cream brass-shimmer bg-clip-text"
+              className="text-5xl sm:text-7xl lg:text-8xl font-bold leading-[1.05]"
               style={{
                 fontFamily: 'var(--font-cinzel)',
                 letterSpacing: '0.04em',
-                lineHeight: 1.05,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                color: 'transparent',
-                background:
-                  'linear-gradient(120deg, oklch(0.74 0.14 80) 0%, oklch(0.92 0.10 88) 50%, oklch(0.62 0.16 42) 100%)',
-                WebkitBackgroundSize: '200% 100%',
-                backgroundSize: '200% 100%',
-                animation: 'brass-shimmer 8s ease-in-out infinite',
+                color: 'oklch(0.86 0.16 88)',
+                textShadow:
+                  '0 0 18px oklch(0.74 0.14 80 / 0.55), 0 2px 0 oklch(0.40 0.10 60 / 0.35)',
               }}
             >
               Strata

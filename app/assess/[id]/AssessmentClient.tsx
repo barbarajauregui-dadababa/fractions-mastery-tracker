@@ -173,25 +173,33 @@ export default function AssessmentClient({
   }
 
   return (
-    <>
-      <main className="flex flex-1 w-full max-w-4xl mx-auto flex-col gap-5 py-6 px-6 pb-24">
-        <header className="flex items-baseline justify-between gap-4 text-sm text-stone-600 dark:text-stone-400">
-          <span>
-            Assessment for <strong className="text-stone-900 dark:text-stone-100">{learnerName}</strong>
+    <main className="bg-background min-h-screen">
+      <div className="max-w-4xl mx-auto px-6 py-8 pb-28 flex flex-col gap-5">
+        <header className="flex items-baseline justify-between gap-4">
+          <span
+            className="text-[10px] tracking-[0.25em] uppercase text-brass"
+            style={{ fontFamily: 'var(--font-cinzel)' }}
+          >
+            Assessment for <span className="text-cream font-bold ml-1">{learnerName}</span>
           </span>
-          <span>
+          <span
+            className="text-[10px] tracking-[0.25em] uppercase text-cream-faint"
+            style={{ fontFamily: 'var(--font-cinzel)' }}
+          >
             Problem {index + 1} of {total}
           </span>
         </header>
 
-        <div className="h-1 w-full bg-stone-200 dark:bg-stone-800 rounded">
+        {/* Brass progress rule */}
+        <div className="relative h-2 w-full bg-paper-deep/30 rounded-sm border border-brass-deep/40">
           <div
-            className="h-full bg-stone-900 dark:bg-stone-100 rounded transition-all"
+            className="absolute left-0 top-0 bottom-0 bg-brass shadow-[0_0_8px_oklch(0.74_0.14_80/0.6)] rounded-sm transition-all"
             style={{ width: `${((index + 1) / total) * 100}%` }}
           />
         </div>
 
-        <section className="rounded-lg border border-stone-200 dark:border-stone-800 p-6 bg-white dark:bg-stone-950/40">
+        {/* Workspace card — parchment within a brass frame, corner flourishes */}
+        <section className="relative rounded-sm border-2 border-brass-deep bg-paper p-6 shadow-[0_0_30px_oklch(0.74_0.14_80/0.25)]">
           {current.problem_type === 'build_fraction' ? (
             <FractionWorkspaceV2
               key={current.id}
@@ -207,40 +215,45 @@ export default function AssessmentClient({
         </section>
 
         {error && (
-          <div className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
+          <div
+            className="rounded-sm border-2 border-red-600/50 bg-paper-deep px-3 py-2 text-sm text-red-700"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
             {error}
           </div>
         )}
-      </main>
+      </div>
 
-      {/* Sticky footer so Back / Next are always visible regardless of scroll. */}
-      <footer className="sticky bottom-0 left-0 right-0 z-10 border-t border-stone-200 dark:border-stone-800 bg-white/90 dark:bg-stone-950/90 backdrop-blur">
+      {/* Sticky footer with brass-bordered buttons */}
+      <footer className="sticky bottom-0 left-0 right-0 z-10 border-t-2 border-brass-deep/50 bg-background/95 backdrop-blur">
         <div className="flex items-center justify-between gap-4 max-w-4xl mx-auto py-3 px-6">
           <button
             type="button"
             onClick={goPrev}
             disabled={index === 0 || isSubmitting}
-            className="inline-flex h-10 items-center justify-center rounded-md border border-stone-300 dark:border-stone-700 px-4 text-sm font-medium disabled:opacity-50 bg-white dark:bg-stone-900"
+            className="inline-flex h-10 items-center justify-center rounded-sm border-2 border-brass-deep px-5 text-xs font-bold uppercase text-cream hover:bg-brass-deep/20 disabled:opacity-30 transition-colors"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
-            Back
+            ← Back
           </button>
           <button
             type="button"
             onClick={goNext}
             disabled={isSubmitting}
-            className="inline-flex h-10 items-center justify-center rounded-md bg-stone-900 px-5 text-sm font-medium text-white disabled:opacity-50 hover:bg-stone-800"
+            className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-6 text-xs font-bold uppercase text-cream disabled:opacity-50 hover:bg-brass transition-colors border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
             {submitStage === 'analyzing'
               ? 'Analyzing… ~15 sec'
               : submitStage === 'saving'
                 ? 'Saving…'
                 : isLast
-                  ? 'Submit assessment'
-                  : 'Next'}
+                  ? 'Submit assessment ◇'
+                  : 'Next →'}
           </button>
         </div>
       </footer>
-    </>
+    </main>
   )
 }
 

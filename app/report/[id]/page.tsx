@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AnalyzeButton from './AnalyzeButton'
@@ -6,7 +7,9 @@ import PlanWaiting from './PlanWaiting'
 import type { PlanContent } from './PlanDisplay'
 import FocusedProbeButton from './FocusedProbeButton'
 import ActivityTile, { type CompletedActivity } from './ActivityTile'
-import { FourthGradeOverviewStrip, FractionsSectionStrip } from './RoadmapStrip'
+import { FractionsSectionStrip } from './RoadmapStrip'
+import StrataCloudscape from '@/components/StrataCloudscape'
+import { CornerFlourish } from '@/app/Ornament'
 import { StandardInfo } from '@/app/SourceInfo'
 import resourcesRaw from '@/content/fractions-resources.json'
 
@@ -127,26 +130,34 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
     }
   }
 
-  const focusStandards = [...byState.misconception, ...byState.working]
-  const roadmapEntries = planContent?.section_roadmap ?? planContent?.progression_roadmap
-  const nowSection = roadmapEntries?.find((p) => p.status === 'now')
-  const focusLabel = nowSection
-    ? nowSection.name
-    : focusStandards.length === 0
-      ? null
-      : focusStandards.length === 1
-        ? standardName(focusStandards[0])
-        : focusStandards.length <= 3
-          ? focusStandards.map((s) => standardName(s)).join(' · ')
-          : `${focusStandards.length} standards`
-
   return (
-    <main className="bg-paper min-h-screen">
-      <div className="max-w-4xl mx-auto px-6 py-10 flex flex-col gap-8">
+    <main className="relative min-h-screen overflow-hidden" style={{ background: 'oklch(0.88 0.025 70)' }}>
+      {/* Atmospheric backdrop — Denis cloudscape on a soft warm-tan ground.
+          Cards above use a near-white warm paper so they read as the
+          brightest layer, the page is mid-tone, the painting peeks behind. */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image
+          src="/images/cloudscape-denis.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-40"
+          style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, oklch(0.88 0.025 70 / 0.25) 0%, oklch(0.86 0.028 68 / 0.40) 100%)',
+          }}
+        />
+      </div>
+
+      <div className="relative max-w-4xl mx-auto px-6 py-10 flex flex-col gap-8">
       {masteryMap && (
         <>
           <div className="flex flex-col gap-3">
-            <FourthGradeOverviewStrip />
+            <StrataCloudscape masteryMap={masteryMap} compact />
             {(() => {
               const roadmap = planContent?.section_roadmap ?? planContent?.progression_roadmap
               if (!roadmap || roadmap.length === 0) return null
@@ -166,57 +177,25 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
         </>
       )}
 
-      {masteryMap && focusLabel ? (
-        <section className="relative rounded-sm border-2 border-brass-deep/40 bg-paper-deep/40 px-7 py-6 flex flex-col gap-2">
-          <div
-            className="flex items-baseline gap-2 flex-wrap text-[10px] tracking-[0.25em] uppercase text-ink-faint"
-            style={{ fontFamily: 'var(--font-cinzel)' }}
-          >
-            <span>Current focus</span>
-            <span aria-hidden className="text-brass-deep/40">·</span>
-            <span
-              className="normal-case tracking-normal text-ink-soft"
-              style={{ fontFamily: 'var(--font-fraunces)', letterSpacing: '0' }}
-            >
-              {displayName}
-            </span>
-          </div>
-          <h1
-            className="text-3xl tracking-tight text-ink"
-            style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
-          >
-            {focusLabel}
-          </h1>
-          {focusStandards.length > 0 && (
-            <div
-              className="mt-1 text-sm text-ink-soft italic"
-              style={{ fontFamily: 'var(--font-fraunces)' }}
-            >
-              {focusStandards.length} {focusStandards.length === 1 ? 'standard' : 'standards'} in focus
-            </div>
-          )}
-        </section>
-      ) : (
-        <header className="flex flex-col gap-2">
-          <p
-            className="text-[10px] tracking-[0.3em] uppercase text-ink-faint"
-            style={{ fontFamily: 'var(--font-cinzel)' }}
-          >
-            Mastery report · {displayName}
-          </p>
-          <h1
-            className="text-3xl tracking-tight text-ink"
-            style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
-          >
-            {displayName}&apos;s mastery report
-          </h1>
-          <p className="text-sm text-ink-soft" style={{ fontFamily: 'var(--font-fraunces)' }}>
-            {isCompleted
-              ? `Completed ${new Date(assessment.completed_at!).toLocaleString()}`
-              : 'Not yet completed'}
-          </p>
-        </header>
-      )}
+      <header className="flex flex-col gap-2">
+        <p
+          className="text-[10px] tracking-[0.3em] uppercase text-ink-faint"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+        >
+          Mastery report · {displayName}
+        </p>
+        <h1
+          className="text-3xl tracking-tight text-ink"
+          style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+        >
+          {displayName}&apos;s mastery report
+        </h1>
+        <p className="text-sm text-ink-soft" style={{ fontFamily: 'var(--font-fraunces)' }}>
+          {isCompleted
+            ? `Completed ${new Date(assessment.completed_at!).toLocaleString()}`
+            : 'Not yet completed'}
+        </p>
+      </header>
 
       {!isCompleted && (
         <div className="rounded-sm border-2 border-amber-700/40 bg-paper-deep px-4 py-3 text-sm text-amber-800" style={{ fontFamily: 'var(--font-fraunces)' }}>
@@ -225,7 +204,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
       )}
 
       {isCompleted && !masteryMap && (
-        <section className="flex flex-col gap-3 rounded-sm border-2 border-brass-deep/30 bg-paper p-6">
+        <section className="flex flex-col gap-3 rounded-sm border-2 border-brass-deep/30 bg-[oklch(0.98_0.012_78)] p-6">
           <h2
             className="text-lg text-ink"
             style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
@@ -247,7 +226,11 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
           />
 
           {(planContent?.overall_notes ?? masteryMap.overall_notes) && (
-            <section className="rounded-sm border border-stone-300/80 bg-paper p-5 text-sm leading-relaxed text-ink-soft" style={{ fontFamily: 'var(--font-fraunces)' }}>
+            <section className="relative rounded-sm border border-stone-300/80 bg-[oklch(0.98_0.012_78)] p-6 text-sm leading-relaxed text-ink-soft" style={{ fontFamily: 'var(--font-fraunces)' }}>
+              <CornerFlourish corner="tl" className="absolute top-1.5 left-1.5 h-5 w-5 text-brass-deep" />
+              <CornerFlourish corner="tr" className="absolute top-1.5 right-1.5 h-5 w-5 text-brass-deep" />
+              <CornerFlourish corner="bl" className="absolute bottom-1.5 left-1.5 h-5 w-5 text-brass-deep" />
+              <CornerFlourish corner="br" className="absolute bottom-1.5 right-1.5 h-5 w-5 text-brass-deep" />
               <div
                 className="mb-2 text-[10px] tracking-[0.25em] uppercase text-brass-deep"
                 style={{ fontFamily: 'var(--font-cinzel)' }}
@@ -266,7 +249,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               title="Needs attention"
               subtitle="Specific misconception detected. Start here."
               dot="bg-red-600"
-              containerClass="bg-paper border border-red-600/30 border-l-4 border-l-red-600"
+              containerClass="bg-[oklch(0.84_0.030_68)] border border-red-600/30 border-l-4 border-l-red-600"
               standardIds={sortedByLayer(byState.misconception)}
               masteryMap={masteryMap}
               plan={planContent}
@@ -280,7 +263,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               title="Needs work"
               subtitle="Building the skill. Targeted activities required."
               dot="bg-amber-600"
-              containerClass="bg-paper border border-amber-700/30 border-l-4 border-l-amber-600"
+              containerClass="bg-[oklch(0.84_0.030_68)] border border-amber-700/30 border-l-4 border-l-amber-600"
               standardIds={sortedByLayer(byState.working)}
               masteryMap={masteryMap}
               plan={planContent}
@@ -294,7 +277,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               title="Mastered"
               subtitle="Reliably understood. No action needed."
               dot="bg-emerald-600"
-              containerClass="bg-paper border border-emerald-700/30 border-l-4 border-l-emerald-600"
+              containerClass="bg-[oklch(0.84_0.030_68)] border border-emerald-700/30 border-l-4 border-l-emerald-600"
               standardIds={sortedByLayer(byState.demonstrated)}
               masteryMap={masteryMap}
               plan={planContent}
@@ -353,7 +336,11 @@ function AtAGlanceSummary({
     .map(([sid]) => sid)
 
   return (
-    <section className="rounded-sm border-2 border-brass-deep/40 bg-paper p-5">
+    <section className="relative rounded-sm border-2 border-brass-deep/40 bg-[oklch(0.98_0.012_78)] p-6">
+      <CornerFlourish corner="tl" className="absolute top-1.5 left-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="tr" className="absolute top-1.5 right-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="bl" className="absolute bottom-1.5 left-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="br" className="absolute bottom-1.5 right-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
       <div className="flex items-center gap-2 mb-3">
         <span
           className="text-[10px] tracking-[0.25em] uppercase text-brass-deep"
@@ -516,7 +503,11 @@ function Bucket({
   const completed: CompletedActivity[] = plan?._completed_activities ?? []
   if (standardIds.length === 0) return null
   return (
-    <details open={defaultOpen} className={`rounded-sm border-2 ${containerClass}`}>
+    <details open={defaultOpen} className={`relative rounded-sm border-2 ${containerClass}`}>
+      <CornerFlourish corner="tl" className="absolute top-1.5 left-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="tr" className="absolute top-1.5 right-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="bl" className="absolute bottom-1.5 left-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
+      <CornerFlourish corner="br" className="absolute bottom-1.5 right-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
       <summary className="cursor-pointer px-4 py-3 flex items-center gap-3 list-none">
         <span className={`inline-block h-2.5 w-2.5 rounded-full ${dot}`} />
         <span
@@ -545,7 +536,7 @@ function Bucket({
           return (
             <li
               key={sid}
-              className="rounded-sm bg-paper-deep/40 border border-brass-deep/30 px-4 py-3"
+              className="rounded-sm bg-[oklch(0.93_0.018_75)] border border-brass-deep/30 px-4 py-3"
             >
               <div className="flex items-baseline justify-between gap-3">
                 <div className="flex items-baseline gap-2 flex-wrap">

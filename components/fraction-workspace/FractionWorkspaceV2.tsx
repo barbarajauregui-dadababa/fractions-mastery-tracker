@@ -13,7 +13,7 @@ import type {
  * Option A mechanic (post-round-2 feedback).
  *
  * Visual principles:
- *   - All pieces are the SAME COLOR (sky-blue). Size is the only information.
+ *   - All pieces are the SAME COLOR (brass). Size is the only information.
  *   - No text labels on pieces.
  *   - Palette pieces are rendered at the EXACT dimensions they will occupy
  *     when placed — same width AND same height as their slot in the target.
@@ -36,8 +36,25 @@ const WHOLE_GAP_PX = 16
  *  760 px, comfortably inside 800. 1/12 pieces remain draggable at ~17px. */
 const WIDTH_PER_WHOLE_PX = 200
 
-const PIECE_FILL = 'bg-sky-400'
-const PIECE_BORDER = 'border-sky-700'
+/** Brass piece — pure CSS, scales crisply at every width from 17px (1/12) to
+ *  200px (whole). Matte finish via vertical gradient (brass-glow → brass →
+ *  brass-deep). Inner highlights/shadows on all 4 edges give the embossed
+ *  metal-tray feel without needing a photo texture. Outer drop shadow + soft
+ *  brass glow for the "real metal sitting on parchment" presence. */
+const BRASS_PIECE_STYLE: React.CSSProperties = {
+  background:
+    'linear-gradient(180deg, oklch(0.86 0.16 88) 0%, oklch(0.74 0.14 80) 42%, oklch(0.55 0.12 70) 100%)',
+  border: '1px solid oklch(0.42 0.10 65)',
+  boxShadow: [
+    'inset 0 1px 0 oklch(0.95 0.08 85 / 0.7)',
+    'inset 0 -1px 0 oklch(0.28 0.07 55 / 0.55)',
+    'inset 1px 0 0 oklch(0.86 0.08 82 / 0.35)',
+    'inset -1px 0 0 oklch(0.35 0.08 60 / 0.30)',
+    '0 1px 2px oklch(0 0 0 / 0.35)',
+    '0 0 8px oklch(0.74 0.14 80 / 0.30)',
+  ].join(', '),
+  borderRadius: 2,
+}
 
 function pieceWidthPx(denominator: PieceDenominator, widthPerWhole: number): number {
   return widthPerWhole / denominator
@@ -312,7 +329,10 @@ export default function FractionWorkspaceV2({
   return (
     <div className="flex flex-col items-center gap-6 select-none">
       {problem.framing_text && (
-        <p className="text-center text-zinc-700 dark:text-zinc-300 max-w-2xl">
+        <p
+          className="text-center text-ink-soft max-w-2xl text-base leading-relaxed italic"
+          style={{ fontFamily: 'var(--font-fraunces)' }}
+        >
           {problem.framing_text}
         </p>
       )}
@@ -336,12 +356,14 @@ export default function FractionWorkspaceV2({
             return (
               <div
                 key={`whole-${i}`}
-                className="absolute rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-50 dark:bg-zinc-900"
+                className="absolute rounded-sm border-2 border-brass-deep bg-paper-deep"
                 style={{
                   left,
                   top: 12,
                   width: widthPerWhole,
                   height: BAR_HEIGHT_PX,
+                  boxShadow:
+                    'inset 0 1px 2px oklch(0 0 0 / 0.18), inset 0 -1px 0 oklch(1 0 0 / 0.4)',
                 }}
               />
             )
@@ -363,7 +385,7 @@ export default function FractionWorkspaceV2({
                   onClick={handleRemoveWhole}
                   aria-label="Remove the last whole"
                   title="Remove a whole"
-                  className="rounded-md border-2 border-dashed border-zinc-400 dark:border-zinc-600 text-zinc-500 text-xl font-light flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition w-9 h-full"
+                  className="rounded-sm border-2 border-dashed border-brass-deep/60 text-brass-deep text-xl font-light flex items-center justify-center hover:bg-brass-deep/10 transition w-9 h-full"
                 >
                   −
                 </button>
@@ -374,7 +396,7 @@ export default function FractionWorkspaceV2({
                   onClick={handleAddWhole}
                   aria-label="Add another whole"
                   title="Add a whole"
-                  className="rounded-md border-2 border-dashed border-zinc-400 dark:border-zinc-600 text-zinc-500 text-xl font-light flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition w-9 h-full"
+                  className="rounded-sm border-2 border-dashed border-brass-deep/60 text-brass-deep text-xl font-light flex items-center justify-center hover:bg-brass-deep/10 transition w-9 h-full"
                 >
                   +
                 </button>
@@ -390,8 +412,9 @@ export default function FractionWorkspaceV2({
               onClick={() => removePlaced(p.id)}
               aria-label="Click to remove this piece"
               title="Click to remove"
-              className={`absolute rounded-sm border-2 ${PIECE_FILL} ${PIECE_BORDER} drop-shadow ${locked ? 'cursor-default' : 'hover:brightness-110 hover:ring-2 hover:ring-rose-400 cursor-pointer'} transition`}
+              className={`absolute ${locked ? 'cursor-default' : 'hover:brightness-110 hover:ring-2 hover:ring-red-500 cursor-pointer'} transition`}
               style={{
+                ...BRASS_PIECE_STYLE,
                 left: p.leftPx + 16,
                 top: 12,
                 width: p.widthPx,
@@ -404,7 +427,10 @@ export default function FractionWorkspaceV2({
 
         <div className="h-5 mt-2 flex items-center justify-center">
           {overhangPx > 0 && commitState !== 'success' && (
-            <p className="text-xs text-rose-600 dark:text-rose-400">
+            <p
+              className="text-xs text-red-700 italic"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+            >
               Your pieces go past {numWholes === 1 ? 'the whole' : `${numWholes} wholes`}.
               {canAddMore && ' Tap + to add another whole.'}
             </p>
@@ -418,27 +444,35 @@ export default function FractionWorkspaceV2({
             type="button"
             onClick={handleCommit}
             disabled={placed.length === 0}
-            className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-6 text-sm font-medium text-white disabled:opacity-40 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-6 text-xs font-bold uppercase text-cream disabled:opacity-40 hover:bg-brass transition-colors border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
-            Check my answer
+            Check my answer ◇
           </button>
         )}
         {commitState === 'failed' && (
           <>
-            <p className="text-sm text-rose-700 dark:text-rose-300">
+            <p
+              className="text-sm text-red-700 italic"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+            >
               Not quite. Want to try a different way?
             </p>
             <button
               type="button"
               onClick={handleTryAgain}
-              className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-6 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-6 text-xs font-bold uppercase text-cream hover:bg-brass transition-colors border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
             >
               Try again
             </button>
           </>
         )}
         {commitState === 'success' && (
-          <p className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-emerald-100 dark:bg-emerald-950 px-6 text-sm font-medium text-emerald-900 dark:text-emerald-200">
+          <p
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-sm bg-emerald-700 px-6 text-xs font-bold uppercase text-cream border border-emerald-500 shadow-[0_0_15px_oklch(0.55_0.15_150/0.45)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
+          >
             <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="3" aria-hidden>
               <path d="M5 12.5l4.5 4.5L20 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -453,28 +487,38 @@ export default function FractionWorkspaceV2({
             - internal dashed dividers at 1/N positions showing how that whole would be divided
             - a solid blue piece filling the leftmost 1/N (the draggable)
           Entries stack vertically so the pieces stay at exact placed-size. */}
-      <div className="w-full border-t border-zinc-200 dark:border-zinc-800 pt-6 flex flex-col items-center gap-3">
-        <p className="text-xs uppercase tracking-wide text-zinc-500">Pieces</p>
+      <div className="w-full border-t-2 border-brass-deep/40 pt-6 flex flex-col items-center gap-3">
+        <p
+          className="text-[10px] uppercase tracking-[0.25em] text-brass-deep"
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+        >
+          ◇ Pieces ◇
+        </p>
         <div className="flex flex-col items-center gap-2">
           {displayedDenominators.map((d) => {
             const solidWidth = widthPerWhole / d
             return (
               <div
                 key={d}
-                className="relative"
-                style={{ width: widthPerWhole, height: BAR_HEIGHT_PX }}
+                className="relative rounded-sm"
+                style={{
+                  width: widthPerWhole,
+                  height: BAR_HEIGHT_PX,
+                  background: 'oklch(0.85 0.030 70)',
+                  border: '1px dashed oklch(0.55 0.12 70 / 0.5)',
+                  boxShadow: 'inset 0 1px 2px oklch(0 0 0 / 0.10)',
+                }}
               >
-                {/* Dotted outline of the whole (context) */}
-                <div className="absolute inset-0 rounded-sm border border-dashed border-zinc-400 dark:border-zinc-600" />
-                {/* Internal dashed dividers at 1/N positions */}
                 {Array.from({ length: d - 1 }).map((_, i) => (
                   <div
                     key={i}
-                    className="absolute top-1 bottom-1 border-l border-dashed border-zinc-300 dark:border-zinc-700"
-                    style={{ left: ((i + 1) / d) * widthPerWhole - 0.5 }}
+                    className="absolute top-1 bottom-1 border-l border-dashed"
+                    style={{
+                      left: ((i + 1) / d) * widthPerWhole - 0.5,
+                      borderColor: 'oklch(0.55 0.12 70 / 0.35)',
+                    }}
                   />
                 ))}
-                {/* Solid blue draggable piece, sized at 1/N of the whole */}
                 <button
                   type="button"
                   onPointerDown={(e) => handlePalettePointerDown(e, d)}
@@ -482,24 +526,27 @@ export default function FractionWorkspaceV2({
                   onPointerUp={handlePalettePointerUp}
                   disabled={locked}
                   aria-label="Drag piece"
-                  className={`absolute left-0 top-0 rounded-sm border-2 ${PIECE_FILL} ${PIECE_BORDER} drop-shadow cursor-grab active:cursor-grabbing touch-none disabled:opacity-40`}
-                  style={{ width: solidWidth, height: BAR_HEIGHT_PX }}
+                  className="absolute left-0 top-0 cursor-grab active:cursor-grabbing touch-none disabled:opacity-40"
+                  style={{ ...BRASS_PIECE_STYLE, width: solidWidth, height: BAR_HEIGHT_PX }}
                 />
               </div>
             )
           })}
         </div>
-        <p className="text-xs text-zinc-500">
+        <p
+          className="text-xs text-ink-faint italic max-w-md text-center"
+          style={{ fontFamily: 'var(--font-fraunces)' }}
+        >
           {locked
             ? commitState === 'success'
               ? 'Locked in.'
               : 'Pieces are locked. Try again to clear and start over.'
-            : 'Drag a blue piece into the target. Click a placed piece to remove it.'}
+            : 'Drag a brass piece into the target. Click a placed piece to remove it.'}
         </p>
       </div>
 
       {process.env.NODE_ENV !== 'production' && (
-      <details className="w-full text-xs text-zinc-500 mt-2">
+      <details className="w-full text-xs text-ink-faint mt-2">
         <summary className="cursor-pointer">Debug</summary>
         <div className="mt-2 space-y-1">
           <div>Sum: {currentSum.numerator}/{currentSum.denominator}</div>
@@ -515,8 +562,13 @@ export default function FractionWorkspaceV2({
 
       {drag && dragPos && (
         <div
-          className={`fixed pointer-events-none z-50 rounded-sm border-2 ${PIECE_FILL} ${PIECE_BORDER} shadow-lg`}
+          className="fixed pointer-events-none z-50"
           style={{
+            ...BRASS_PIECE_STYLE,
+            boxShadow: [
+              BRASS_PIECE_STYLE.boxShadow,
+              '0 6px 14px oklch(0 0 0 / 0.45)',
+            ].join(', '),
             width: pieceWidthPx(drag.denominator, widthPerWhole),
             height: BAR_HEIGHT_PX,
             left: dragPos.x - pieceWidthPx(drag.denominator, widthPerWhole) / 2,
@@ -535,22 +587,30 @@ function GoalDisplay({
   goal: Fraction
   commitState: CommitState
 }) {
-  const ring =
+  const ringColor =
     commitState === 'success'
-      ? 'ring-4 ring-emerald-400'
+      ? 'oklch(0.55 0.15 150 / 0.65)'
       : commitState === 'failed'
-      ? 'ring-4 ring-rose-400'
-      : 'ring-2 ring-zinc-300 dark:ring-zinc-700'
+      ? 'oklch(0.55 0.20 25 / 0.65)'
+      : 'oklch(0.74 0.14 80 / 0.45)'
   return (
-    <div className="flex flex-col items-center gap-1">
-      <span className="text-xs uppercase tracking-wide text-zinc-500">Goal</span>
-      <div
-        className={`rounded-md bg-white dark:bg-zinc-950 px-6 py-3 ${ring} transition-all`}
+    <div className="flex flex-col items-center gap-1.5">
+      <span
+        className="text-[10px] uppercase tracking-[0.25em] text-brass-deep"
+        style={{ fontFamily: 'var(--font-cinzel)' }}
       >
-        <div className="flex flex-col items-center leading-none">
-          <span className="text-3xl font-semibold">{goal.numerator}</span>
-          <span className="w-10 border-t-2 border-zinc-700 dark:border-zinc-300 my-1" />
-          <span className="text-3xl font-semibold">{goal.denominator}</span>
+        ◇ Goal ◇
+      </span>
+      <div
+        className="rounded-sm bg-paper px-7 py-3 border-2 border-brass-deep transition-all"
+        style={{
+          boxShadow: `0 0 0 4px ${ringColor}, 0 2px 6px oklch(0 0 0 / 0.25)`,
+        }}
+      >
+        <div className="flex flex-col items-center leading-none text-ink">
+          <span className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-fraunces)' }}>{goal.numerator}</span>
+          <span className="w-10 border-t-2 border-brass-deep my-1.5" />
+          <span className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-fraunces)' }}>{goal.denominator}</span>
         </div>
       </div>
     </div>

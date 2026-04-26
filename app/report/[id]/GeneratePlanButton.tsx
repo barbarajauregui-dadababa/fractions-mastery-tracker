@@ -36,13 +36,12 @@ export default function GeneratePlanButton({ assessmentId }: { assessmentId: str
         type="button"
         onClick={runPlan}
         disabled={isRunning}
-        className="inline-flex h-10 items-center justify-center rounded-md bg-stone-900 px-4 text-sm font-medium text-white disabled:opacity-50 hover:bg-stone-800 w-fit"
+        className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-6 text-xs font-bold uppercase text-cream hover:bg-brass disabled:opacity-50 transition-colors w-fit border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
+        style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
       >
-        {isRunning
-          ? 'Plan Architect is thinking… this can take 1–3 minutes'
-          : 'Generate plan'}
+        {isRunning ? 'Plan Architect at work… 1–3 min' : 'Generate plan ◇'}
       </button>
-      {error && <p className="text-sm text-red-700 dark:text-red-300">{error}</p>}
+      {error && <p className="text-sm text-red-700 italic" style={{ fontFamily: 'var(--font-fraunces)' }}>{error}</p>}
     </div>
   )
 }

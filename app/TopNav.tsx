@@ -9,19 +9,24 @@ import { Gear } from './Ornament'
  */
 export default function TopNav() {
   return (
-    <nav className="w-full border-b border-brass-deep/50 bg-background/90 backdrop-blur sticky top-0 z-30">
+    <nav className="w-full border-b-2 border-brass-deep bg-background sticky top-0 z-30 shadow-[0_2px_12px_oklch(0_0_0/0.4)]">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-6">
         <Link
           href="/"
-          className="flex items-center gap-2 text-cream hover:text-brass transition-colors"
+          className="flex items-center gap-2.5 text-cream hover:text-brass-glow transition-colors"
         >
           <Gear
             teeth={10}
-            className="h-5 w-5 text-brass animate-turn-slow"
+            className="h-6 w-6 text-brass-glow animate-turn-slow drop-shadow-[0_0_6px_oklch(0.86_0.16_88/0.5)]"
           />
           <span
             className="text-base font-bold uppercase"
-            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.22em' }}
+            style={{
+              fontFamily: 'var(--font-cinzel)',
+              letterSpacing: '0.22em',
+              color: 'oklch(0.95 0.06 85)',
+              textShadow: '0 0 8px oklch(0.74 0.14 80 / 0.4)',
+            }}
           >
             Strata Mundo
           </span>
@@ -39,7 +44,7 @@ export default function TopNav() {
               href="https://github.com/barbarajauregui-dadababa/fractions-mastery-tracker"
               target="_blank"
               rel="noreferrer"
-              className="px-3 py-1.5 uppercase text-cream-faint hover:text-brass transition-colors"
+              className="px-3 py-1.5 uppercase text-cream-soft hover:text-brass-glow transition-colors"
             >
               GitHub
             </a>
@@ -55,7 +60,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <li>
       <Link
         href={href}
-        className="px-3 py-1.5 uppercase text-cream-soft hover:text-brass hover:underline hover:decoration-brass hover:decoration-1 hover:underline-offset-4 transition-colors"
+        className="px-3 py-1.5 uppercase text-cream hover:text-brass-glow hover:underline hover:decoration-brass hover:decoration-1 hover:underline-offset-4 transition-colors"
       >
         {label}
       </Link>
