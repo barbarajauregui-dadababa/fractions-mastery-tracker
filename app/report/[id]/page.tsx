@@ -7,6 +7,7 @@ import PlanWaiting from './PlanWaiting'
 import type { PlanContent } from './PlanDisplay'
 import FocusedProbeButton from './FocusedProbeButton'
 import ActivityTile, { type CompletedActivity } from './ActivityTile'
+import ModalityFilter from './ModalityFilter'
 import { FractionsSectionStrip } from './RoadmapStrip'
 import StrataCloudscape from '@/components/StrataCloudscape'
 import { CornerFlourish } from '@/app/Ornament'
@@ -272,6 +273,12 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               />
             </section>
           )}
+
+          {/* Modality filter — lets the user hide activity types they don't
+              want (e.g. "no videos for my kid this week"). Body-class based,
+              persists in localStorage. Affects every ActivityTile on the
+              page via CSS. */}
+          <ModalityFilter />
 
           {/* Three buckets: red (misconception), amber (building), green (mastered). */}
           <section className="flex flex-col gap-4">

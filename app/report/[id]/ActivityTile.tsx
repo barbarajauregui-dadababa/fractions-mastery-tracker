@@ -83,6 +83,7 @@ export default function ActivityTile({
 
   return (
     <li
+      data-modality={modality}
       className={`group relative rounded-sm border-2 transition-colors ${
         isDone
           ? 'bg-paper-deep/40 border-emerald-700/40 opacity-80'

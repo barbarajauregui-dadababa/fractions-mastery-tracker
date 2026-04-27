@@ -114,6 +114,16 @@ body {
   animation: drift-slow 60s linear infinite alternate;
 }
 
+/* Modality filter — hide ActivityTile rows by data-modality when the user
+ * has unchecked that type on the report's ModalityFilter component. */
+body.hide-video [data-modality="video"],
+body.hide-manipulative [data-modality="manipulative"],
+body.hide-game_or_interactive [data-modality="game_or_interactive"],
+body.hide-worksheet [data-modality="worksheet"],
+body.hide-other [data-modality="other"] {
+  display: none;
+}
+
 /* Balloon rise — slow upward drift then settle, ~14s cycle. Used on the
  * report page so the airship looks like it's continually trying to rise.
  * Uses individual translate property so a parent rotation transform on
