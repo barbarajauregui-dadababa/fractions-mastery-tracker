@@ -13,11 +13,23 @@ import coherenceMapRaw from '@/content/coherence-map-fractions.json'
 
 interface CoherenceNode {
   id: string
-  name: string
+  statement: string
+  role?: 'prerequisite' | 'core'
 }
 const coherenceMap = coherenceMapRaw as unknown as { nodes: CoherenceNode[] }
 function standardName(id: string): string {
-  return coherenceMap.nodes.find((n) => n.id === id)?.name ?? id
+  const node = coherenceMap.nodes.find((n) => n.id === id)
+  if (!node) return id
+  const stmt = node.statement
+  const semi = stmt.indexOf(';')
+  const period = stmt.indexOf('. ')
+  const cut = [semi, period].filter((i) => i > 0).sort((a, b) => a - b)[0]
+  if (cut !== undefined) return stmt.slice(0, cut).trim()
+  if (stmt.length > 100) return stmt.slice(0, 97).trim() + '…'
+  return stmt
+}
+function standardIsPrerequisite(id: string): boolean {
+  return coherenceMap.nodes.find((n) => n.id === id)?.role === 'prerequisite'
 }
 
 type StandardState = 'misconception' | 'working' | 'demonstrated' | 'not_assessed'
@@ -43,7 +55,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
             className="cursor-pointer list-none flex items-center justify-between text-sm tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
-            Standard-by-standard list ({Object.keys(masteryMap.standards).length} standards)
+            Standards in Progression: Number and Operations — Fractions
             <span className="text-ink-faint">▼</span>
           </summary>
           <ul className="mt-4 flex flex-col gap-2">
@@ -68,7 +80,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
                   className="text-xs font-mono text-ink-faint"
                   style={{ fontFamily: 'var(--font-special-elite)' }}
                 >
-                  {id}
+                  {id}{standardIsPrerequisite(id) ? ' · prerequisite' : ''}
                 </span>
               </li>
             ))}

@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
   const problemBank = getAllProblems()
   const coherenceMap = coherenceMapRaw as unknown as {
-    nodes: Array<{ id: string; name: string; statement: string }>
+    nodes: Array<{ id: string; statement: string; cluster_heading?: string }>
   }
   const standardIds = coherenceMap.nodes.map((n) => n.id)
 

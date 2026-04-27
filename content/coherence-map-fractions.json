@@ -1,142 +1,211 @@
 {
   "_meta": {
     "concept": "fractions",
-    "scope_label": "Option A: 3.NF.A.1–3 + 4.NF.A.1–2 with prerequisites",
-    "draft_status": "Transcribed 2026-04-23 from published CCSS-M and the Progressions document (see sources). Achieve the Core's interactive Coherence Map was consulted as a visualization reference but its data is JS-rendered (not publicly machine-readable), so specific dependency claims are cited against the Progressions PDF rather than the Coherence Map itself.",
-    "verification_notes": "Every node's statement is quoted from the published CCSS-M. Every edge's rationale is grounded in the Progressions document. Where a specific sub-standard-level edge is my interpretation (not explicit in the Progressions), I have marked it with an honest 'interpretation' note in the edge record."
+    "scope_label": "Number and Operations — Fractions progression: 3.NF and 4.NF core standards plus 2.G/3.G partitioning prerequisites cited by the published 3–5 Fractions Progression.",
+    "draft_status": "Transcribed 2026-04-23 from published CCSS-M and the Progressions document. Restructured 2026-04-27 to remove paraphrased short names; standard text is now verbatim CCSS-M with the cluster heading from the same source. Khan Academy exercise URLs added 2026-04-27 from the published CCSS→Khan mapping.",
+    "verification_notes": "Every node's statement is quoted verbatim from the published CCSS-M PDF (CCSSO mirror). Cluster headings are quoted verbatim from the same source. Khan Academy URLs are taken verbatim from the 'Common Core Math Standard Mapping to Khan' table provided by Barbara on 2026-04-27. Every edge's rationale is grounded in the Progressions document. Where a specific sub-standard-level edge is interpretation rather than explicit, the edge record carries an interpretation_note."
   },
 
   "sources": [
     {
       "id": "ccss-m",
       "title": "Common Core State Standards for Mathematics",
-      "url": "http://www.corestandards.org/Math/",
-      "use": "Authoritative source for each standard's statement."
+      "url": "https://learning.ccsso.org/wp-content/uploads/2022/11/Math_Standards1.pdf",
+      "use": "Authoritative source for each standard's verbatim statement and the verbatim cluster heading."
     },
     {
       "id": "progressions-3-5-fractions",
-      "title": "Progressions for the Common Core State Standards for Mathematics: Draft 3–5 Progression on Number and Operations — Fractions",
-      "url": "https://achievethecore.org/content/upload/Draft%203%E2%80%935%20Progression%20on%20Number%20and%20Operations%E2%80%94Fractions.pdf",
-      "use": "Authoritative source for how CCSS-M fraction standards build on each other. Used for all edge rationales."
+      "title": "Draft 3–5 Progression on Number and Operations — Fractions",
+      "url": "https://achievethecore.org/page/254/progressions-documents-for-the-common-core-state-standards-for-mathematics",
+      "use": "Authoritative source for how CCSS-M fraction standards build on each other. Used for all edge rationales and for citing the 2.G.A.3 and 3.G.A.2 partitioning standards as prerequisites for the NF progression."
     },
     {
       "id": "coherence-map",
       "title": "Achieve the Core — Coherence Map (interactive)",
       "url": "https://tools.achievethecore.org/coherence-map/",
       "use": "Interactive visualization of CCSS-M progressions. Consulted as reference. Data is JS-rendered, not publicly machine-readable."
+    },
+    {
+      "id": "khan-mapping",
+      "title": "Common Core Math Standard Mapping to Khan",
+      "url": "https://www.khanacademy.org/",
+      "use": "Spreadsheet provided by Barbara mapping each CCSS-M standard ID to one or more Khan Academy exercise URLs. Source of every khan_urls entry below."
     }
   ],
 
   "nodes": [
     {
       "id": "2.G.A.3",
-      "name": "Partition shapes into equal shares",
       "statement": "Partition circles and rectangles into two, three, or four equal shares, describe the shares using the words halves, thirds, half of, a third of, etc., and describe the whole as two halves, three thirds, four fourths. Recognize that equal shares of identical wholes need not have the same shape.",
+      "cluster_heading": "Reason with shapes and their attributes.",
       "grade": 2,
       "domain": "Geometry",
       "role": "prerequisite",
       "source": "ccss-m",
-      "layer": 0
+      "layer": 0,
+      "khan_urls": [
+        { "title": "Equal parts of circles", "url": "https://www.khanacademy.org/math/early-math/cc-early-math-geometry-topic/cc-early-math-fractions-of-shapes/e/equal-parts-of-circles" },
+        { "title": "Equal parts of rectangles", "url": "https://www.khanacademy.org/math/early-math/cc-early-math-geometry-topic/cc-early-math-fractions-of-shapes/e/equal-parts-of-circles-and-rectangles" }
+      ]
     },
     {
       "id": "3.G.A.2",
-      "name": "Partition shapes into parts with equal areas",
       "statement": "Partition shapes into parts with equal areas. Express the area of each part as a unit fraction of the whole.",
+      "cluster_heading": "Reason with shapes and their attributes.",
       "grade": 3,
       "domain": "Geometry",
       "role": "prerequisite",
       "source": "ccss-m",
-      "layer": 1
+      "layer": 1,
+      "khan_urls": [
+        { "title": "Cut shapes into equal parts", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-intro/e/that-s-not-fair-" },
+        { "title": "Identify unit fractions", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-intro/e/cutting-shapes-into-equal-parts" }
+      ]
     },
     {
       "id": "3.NF.A.1",
-      "name": "Understand unit fractions (1/b)",
       "statement": "Understand a fraction 1/b as the quantity formed by 1 part when a whole is partitioned into b equal parts; understand a fraction a/b as the quantity formed by a parts of size 1/b.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 2
+      "layer": 2,
+      "khan_urls": [
+        { "title": "Cut shapes into equal parts", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-intro/e/that-s-not-fair-" },
+        { "title": "Fractions in contexts", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/fractions-in-contexts/e/fractions-in-contexts" },
+        { "title": "Identify unit fractions", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-intro/e/cutting-shapes-into-equal-parts" },
+        { "title": "Recognize fractions", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-what-fractions-mean/e/recognizing_fractions_0.5" },
+        { "title": "Recognize fractions greater than 1", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-what-fractions-mean/e/fractions-greater-than-one" }
+      ]
     },
     {
       "id": "3.NF.A.2.a",
-      "name": "Locate 1/b on a number line",
       "statement": "Represent a fraction 1/b on a number line diagram by defining the interval from 0 to 1 as the whole and partitioning it into b equal parts. Recognize that each part has size 1/b and that the endpoint of the part based at 0 locates the number 1/b on the number line.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 3
+      "layer": 3,
+      "khan_urls": [
+        { "title": "Find 1 on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/finding-1-on-the-number-line" },
+        { "title": "Relate fractions to 1", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-and-whole-numbers/e/relate-fractions-to-1" },
+        { "title": "Relate number lines to fraction bars", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/relate-number-lines-to-fraction-bars" },
+        { "title": "Unit fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/fractions_on_the_number_line_2" }
+      ]
     },
     {
       "id": "3.NF.A.2.b",
-      "name": "Locate a/b on a number line",
       "statement": "Represent a fraction a/b on a number line diagram by marking off a lengths 1/b from 0. Recognize that the resulting interval has size a/b and that its endpoint locates the number a/b on the number line.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 4
+      "layer": 4,
+      "khan_urls": [
+        { "title": "Find 1 on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/finding-1-on-the-number-line" },
+        { "title": "Fractions greater than 1 on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/fractions-greater-than-1-on-the-number-line" },
+        { "title": "Fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/fractions_on_the_number_line_1" },
+        { "title": "Relate number lines to fraction bars", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/relate-number-lines-to-fraction-bars" },
+        { "title": "Unit fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/fractions_on_the_number_line_2" }
+      ]
     },
     {
       "id": "3.NF.A.3.a",
-      "name": "Recognize equivalent fractions visually",
       "statement": "Understand two fractions as equivalent (equal) if they are the same size, or the same point on a number line.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 5
+      "layer": 5,
+      "khan_urls": [
+        { "title": "Equivalent fraction models", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-equivalent-fractions/e/equivalent-fraction-models-1" },
+        { "title": "Equivalent fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-equivalent-fractions/e/equivalent-fraction-models" }
+      ]
     },
     {
       "id": "3.NF.A.3.b",
-      "name": "Generate simple equivalent fractions",
-      "statement": "Recognize and generate simple equivalent fractions (e.g., 1/2 = 2/4, 4/6 = 2/3). Explain why the fractions are equivalent, e.g., by using a visual fraction model.",
+      "statement": "Recognize and generate simple equivalent fractions, e.g., 1/2 = 2/4, 4/6 = 2/3. Explain why the fractions are equivalent, e.g., by using a visual fraction model.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 6
+      "layer": 6,
+      "khan_urls": [
+        { "title": "Equivalent fraction models", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-equivalent-fractions/e/equivalent-fraction-models-1" },
+        { "title": "Equivalent fractions", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-equivalent-fractions/e/equivalent-fraction" },
+        { "title": "Equivalent fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-equivalent-fractions/e/equivalent-fraction-models" }
+      ]
     },
     {
       "id": "3.NF.A.3.c",
-      "name": "Whole numbers as fractions",
       "statement": "Express whole numbers as fractions, and recognize fractions that are equivalent to whole numbers. Examples: Express 3 in the form 3 = 3/1; recognize that 6/1 = 6; locate 4/4 and 1 at the same point of a number line diagram.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 5
+      "layer": 5,
+      "khan_urls": [
+        { "title": "Find 1 on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-on-the-number-line/e/finding-1-on-the-number-line" },
+        { "title": "Relate fractions to 1", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-and-whole-numbers/e/relate-fractions-to-1" },
+        { "title": "Write whole numbers as fractions", "url": "https://www.khanacademy.org/math/cc-third-grade-math/imp-fractions/imp-fractions-and-whole-numbers/e/writing-fractions-as-whole-numbers" }
+      ]
     },
     {
       "id": "3.NF.A.3.d",
-      "name": "Compare fractions with same num or denom",
-      "statement": "Compare two fractions with the same numerator or the same denominator by reasoning about their size. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with the symbols >, =, or <, and justify the conclusions.",
+      "statement": "Compare two fractions with the same numerator or the same denominator by reasoning about their size. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with the symbols >, =, or <, and justify the conclusions, e.g., by using a visual fraction model.",
+      "cluster_heading": "Develop understanding of fractions as numbers.",
       "grade": 3,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 6
+      "layer": 6,
+      "khan_urls": [
+        { "title": "Compare fractions on the number line", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions/e/compare-fractions-on-the-number-line" },
+        { "title": "Compare fractions with fraction models", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions/e/comparing-fractions-with-the-same-numerator-or-denominator" },
+        { "title": "Compare fractions with the same denominator", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions/e/comparing_fractions_with_the_same_denominator" },
+        { "title": "Compare fractions with the same numerator", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions/e/comparing_fractions_with_the_same_numerator" },
+        { "title": "Compare fractions with the same numerator or denominator", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions/e/comparing_fractions_1" },
+        { "title": "Fractions of different wholes", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions-of-different-wholes/e/naming-the-whole" }
+      ]
     },
     {
       "id": "4.NF.A.1",
-      "name": "Explain equivalence via a/b = (n×a)/(n×b)",
       "statement": "Explain why a fraction a/b is equivalent to a fraction (n×a)/(n×b) by using visual fraction models, with attention to how the number and size of the parts differ even though the two fractions themselves are the same size. Use this principle to recognize and generate equivalent fractions.",
+      "cluster_heading": "Extend understanding of fraction equivalence and ordering.",
       "grade": 4,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 7
+      "layer": 7,
+      "khan_urls": [
+        { "title": "Equivalent fractions", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-equivalent-fractions-2/e/equivalent_fractions" },
+        { "title": "Equivalent fractions (fraction models)", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-equivalent-fractions-2/e/visualizing-equivalent-fractions" },
+        { "title": "Equivalent fractions (number lines)", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-equivalent-fractions-2/e/equivalent-fractions--number-lines-" }
+      ]
     },
     {
       "id": "4.NF.A.2",
-      "name": "Compare fractions with different num AND denom",
-      "statement": "Compare two fractions with different numerators and different denominators, e.g., by creating common denominators or numerators, or by comparing to a benchmark fraction such as 1/2. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with symbols >, =, or <, and justify the conclusions.",
+      "statement": "Compare two fractions with different numerators and different denominators, e.g., by creating common denominators or numerators, or by comparing to a benchmark fraction such as 1/2. Recognize that comparisons are valid only when the two fractions refer to the same whole. Record the results of comparisons with symbols >, =, or <, and justify the conclusions, e.g., by using a visual fraction model.",
+      "cluster_heading": "Extend understanding of fraction equivalence and ordering.",
       "grade": 4,
       "domain": "Number and Operations—Fractions",
       "role": "core",
       "source": "ccss-m",
-      "layer": 8
+      "layer": 8,
+      "khan_urls": [
+        { "title": "Common denominators", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-common-denominators/e/common-denominators" },
+        { "title": "Compare fractions using benchmarks", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-comparing-fractions-with-unlike-denominators/e/compare-fractions-using-benchmark" },
+        { "title": "Compare fractions with different numerators and denominators", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-comparing-fractions-with-unlike-denominators/e/comparing_fractions_2" },
+        { "title": "Compare fractions word problems", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-comparing-fractions-with-unlike-denominators/e/compare-fractions-word-problems" },
+        { "title": "Fractions of different wholes", "url": "https://www.khanacademy.org/math/cc-third-grade-math/equivalent-fractions-and-comparing-fractions/imp-comparing-fractions-of-different-wholes/e/naming-the-whole" },
+        { "title": "Visually compare fractions with unlike denominators", "url": "https://www.khanacademy.org/math/cc-fourth-grade-math/comparing-fractions-and-equivalent-fractions/imp-comparing-fractions-with-unlike-denominators-visually/e/visually-comparing-fractions" }
+      ]
     }
   ],
 

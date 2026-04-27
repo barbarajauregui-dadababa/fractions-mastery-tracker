@@ -119,7 +119,7 @@ export default function MethodologyPage() {
           <SourceTable>
             <SourceRow
               label="Progression"
-              description="Cross-grade developmental arc through one mathematical domain (e.g., Fractions, K-5)."
+              description="The full vertical arc of one mathematical domain across grades — every standard a 4th grader must master in that domain, plus the prerequisite standards (often from neighboring domains) that the published Progressions document explicitly cites as foundations. The 5 strata on the voyage page are the 5 progressions."
               sourceName="Progressions for the Common Core State Standards in Mathematics"
               authors="Bill McCallum, Hung-Hsi Wu, Phil Daro et al. (University of Arizona, Institute for Mathematics and Education)"
               url="https://mathematicalmusings.org/"

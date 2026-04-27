@@ -73,8 +73,8 @@ interface MasteryMap {
 
 interface CoherenceNode {
   id: string
-  name: string
   statement: string
+  cluster_heading?: string
   grade: number
   role: 'prerequisite' | 'core'
   layer: number
@@ -89,7 +89,21 @@ const coherenceMap = coherenceMapRaw as unknown as { nodes: CoherenceNode[] }
 const misconceptions = misconceptionsRaw as unknown as { misconceptions: Misconception[] }
 
 function standardName(id: string): string {
-  return coherenceMap.nodes.find((n) => n.id === id)?.name ?? id
+  const node = coherenceMap.nodes.find((n) => n.id === id)
+  if (!node) return id
+  // First clause of the verbatim CCSS-M statement: everything up to the first
+  // period+space or semicolon. Fall back to a 100-char truncation if neither
+  // appears. This stays verbatim (no paraphrase) while keeping list items short.
+  const stmt = node.statement
+  const semi = stmt.indexOf(';')
+  const period = stmt.indexOf('. ')
+  const cut = [semi, period].filter((i) => i > 0).sort((a, b) => a - b)[0]
+  if (cut !== undefined) return stmt.slice(0, cut).trim()
+  if (stmt.length > 100) return stmt.slice(0, 97).trim() + '…'
+  return stmt
+}
+function standardIsPrerequisite(id: string): boolean {
+  return coherenceMap.nodes.find((n) => n.id === id)?.role === 'prerequisite'
 }
 
 function misconceptionName(id: string): string {
@@ -361,7 +375,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
                             className="not-italic text-ink-faint text-xs"
                             style={{ fontFamily: 'var(--font-special-elite)' }}
                           >
-                            ({sid})
+                            ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                           </span>
                         </li>
                       ))}
@@ -399,7 +413,7 @@ function AtAGlanceSummary({
           className="text-sm tracking-[0.25em] uppercase text-brass-deep"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
-          At a glance · 4th-grade progression · CCSS Math Standards
+          At a glance · Number & Operations: Fractions progression · CCSS Math Standards
         </span>
         <StandardInfo />
       </div>
@@ -420,7 +434,7 @@ function AtAGlanceSummary({
                   <li key={sid} className="italic">
                     {standardName(sid)}{' '}
                     <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
-                      ({sid})
+                      ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                     </span>
                   </li>
                 ))}
@@ -461,7 +475,7 @@ function AtAGlanceSummary({
                   <li key={sid} className="italic">
                     {standardName(sid)}{' '}
                     <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
-                      ({sid})
+                      ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                     </span>
                   </li>
                 ))}
@@ -488,7 +502,7 @@ function AtAGlanceSummary({
                   <li key={sid} className="italic">
                     {standardName(sid)}{' '}
                     <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
-                      ({sid})
+                      ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                     </span>
                   </li>
                 ))}
@@ -513,7 +527,7 @@ function AtAGlanceSummary({
                   <li key={sid} className="italic">
                     {standardName(sid)}{' '}
                     <span className="not-italic text-ink-faint text-xs" style={{ fontFamily: 'var(--font-special-elite)' }}>
-                      ({sid})
+                      ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                     </span>
                   </li>
                 ))}
@@ -606,7 +620,7 @@ function Bucket({
                     className="text-xs text-ink-faint"
                     style={{ fontFamily: 'var(--font-special-elite)' }}
                   >
-                    ({sid})
+                    ({sid}{standardIsPrerequisite(sid) ? ' · prerequisite' : ''})
                   </span>
                 </div>
               </div>

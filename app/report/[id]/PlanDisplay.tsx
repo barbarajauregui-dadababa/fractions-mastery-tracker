@@ -42,7 +42,7 @@ export interface PlanContent {
 
 interface CoherenceNode {
   id: string
-  name: string
+  statement: string
 }
 interface Misconception {
   id: string
@@ -62,7 +62,14 @@ const misconceptions = misconceptionsRaw as unknown as { misconceptions: Misconc
 const resources = resourcesRaw as unknown as { resources: Resource[] }
 
 function standardName(id: string): string {
-  return coherenceMap.nodes.find((n) => n.id === id)?.name ?? id
+  const node = coherenceMap.nodes.find((n) => n.id === id)
+  if (!node) return id
+  const stmt = node.statement
+  const semi = stmt.indexOf(';')
+  const period = stmt.indexOf('. ')
+  const cut = [semi, period].filter((i) => i > 0).sort((a, b) => a - b)[0]
+  if (cut !== undefined) return stmt.slice(0, cut).trim()
+  return stmt.length > 100 ? stmt.slice(0, 97).trim() + '…' : stmt
 }
 function misconceptionName(id: string): string {
   return misconceptions.misconceptions.find((m) => m.id === id)?.name ?? id

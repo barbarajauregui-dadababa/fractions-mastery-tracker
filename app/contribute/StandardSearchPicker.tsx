@@ -5,13 +5,21 @@ import coherenceMapRaw from '@/content/coherence-map-fractions.json'
 
 interface CoherenceNode {
   id: string
-  name: string
   statement: string
+  cluster_heading?: string
   grade: number
   domain: string
 }
 const coherenceMap = coherenceMapRaw as unknown as { nodes: CoherenceNode[] }
 const STANDARDS: CoherenceNode[] = coherenceMap.nodes
+function shortLabel(node: CoherenceNode): string {
+  const stmt = node.statement
+  const semi = stmt.indexOf(';')
+  const period = stmt.indexOf('. ')
+  const cut = [semi, period].filter((i) => i > 0).sort((a, b) => a - b)[0]
+  if (cut !== undefined) return stmt.slice(0, cut).trim()
+  return stmt.length > 100 ? stmt.slice(0, 97).trim() + '…' : stmt
+}
 
 interface Props {
   selected: string[]
@@ -28,8 +36,8 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
     return STANDARDS.filter((s) => {
       return (
         s.id.toLowerCase().includes(q) ||
-        s.name.toLowerCase().includes(q) ||
-        s.statement.toLowerCase().includes(q)
+        s.statement.toLowerCase().includes(q) ||
+        (s.cluster_heading?.toLowerCase().includes(q) ?? false)
       )
     })
   }, [query])
@@ -54,7 +62,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
           Mapped to standard
         </div>
         <div className="text-sm text-ink" style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}>
-          {node?.name ?? lockedToStandard}{' '}
+          {node ? shortLabel(node) : lockedToStandard}{' '}
           <span
             className="text-xs text-ink-faint not-italic"
             style={{ fontFamily: 'var(--font-special-elite)' }}
@@ -91,7 +99,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
                 title="Remove"
               >
                 <span className="font-semibold">{sid}</span>
-                <span className="text-ink-faint">{node?.name}</span>
+                <span className="text-ink-faint">{node ? shortLabel(node) : ''}</span>
                 <span aria-hidden className="text-brass-deep">×</span>
               </button>
             )
@@ -130,7 +138,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
                     className="text-sm text-ink flex-1"
                     style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
                   >
-                    {s.name}
+                    {shortLabel(s)}
                   </span>
                   <span
                     className="text-xs text-ink-faint italic"

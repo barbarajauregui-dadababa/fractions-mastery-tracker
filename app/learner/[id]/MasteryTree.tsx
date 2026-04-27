@@ -12,11 +12,18 @@ type StandardState = 'misconception' | 'working' | 'demonstrated' | 'not_assesse
 
 interface CoherenceNode {
   id: string
-  name: string
+  statement: string
 }
 const coherenceMap = coherenceMapRaw as unknown as { nodes: CoherenceNode[] }
 function standardName(id: string): string {
-  return coherenceMap.nodes.find((n) => n.id === id)?.name ?? id
+  const node = coherenceMap.nodes.find((n) => n.id === id)
+  if (!node) return id
+  const stmt = node.statement
+  const semi = stmt.indexOf(';')
+  const period = stmt.indexOf('. ')
+  const cut = [semi, period].filter((i) => i > 0).sort((a, b) => a - b)[0]
+  if (cut !== undefined) return stmt.slice(0, cut).trim()
+  return stmt.length > 100 ? stmt.slice(0, 97).trim() + '…' : stmt
 }
 
 interface SectionDef {
