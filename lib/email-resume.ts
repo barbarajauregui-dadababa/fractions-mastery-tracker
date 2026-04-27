@@ -6,6 +6,7 @@
  * leaking which addresses are registered).
  */
 import { Resend } from 'resend'
+import { emailLayout, escapeEmailHtml } from './email-layout'
 
 interface LearnerEntry {
   id: string
@@ -54,48 +55,36 @@ function resumeHtml({
   learners: LearnerEntry[]
   siteUrl: string
 }): string {
-  const items = learners
+  // One brass button per voyage. No redundant URL printed underneath.
+  const buttons = learners
     .map(
       (l) => `
-      <li style="margin-bottom: 14px;">
-        <a href="${siteUrl}/learner/${l.id}" style="color: #92400e; text-decoration: none; font-weight: bold;">
-          ${escapeHtml(l.name)}'s voyage &rarr;
+      <div style="text-align: center; margin: 0 0 14px;">
+        <a href="${siteUrl}/learner/${l.id}" style="display: inline-block; background: #92400e; color: #fbf6e7; padding: 14px 28px; text-decoration: none; font-family: Georgia, 'Times New Roman', serif; letter-spacing: 0.20em; text-transform: uppercase; font-size: 13px; font-weight: bold; border: 2px solid #b75000; border-radius: 2px; box-shadow: 0 2px 0 #6b2d09;">
+          ${escapeEmailHtml(l.name)}'s voyage &rarr;
         </a>
-        <div style="font-size: 12px; color: #78716c; word-break: break-all;">
-          ${siteUrl}/learner/${l.id}
-        </div>
-      </li>`,
+      </div>`,
     )
     .join('')
 
-  return `
-    <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #292524;">
-      <h1 style="color: #92400e; font-family: 'Cinzel', Georgia, serif; margin-top: 0;">
-        Welcome back to Strata Mundo
+  const intro =
+    learners.length === 1
+      ? 'You requested a link back to your math mastery voyage.'
+      : 'You requested a link back to your math mastery voyages.'
+
+  return emailLayout({
+    cloudscapeUrl: `${siteUrl}/images/cloudscape-denis.jpg`,
+    body: `
+      <h1 style="font-family: Georgia, 'Times New Roman', serif; color: #44291a; font-size: 24px; line-height: 1.3; margin: 0 0 18px; font-weight: 600; text-align: center;">
+        Welcome back
       </h1>
-
-      <ul style="padding-left: 20px;">
-        <li>You requested a link back to ${learners.length === 1 ? 'your math mastery voyage' : 'your math mastery voyages'}.</li>
-        <li>Click ${learners.length === 1 ? 'the link' : 'a link'} below to resume.</li>
-        <li>Bookmark the URL once you&apos;re in — it&apos;s the same link every time.</li>
+      <ul style="font-family: Georgia, serif; font-size: 15px; line-height: 1.7; color: #44403c; padding-left: 22px; margin: 0 0 24px;">
+        <li>${intro}</li>
+        <li>Click ${learners.length === 1 ? 'the button' : 'a button'} below to resume.</li>
+        <li>Bookmark the page once it opens — it's the same link every time.</li>
       </ul>
-
-      <div style="margin: 30px 0; padding: 20px; background: #fef3c7; border: 2px solid #c2864a; border-radius: 4px;">
-        <ul style="padding-left: 20px; margin: 0;">${items}</ul>
-      </div>
-
-      <p style="color: #78716c; font-style: italic; margin-top: 30px; font-size: 13px;">
-        Didn&apos;t request this? You can safely ignore this email.
-      </p>
-    </div>
-  `
-}
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
+      ${buttons}
+    `,
+    footerLine: 'Didn’t request this? You can safely ignore this email.<br>Built with Claude Opus 4.7.',
+  })
 }
