@@ -35,36 +35,56 @@ export default function MethodologyPage() {
 
         <Section id="three-questions">
           <H2>Three questions Strata Mundo answers</H2>
-          <ThreeQuestions
-            questions={[
-              {
-                kicker: 'Question I',
-                title: 'Where is the learner, really?',
-                bullets: [
-                  'Reads drags, removals, commits, resets, timing — not just answers',
-                  'Produces a categorical mastery map per CCSS standard',
-                  'Four states with named misconceptions and traceable evidence',
-                ],
-              },
-              {
-                kicker: 'Question II',
-                title: 'What should they work on next?',
-                bullets: [
-                  'Mastery atlas grounded in the Coherence Map and IM Sections',
-                  'Concept dependencies visible',
-                  'Plan Architect skips mastered, starts at the first flagged section',
-                ],
-              },
-              {
-                kicker: 'Question III',
-                title: 'What tools will work for them?',
-                bullets: [
-                  'Tailored plan from a curated multimodal library',
-                  'Concrete → representational → abstract sequencing per gap',
-                  'On-screen + off-screen + hands-on per concept',
-                  'Plan shifts as mastery evolves',
-                ],
-              },
+
+          <DiagramPlate
+            index={1}
+            kicker="Where is the learner, really?"
+            problemTitle="No tool reads how a learner reasons"
+            problemBullets={[
+              'Schools push a fixed curriculum, ignoring what each learner has mastered',
+              'Khan-style probes measure performance, not understanding',
+              'Without the full picture, tailored learning is guesswork',
+            ]}
+            solutionTitle="A telemetry-based diagnostic, with a probe loop"
+            solutionBullets={[
+              'Reads the full trajectory, not just the final answer',
+              'Names specific misconceptions with traceable evidence',
+              'Categorical states — never percentages',
+              'Loop: assess → diagnose → plan → probe → declare',
+            ]}
+          />
+
+          <DiagramPlate
+            index={2}
+            kicker="What should they work on next?"
+            problemTitle="Knowing the gaps doesn’t tell you the order"
+            problemBullets={[
+              'Concept dependencies are real but invisible',
+              'Boxed curricula assume linear order',
+              'Guides re-cover mastered material or skip foundational gaps',
+            ]}
+            solutionTitle="A mastery atlas grounded in published progressions"
+            solutionBullets={[
+              'Every standard, every prerequisite, in one view',
+              'Skip what is mastered; focus where it is needed',
+              'Built on the Coherence Map and the IM Sections',
+            ]}
+          />
+
+          <DiagramPlate
+            index={3}
+            kicker="What tools will actually work for them?"
+            problemTitle="Hours hunting for the right activity"
+            problemBullets={[
+              'Boxed curricula offer one type of practice',
+              'Hands-on, real-world activities are hard to find',
+              'Math learned in isolation gets forgotten',
+            ]}
+            solutionTitle="A tailored plan from a curated, multimodal library"
+            solutionBullets={[
+              'Concrete → representational → abstract per gap',
+              'On-screen + off-screen + hands-on per concept',
+              'Library grown by the community: AI-vetted, human-approved',
             ]}
           />
         </Section>
@@ -381,47 +401,105 @@ function Bullets({ children }: { children: React.ReactNode }) {
   )
 }
 
-function ThreeQuestions({
-  questions,
+/**
+ * "Diagram plate" — problem-and-remedy pair styled as a Victorian
+ * scientific plate. Roman numeral chapter mark + the question kicker
+ * on the left, two panels on the right: "the condition observed" and
+ * "Strata Mundo · the remedy."
+ */
+function DiagramPlate({
+  index,
+  kicker,
+  problemTitle,
+  problemBullets,
+  solutionTitle,
+  solutionBullets,
 }: {
-  questions: { kicker: string; title: string; bullets: string[] }[]
+  index: number
+  kicker: string
+  problemTitle: string
+  problemBullets: string[]
+  solutionTitle: string
+  solutionBullets: string[]
 }) {
   return (
-    <ol className="flex flex-col gap-5 mt-2">
-      {questions.map((q, i) => (
-        <li
-          key={i}
-          className="relative bg-paper-deep/40 border-2 border-brass-deep/40 rounded-sm p-5 sm:p-6 flex flex-col gap-2"
+    <article className="grid sm:grid-cols-[120px_1fr] gap-6 sm:gap-10 mt-6">
+      <div className="flex flex-col gap-1 sm:gap-2 items-center sm:items-end sm:text-right">
+        <RomanNumeral
+          n={index}
+          className="text-7xl sm:text-8xl text-brass-deep leading-none"
+        />
+        <p
+          className="text-xl sm:text-2xl text-brass-deep mt-1 italic leading-snug"
+          style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
         >
-          <div className="flex items-baseline gap-3">
-            <RomanNumeral
-              n={i + 1}
-              className="text-3xl text-brass-deep leading-none"
-            />
-            <p
-              className="text-sm tracking-[0.25em] uppercase text-ink-faint"
-              style={{ fontFamily: 'var(--font-cinzel)' }}
-            >
-              {q.kicker}
-            </p>
-          </div>
-          <h3
-            className="text-lg sm:text-xl text-ink leading-snug"
-            style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
-          >
-            {q.title}
-          </h3>
-          <ul
-            className="list-disc ml-5 space-y-1 text-sm sm:text-base text-ink-soft leading-relaxed"
-            style={{ fontFamily: 'var(--font-fraunces)' }}
-          >
-            {q.bullets.map((b, j) => (
-              <li key={j}>{b}</li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ol>
+          {kicker}
+        </p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <PanelCard
+          ribbonLabel="The condition observed"
+          ribbonClass="bg-paper-deep border-stone-400 text-ink-soft"
+          title={problemTitle}
+          bullets={problemBullets}
+        />
+        <PanelCard
+          ribbonLabel="Strata Mundo · the remedy"
+          ribbonClass="bg-brass/20 border-brass-deep text-brass-deep"
+          title={solutionTitle}
+          bullets={solutionBullets}
+          accent
+        />
+      </div>
+    </article>
+  )
+}
+
+function PanelCard({
+  ribbonLabel,
+  ribbonClass,
+  title,
+  bullets,
+  accent = false,
+}: {
+  ribbonLabel: string
+  ribbonClass: string
+  title: string
+  bullets: string[]
+  accent?: boolean
+}) {
+  return (
+    <div
+      className={`relative bg-paper border-2 ${
+        accent
+          ? 'border-brass-deep shadow-[0_0_20px_oklch(0.74_0.14_80/0.15)]'
+          : 'border-stone-300'
+      } p-5 sm:p-6 flex flex-col gap-3 rounded-sm`}
+    >
+      <span
+        className={`inline-flex w-fit text-xs tracking-[0.2em] uppercase border-2 px-2 py-1 rounded-sm ${ribbonClass}`}
+        style={{ fontFamily: 'var(--font-cinzel)' }}
+      >
+        {ribbonLabel}
+      </span>
+
+      <h3
+        className="text-lg sm:text-xl text-ink leading-snug pr-2"
+        style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+      >
+        {title}
+      </h3>
+
+      <ul
+        className="list-disc ml-5 space-y-1.5 text-sm text-ink-soft leading-relaxed"
+        style={{ fontFamily: 'var(--font-fraunces)' }}
+      >
+        {bullets.map((b, i) => (
+          <li key={i}>{b}</li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
