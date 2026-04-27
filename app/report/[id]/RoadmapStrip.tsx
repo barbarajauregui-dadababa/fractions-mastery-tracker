@@ -15,7 +15,7 @@ export function FourthGradeOverviewStrip() {
     <section className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span
-          className="text-xs tracking-[0.25em] uppercase text-ink-faint"
+          className="text-sm tracking-[0.25em] uppercase text-ink-faint"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           The 5 Progressions of 4th-grade math
@@ -86,7 +86,7 @@ export function FractionsSectionStrip({ learnerName, roadmap }: SectionStripProp
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2">
           <span
-            className="text-xs tracking-[0.25em] uppercase text-ink-faint"
+            className="text-sm tracking-[0.25em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Inside 4.NF · IM Sections for {learnerName}

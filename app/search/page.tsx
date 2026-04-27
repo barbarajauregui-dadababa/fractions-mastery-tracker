@@ -144,7 +144,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
       <div className="relative max-w-4xl mx-auto px-6 py-12 flex flex-col gap-8">
         <header className="flex flex-col gap-3 items-center text-center">
           <p
-            className="text-xs tracking-[0.4em] uppercase text-brass-deep"
+            className="text-sm tracking-[0.4em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             ◇ Search the library ◇
@@ -172,7 +172,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
             <p
-              className="text-xs tracking-[0.25em] uppercase text-brass-deep mb-2"
+              className="text-sm tracking-[0.25em] uppercase text-brass-deep mb-2"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               What you can search
@@ -238,7 +238,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                           {s.statement}
                         </p>
                         <p
-                          className="mt-1.5 text-xs tracking-[0.18em] uppercase text-copper group-hover:text-brass-deep"
+                          className="mt-1.5 text-sm tracking-[0.18em] uppercase text-copper group-hover:text-brass-deep"
                           style={{ fontFamily: 'var(--font-cinzel)' }}
                         >
                           + Suggest an activity for this standard →
@@ -262,7 +262,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                     >
                       <div className="flex items-baseline gap-2 flex-wrap">
                         <span
-                          className="text-xs tracking-[0.18em] uppercase text-brass-deep"
+                          className="text-sm tracking-[0.18em] uppercase text-brass-deep"
                           style={{ fontFamily: 'var(--font-cinzel)' }}
                         >
                           Activity · {r.modality} · curated
@@ -302,7 +302,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                     >
                       <div className="flex items-baseline gap-2 flex-wrap">
                         <span
-                          className="text-xs tracking-[0.18em] uppercase text-brass-deep"
+                          className="text-sm tracking-[0.18em] uppercase text-brass-deep"
                           style={{ fontFamily: 'var(--font-cinzel)' }}
                         >
                           Activity · {c.modality} · community
@@ -397,7 +397,7 @@ function ResultsSection({
   return (
     <section className="flex flex-col gap-2">
       <h2
-        className="text-xs tracking-[0.25em] uppercase text-brass-deep"
+        className="text-sm tracking-[0.25em] uppercase text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         ◇ {title} ◇

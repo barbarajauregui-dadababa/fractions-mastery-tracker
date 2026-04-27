@@ -62,7 +62,7 @@ export default function Home() {
           {/* RIGHT: brand wordmark + tagline + balloon ascending */}
           <div className="relative flex flex-col gap-6 items-start text-left">
             <p
-              className="text-xs tracking-[0.4em] uppercase text-brass"
+              className="text-sm tracking-[0.4em] uppercase text-brass"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Built with Opus 4.7

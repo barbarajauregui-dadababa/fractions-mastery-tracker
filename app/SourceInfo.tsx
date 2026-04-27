@@ -32,7 +32,7 @@ export function SourceInfo({ layer, description, sourceName, authors, url }: Pro
       </summary>
       <div className="absolute left-0 top-5 z-30 w-72 rounded-sm border-2 border-brass-deep/50 bg-paper p-3 text-xs shadow-lg">
         <div
-          className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1"
+          className="text-sm tracking-[0.2em] uppercase text-brass-deep mb-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           {layer}

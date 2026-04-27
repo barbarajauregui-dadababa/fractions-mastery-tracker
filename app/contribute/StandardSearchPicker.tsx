@@ -48,7 +48,7 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
     return (
       <div className="rounded-sm border-2 border-brass-deep/60 bg-paper-deep/40 px-4 py-3">
         <div
-          className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1"
+          className="text-sm tracking-[0.2em] uppercase text-brass-deep mb-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Mapped to standard

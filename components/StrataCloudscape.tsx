@@ -76,7 +76,7 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
       {!compact && (
         <div className="absolute top-4 left-0 right-0 text-center pointer-events-none">
           <p
-            className="text-xs tracking-[0.4em] uppercase text-cream-soft"
+            className="text-sm tracking-[0.4em] uppercase text-cream-soft"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Apex of the voyage
@@ -116,7 +116,7 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
       {!compact && (
         <div className="absolute bottom-3 left-0 right-0 text-center pointer-events-none">
           <p
-            className="text-xs tracking-[0.4em] uppercase text-cream-faint"
+            className="text-sm tracking-[0.4em] uppercase text-cream-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             ◇ Foundation ◇

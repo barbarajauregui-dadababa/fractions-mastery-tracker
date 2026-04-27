@@ -13,7 +13,7 @@ export default function MethodologyPage() {
       <div className="max-w-3xl mx-auto px-6 py-12 flex flex-col gap-12 leading-relaxed">
         <header className="flex flex-col gap-3 items-center text-center">
           <p
-            className="text-xs tracking-[0.3em] uppercase text-ink-faint"
+            className="text-sm tracking-[0.3em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Methodology · A field manual
@@ -399,7 +399,7 @@ function ThreeQuestions({
               className="text-3xl text-brass-deep leading-none"
             />
             <p
-              className="text-xs tracking-[0.25em] uppercase text-ink-faint"
+              className="text-sm tracking-[0.25em] uppercase text-ink-faint"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               {q.kicker}
@@ -498,7 +498,7 @@ function CriteriaBlock({
   return (
     <div className="rounded-sm border border-brass-deep/40 bg-paper-deep/40 p-4">
       <div
-        className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-2"
+        className="text-sm tracking-[0.2em] uppercase text-brass-deep mb-2"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {title}

@@ -50,7 +50,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
       {masteryMap?.standards && (
         <details className="mt-8 rounded-sm border-2 border-brass-deep/40 bg-paper p-5">
           <summary
-            className="cursor-pointer list-none flex items-center justify-between text-xs tracking-[0.25em] uppercase text-brass-deep"
+            className="cursor-pointer list-none flex items-center justify-between text-sm tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Standard-by-standard list (11 standards)
@@ -69,7 +69,7 @@ export default function MasteryVoyage({ masteryMap }: Props) {
                 />
                 <span className="text-ink flex-1">{standardName(id)}</span>
                 <span
-                  className="text-xs tracking-[0.15em] uppercase text-ink-faint"
+                  className="text-sm tracking-[0.15em] uppercase text-ink-faint"
                   style={{ fontFamily: 'var(--font-cinzel)' }}
                 >
                   {stateLabel(state)}
@@ -126,7 +126,7 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
       {/* Apex label */}
       <div className="absolute top-4 left-0 right-0 text-center pointer-events-none z-10">
         <p
-          className="text-xs tracking-[0.4em] uppercase text-cream-soft"
+          className="text-sm tracking-[0.4em] uppercase text-cream-soft"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           ◇ Eleven weights · 4.NF standards ◇

@@ -69,7 +69,7 @@ export default async function AdminSubmissionPage({ params, searchParams }: Page
       <div className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-6">
         <header className="flex flex-col gap-1">
           <p
-            className="text-xs tracking-[0.3em] uppercase text-ink-faint"
+            className="text-sm tracking-[0.3em] uppercase text-ink-faint"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Admin · activity submission review
@@ -90,7 +90,7 @@ export default async function AdminSubmissionPage({ params, searchParams }: Page
 
         <div className={`rounded-sm border-2 ${verdictColor} p-5 flex flex-col gap-2`}>
           <div
-            className="text-xs tracking-[0.25em] uppercase text-brass-deep"
+            className="text-sm tracking-[0.25em] uppercase text-brass-deep"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             AI vet verdict · {row.ai_vet_verdict ? row.ai_vet_verdict.toUpperCase() : '(no AI vet ran)'}
@@ -148,7 +148,7 @@ function Field({ label, body, link }: { label: string; body: string; link?: stri
   return (
     <div className="flex flex-col gap-1">
       <span
-        className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+        className="text-sm tracking-[0.2em] uppercase text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {label}

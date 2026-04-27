@@ -43,7 +43,7 @@ export default function ResumeForm() {
     return (
       <div className="rounded-sm border-2 border-emerald-700 bg-emerald-50 p-5 flex flex-col gap-2">
         <p
-          className="text-xs tracking-[0.25em] uppercase text-emerald-800 font-bold"
+          className="text-sm tracking-[0.25em] uppercase text-emerald-800 font-bold"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Check your inbox

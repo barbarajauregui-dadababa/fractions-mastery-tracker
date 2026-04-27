@@ -191,7 +191,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
               bottomRightSlot={
                 <Link
                   href={`/learner/${assessment.learner_id}`}
-                  className="inline-flex items-center gap-1.5 rounded-sm border border-brass bg-brass-deep/85 backdrop-blur px-3 py-1.5 text-xs tracking-[0.18em] uppercase text-cream hover:bg-brass transition-colors shadow-[0_0_12px_oklch(0.74_0.14_80/0.45)]"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-brass bg-brass-deep/85 backdrop-blur px-3 py-1.5 text-sm tracking-[0.18em] uppercase text-cream hover:bg-brass transition-colors shadow-[0_0_12px_oklch(0.74_0.14_80/0.45)]"
                   style={{ fontFamily: 'var(--font-cinzel)' }}
                 >
                   Open the voyage →
@@ -209,7 +209,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
 
       <header className="flex flex-col gap-2">
         <p
-          className="text-xs tracking-[0.3em] uppercase text-ink-faint"
+          className="text-sm tracking-[0.3em] uppercase text-ink-faint"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           Mastery report · {displayName}
@@ -338,7 +338,7 @@ export default async function ReportPage(props: PageProps<'/report/[id]'>) {
                     <CornerFlourish corner="bl" className="absolute bottom-1.5 left-1.5 h-5 w-5 text-brass-deep" />
                     <CornerFlourish corner="br" className="absolute bottom-1.5 right-1.5 h-5 w-5 text-brass-deep" />
                     <div
-                      className="mb-2 text-xs tracking-[0.25em] uppercase text-brass-deep"
+                      className="mb-2 text-sm tracking-[0.25em] uppercase text-brass-deep"
                       style={{ fontFamily: 'var(--font-cinzel)' }}
                     >
                       Next assessment · consider probing
@@ -389,7 +389,7 @@ function AtAGlanceSummary({
       <CornerFlourish corner="br" className="absolute bottom-1.5 right-1.5 h-5 w-5 text-brass-deep pointer-events-none" />
       <div className="flex items-center gap-2 mb-3">
         <span
-          className="text-xs tracking-[0.25em] uppercase text-brass-deep"
+          className="text-sm tracking-[0.25em] uppercase text-brass-deep"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           At a glance · CCSS Standards
@@ -651,7 +651,7 @@ function Bucket({
               {gap && planId && (
                 <div className="mt-3 pt-3 border-t border-brass-deep/30">
                   <div
-                    className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-2"
+                    className="text-sm tracking-[0.2em] uppercase text-brass-deep mb-2"
                     style={{ fontFamily: 'var(--font-cinzel)' }}
                   >
                     Prescribed activities
@@ -695,7 +695,7 @@ function Bucket({
                   {showProbeButton && (
                     <div className="mt-4 pt-3 border-t border-dashed border-brass-deep/40 flex flex-col gap-2">
                       <div
-                        className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+                        className="text-sm tracking-[0.2em] uppercase text-brass-deep"
                         style={{ fontFamily: 'var(--font-cinzel)' }}
                       >
                         Verify mastery
@@ -715,7 +715,7 @@ function Bucket({
                         />
                         <Link
                           href={`/contribute?standard=${encodeURIComponent(sid)}`}
-                          className="inline-flex items-center gap-1.5 text-xs tracking-[0.18em] uppercase text-copper hover:text-brass-deep underline underline-offset-2 decoration-brass-deep/40 hover:decoration-brass-deep"
+                          className="inline-flex items-center gap-1.5 text-sm tracking-[0.18em] uppercase text-copper hover:text-brass-deep underline underline-offset-2 decoration-brass-deep/40 hover:decoration-brass-deep"
                           style={{ fontFamily: 'var(--font-cinzel)' }}
                         >
                           + Suggest an activity for this standard

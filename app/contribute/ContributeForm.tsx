@@ -316,7 +316,7 @@ export default function ContributeForm({ initialStandardId }: Props) {
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
             <div
-              className="text-xs tracking-[0.2em] uppercase text-red-800 mb-1 font-bold"
+              className="text-sm tracking-[0.2em] uppercase text-red-800 mb-1 font-bold"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Before you can submit
@@ -439,7 +439,7 @@ function ResultPanel({
   return (
     <div className={`relative rounded-sm border-2 ${verdictColor} p-6 flex flex-col gap-3 shadow-[0_0_20px_oklch(0.74_0.14_80/0.18)]`}>
       <span
-        className="text-xs tracking-[0.25em] uppercase text-brass-deep"
+        className="text-sm tracking-[0.25em] uppercase text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         {verdictLabel}
@@ -457,7 +457,7 @@ function ResultPanel({
       {bullets.length > 0 && (
         <div className="rounded-sm bg-paper px-4 py-3 border border-brass-deep/30">
           <div
-            className="text-xs tracking-[0.2em] uppercase text-brass-deep mb-1.5"
+            className="text-sm tracking-[0.2em] uppercase text-brass-deep mb-1.5"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             AI reviewer notes

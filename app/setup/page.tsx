@@ -98,7 +98,7 @@ export default function SetupPage() {
       <div className="max-w-xl mx-auto px-6 py-16 flex flex-col gap-8">
         <header className="flex flex-col gap-2 items-center text-center">
           <p
-            className="text-xs tracking-[0.4em] uppercase text-brass"
+            className="text-sm tracking-[0.4em] uppercase text-brass"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Begin a voyage
@@ -135,7 +135,7 @@ export default function SetupPage() {
         >
           <label className="flex flex-col gap-1.5">
             <span
-              className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+              className="text-sm tracking-[0.2em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Name
@@ -153,7 +153,7 @@ export default function SetupPage() {
 
           <label className="flex flex-col gap-1.5">
             <span
-              className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+              className="text-sm tracking-[0.2em] uppercase text-brass-deep"
               style={{ fontFamily: 'var(--font-cinzel)' }}
             >
               Email
@@ -178,7 +178,7 @@ export default function SetupPage() {
           <div className="flex gap-4">
             <label className="flex flex-col gap-1.5 flex-1">
               <span
-                className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+                className="text-sm tracking-[0.2em] uppercase text-brass-deep"
                 style={{ fontFamily: 'var(--font-cinzel)' }}
               >
                 Age
@@ -195,7 +195,7 @@ export default function SetupPage() {
             </label>
             <label className="flex flex-col gap-1.5 flex-1">
               <span
-                className="text-xs tracking-[0.2em] uppercase text-brass-deep"
+                className="text-sm tracking-[0.2em] uppercase text-brass-deep"
                 style={{ fontFamily: 'var(--font-cinzel)' }}
               >
                 Grade level

@@ -174,7 +174,7 @@ export default function ActivityTile({
         <button
           type="button"
           onClick={() => setShowWhy((v) => !v)}
-          className="text-xs tracking-[0.15em] uppercase text-ink-faint hover:text-brass-deep inline-flex items-center gap-1"
+          className="text-sm tracking-[0.15em] uppercase text-ink-faint hover:text-brass-deep inline-flex items-center gap-1"
           style={{ fontFamily: 'var(--font-cinzel)' }}
         >
           <svg

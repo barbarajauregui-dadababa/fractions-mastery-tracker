@@ -67,7 +67,7 @@ export default function ReviewActions({ submissionId, adminKey, currentStatus, e
   return (
     <section className="flex flex-col gap-3 rounded-sm border-2 border-brass-deep bg-[oklch(0.98_0.012_78)] p-5">
       <p
-        className="text-xs tracking-[0.25em] uppercase text-brass-deep"
+        className="text-sm tracking-[0.25em] uppercase text-brass-deep"
         style={{ fontFamily: 'var(--font-cinzel)' }}
       >
         Human review
