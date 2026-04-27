@@ -43,11 +43,13 @@ export default function Home() {
           <Gear className="h-12 w-12" teeth={8} />
         </div>
 
-        {/* Bottom-left gear cluster */}
+        {/* Bottom-left gear cluster — copper (red) gear meshed with the
+            brass (yellow) gear, both turning. Their teeth visually
+            interlock; the copper turns one way, brass the other. */}
         <div className="absolute bottom-8 left-8 hidden sm:block text-brass-deep animate-turn-slow-reverse ember-glow pointer-events-none">
           <Gear className="h-28 w-28" teeth={12} />
         </div>
-        <div className="absolute bottom-32 left-32 hidden sm:block text-copper animate-turn-slow pointer-events-none">
+        <div className="absolute bottom-28 left-28 hidden sm:block text-copper animate-turn-slow pointer-events-none">
           <Gear className="h-14 w-14" teeth={10} />
         </div>
 
@@ -183,20 +185,22 @@ export default function Home() {
             questions={[
               {
                 kicker: 'Question I',
-                title: 'Where is the learner, really?',
+                title: 'Where is the learner really at in their math mastery?',
                 bullets: [
-                  'Reads drags, removals, commits, resets, timing — not just answers',
+                  'Reads telemetry — every drag, removal, commit, reset, and timing — not just the final answer',
                   'Produces a categorical mastery map per CCSS standard',
-                  'Four states with named misconceptions and traceable evidence',
+                  'Four states: Mastered · Building the skill · Misconception detected · Not yet probed',
+                  'Names specific misconceptions with traceable evidence pointing to the problems where they fired',
                 ],
               },
               {
                 kicker: 'Question II',
                 title: 'What should they work on next?',
                 bullets: [
-                  'Mastery atlas grounded in the Coherence Map and IM Sections',
-                  'Concept dependencies visible',
-                  'Plan Architect skips mastered, starts at the first flagged section',
+                  'A mastery atlas built from the published Common Core Coherence Map',
+                  'Every standard, every prerequisite, in one view',
+                  'Concept dependencies (which standards build on which) are visible at a glance',
+                  'Plan Architect skips mastered standards and starts where work is needed',
                 ],
               },
               {
