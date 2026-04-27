@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  Gear,
-  OrnamentalRule,
-  RomanNumeral,
-} from './Ornament'
+import { Gear, OrnamentalRule } from './Ornament'
 
 export default function Home() {
   return (
@@ -273,18 +269,12 @@ function ThreeQuestions({
           key={i}
           className="relative bg-[oklch(0.98_0.012_78)] border-2 border-brass-deep/50 rounded-sm p-5 sm:p-6 flex flex-col gap-2 shadow-[0_0_25px_oklch(0.74_0.14_80/0.18)]"
         >
-          <div className="flex items-baseline gap-3">
-            <RomanNumeral
-              n={i + 1}
-              className="text-3xl text-brass-deep leading-none"
-            />
-            <p
-              className="text-sm tracking-[0.25em] uppercase text-ink-faint"
-              style={{ fontFamily: 'var(--font-cinzel)' }}
-            >
-              {q.kicker}
-            </p>
-          </div>
+          <p
+            className="text-2xl sm:text-3xl tracking-[0.18em] uppercase text-brass-deep leading-none"
+            style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700 }}
+          >
+            {q.kicker}
+          </p>
           <h3
             className="text-lg sm:text-xl text-ink leading-snug"
             style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
