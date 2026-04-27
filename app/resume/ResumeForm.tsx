@@ -111,7 +111,7 @@ export default function ResumeForm() {
         className="inline-flex h-11 items-center justify-center rounded-sm bg-brass-deep px-7 text-xs font-bold uppercase text-cream hover:bg-brass disabled:opacity-50 transition-colors w-fit border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.4)]"
         style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
       >
-        {isSubmitting ? 'Sending…' : 'Send me my voyages ◇'}
+        {isSubmitting ? 'Sending…' : 'Send me my voyage ◇'}
       </button>
     </form>
   )

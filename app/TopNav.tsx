@@ -39,7 +39,7 @@ export default function TopNav() {
           <NavLink href="/" label="Home" />
           <NavLink href="/resume" label="My voyage" />
           <NavLink href="/contribute" label="Contribute" />
-          <NavLink href="/methodology" label="Methodology" />
+          <NavLink href="/methodology" label="Methods" />
           <li>
             <Link
               href="/search"
