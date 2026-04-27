@@ -89,9 +89,9 @@ function sortedStandards(
 function stateLabel(state: StandardState): string {
   switch (state) {
     case 'misconception':
-      return 'Needs attention'
+      return 'Misconception detected'
     case 'working':
-      return 'Needs work'
+      return 'Building the skill'
     case 'demonstrated':
       return 'Mastered'
     case 'not_assessed':

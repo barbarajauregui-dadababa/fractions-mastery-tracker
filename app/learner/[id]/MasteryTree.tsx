@@ -386,9 +386,9 @@ function stateLabel(state: StandardState): string {
     case 'demonstrated':
       return 'Mastered'
     case 'working':
-      return 'Working on'
+      return 'Building the skill'
     case 'misconception':
-      return 'Needs attention'
+      return 'Misconception detected'
     case 'not_assessed':
       return 'Not yet probed'
   }

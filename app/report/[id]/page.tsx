@@ -407,7 +407,7 @@ function AtAGlanceSummary({
             <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-red-600 shrink-0" />
             <div className="flex-1">
               <div className="text-ink">
-                <span className="font-semibold">Needs attention</span>
+                <span className="font-semibold">Misconception detected</span>
                 <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                   ({byState.misconception.length})
                 </span>
@@ -448,7 +448,7 @@ function AtAGlanceSummary({
             <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-amber-600 shrink-0" />
             <div className="flex-1">
               <div className="text-ink">
-                <span className="font-semibold">Needs work</span>
+                <span className="font-semibold">Building the skill</span>
                 <span className="text-ink-faint ml-1.5" style={{ fontFamily: 'var(--font-cinzel)' }}>
                   ({byState.working.length})
                 </span>
