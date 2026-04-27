@@ -137,18 +137,30 @@ body.hide-other [data-modality="other"] {
   animation: rise-slow 14s ease-in-out infinite;
 }
 
-/* Slow turn, for ornamental gears */
+/* Slow turn, for ornamental gears. Each rule sets transform-origin so
+ * the wrapper div rotates around its visual center even if its
+ * dimensions don't perfectly match the gear SVG.
+ *
+ * Speeds are tuned so meshed gears in the bottom-left cluster look
+ * physically driven: brass-deep has 12 teeth, copper has 10. With
+ * the brass at 18s/rev and the copper at 15s/rev, the tooth-ratio
+ * 12:10 = 18s:15s holds — the smaller gear turns proportionally
+ * faster as a real meshed pair would. Direction-opposed by using
+ * `reverse` on the brass.
+ */
 @keyframes turn-slow {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
 .animate-turn-slow {
-  animation: turn-slow 40s linear infinite;
+  animation: turn-slow 15s linear infinite;
+  transform-origin: center;
 }
 
 .animate-turn-slow-reverse {
-  animation: turn-slow 50s linear infinite reverse;
+  animation: turn-slow 18s linear infinite reverse;
+  transform-origin: center;
 }
 
 /* Gentle balloon float — slow + subtle */

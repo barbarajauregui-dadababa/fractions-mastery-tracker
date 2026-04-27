@@ -162,18 +162,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THREE-QUESTION SECTIONS — diagram plates on warm paper */}
-      <section className="bg-paper py-20 px-6 relative">
-        {/* Subtle paper texture via radial dot pattern */}
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none opacity-[0.06]"
-          style={{
-            backgroundImage:
-              'radial-gradient(oklch(0.18 0.018 55) 1px, transparent 1px)',
-            backgroundSize: '14px 14px',
-          }}
-        />
+      {/* THREE-QUESTION SECTIONS — Denis cloudscape backdrop on a soft tan
+          ground, matching the report and contribute pages. Cards use solid
+          near-white to read clearly against the painted sky. */}
+      <section
+        className="relative py-20 px-6 overflow-hidden"
+        style={{ background: 'oklch(0.88 0.025 70)' }}
+      >
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <Image
+            src="/images/cloudscape-denis.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-40"
+            style={{ filter: 'sepia(0.4) brightness(1.05) contrast(1.05)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(180deg, oklch(0.88 0.025 70 / 0.25) 0%, oklch(0.86 0.028 68 / 0.40) 100%)',
+            }}
+          />
+        </div>
         <div className="relative max-w-5xl mx-auto flex flex-col gap-16">
           <div className="flex flex-col items-center gap-3 text-center">
             <h2
@@ -259,7 +271,7 @@ function ThreeQuestions({
       {questions.map((q, i) => (
         <li
           key={i}
-          className="relative bg-paper-deep/40 border-2 border-brass-deep/40 rounded-sm p-5 sm:p-6 flex flex-col gap-2"
+          className="relative bg-[oklch(0.98_0.012_78)] border-2 border-brass-deep/50 rounded-sm p-5 sm:p-6 flex flex-col gap-2 shadow-[0_0_25px_oklch(0.74_0.14_80/0.18)]"
         >
           <div className="flex items-baseline gap-3">
             <RomanNumeral
