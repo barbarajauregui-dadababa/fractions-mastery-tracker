@@ -262,14 +262,14 @@
       "modality": "manipulative",
       "source_site": "physical material — Didax, ETA, or similar",
       "url": null,
-      "companion_url": null,
+      "companion_url": "https://www.learner.org/series/learning-math-number-and-operations/rational-numbers-and-proportional-reasoning/fractions-with-cuisenaire-rods-45-minutes-representing-fractions-with-rods/",
       "duration_minutes": 20,
       "grade_band": "3-4",
       "misconception_ids": ["m04_equivalent_fractions_unrecognized", "m06_whole_irrelevant"],
       "concept_nodes": ["s02_fraction_notation_and_unit_fractions", "s03_visual_representations", "s04_equivalent_fractions"],
       "prerequisites": [],
-      "notes": "Cuisenaire rods are the classic tool for referent-whole reasoning: if orange (10 cm) is 'the whole', what is white (1 cm)? 1/10. But if red (2 cm) is 'the whole', what is white? 1/2. Directly confronts m06 (the whole doesn't matter). Companion explainer pending — Annenberg Learner and NRICH 'Rod Fractions' are candidates.",
-      "curation_status": "needs_companion_url"
+      "notes": "Cuisenaire rods are the classic tool for referent-whole reasoning: if orange (10 cm) is 'the whole', what is white (1 cm)? 1/10. But if red (2 cm) is 'the whole', what is white? 1/2. Directly confronts m06 (the whole doesn't matter). Companion: Annenberg Learner 'Fractions with Cuisenaire Rods' (45-min video session).",
+      "curation_status": "verified"
     },
     {
       "id": "r20",
