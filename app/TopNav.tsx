@@ -48,7 +48,7 @@ export default function TopNav() {
           <NavLink href="/" label="Home" />
           <NavLink href="/methodology" label="Methodology" />
           <NavLink href="/contribute" label="Contribute" />
-          <NavLink href="/setup" label="New learner" />
+          <NavLink href="/resume" label="My voyage" />
           <li>
             <a
               href="https://github.com/barbarajauregui-dadababa/stratamundo"
