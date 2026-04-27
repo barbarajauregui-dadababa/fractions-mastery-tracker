@@ -46,35 +46,32 @@ export default function ModalityGlyph({ modality, className }: Props) {
       )
 
     case 'game_or_interactive':
-      // Chronograph: outer brass ring, hour ticks, Roman numerals at 3/6/9/12, pointer.
+      // Desktop monitor on a stand — brass-bordered frame with a screen
+      // showing a nav bar + content lines + cursor. Reads as "computer /
+      // online" so contributors can tell digital activities apart from
+      // hands-on at a glance.
       return (
         <svg viewBox="0 0 40 40" className={cls} fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
-          {/* Outer rim — double ring */}
-          <circle cx="20" cy="20" r="16" strokeWidth="1.6" />
-          <circle cx="20" cy="20" r="14" strokeWidth="0.8" opacity="0.6" />
-          {/* Inner face */}
-          <circle cx="20" cy="20" r="11" strokeWidth="0.8" opacity="0.5" />
-          {/* Hour ticks — 12 of them, longer at 12/3/6/9 */}
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
-            const a = (i / 12) * Math.PI * 2 - Math.PI / 2
-            const r1 = i % 3 === 0 ? 11.5 : 12.4
-            const r2 = 13.4
-            const x1 = 20 + r1 * Math.cos(a)
-            const y1 = 20 + r1 * Math.sin(a)
-            const x2 = 20 + r2 * Math.cos(a)
-            const y2 = 20 + r2 * Math.sin(a)
-            const sw = i % 3 === 0 ? 1.4 : 0.7
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={sw} />
-          })}
-          {/* Pointer (hour hand) — pointing up-right */}
-          <line x1="20" y1="20" x2="26" y2="13" strokeWidth="1.8" strokeLinecap="round" />
-          {/* Sub-pointer (minute hand) — pointing right */}
-          <line x1="20" y1="20" x2="29" y2="20" strokeWidth="1.2" strokeLinecap="round" />
-          {/* Center post */}
-          <circle cx="20" cy="20" r="1.6" fill="currentColor" stroke="none" />
-          <circle cx="20" cy="20" r="0.6" fill="none" stroke="oklch(0.92 0.02 75)" strokeWidth="0.4" />
-          {/* Decorative flourish at top */}
-          <path d="M 18 4.5 Q 20 3 22 4.5" strokeWidth="0.9" />
+          {/* Outer monitor frame */}
+          <rect x="5" y="8" width="30" height="22" rx="2" />
+          {/* Inner screen */}
+          <rect x="7.5" y="10.5" width="25" height="17" rx="1" strokeWidth="0.9" />
+          {/* Top nav/menu bar */}
+          <line x1="7.5" y1="14" x2="32.5" y2="14" strokeWidth="0.8" />
+          {/* Three small "window" dots in the nav (like a browser window) */}
+          <circle cx="9.5" cy="12.3" r="0.6" fill="currentColor" stroke="none" />
+          <circle cx="11.5" cy="12.3" r="0.6" fill="currentColor" stroke="none" />
+          <circle cx="13.5" cy="12.3" r="0.6" fill="currentColor" stroke="none" />
+          {/* Content lines on the screen */}
+          <line x1="10" y1="17.5" x2="20" y2="17.5" strokeWidth="1" />
+          <line x1="10" y1="20.5" x2="26" y2="20.5" strokeWidth="1" />
+          <line x1="10" y1="23.5" x2="18" y2="23.5" strokeWidth="1" />
+          {/* Blinking cursor */}
+          <rect x="25.5" y="22.7" width="1.5" height="1.6" fill="currentColor" stroke="none" />
+          {/* Stand neck */}
+          <line x1="20" y1="30" x2="20" y2="33" strokeWidth="1.6" />
+          {/* Base */}
+          <line x1="13.5" y1="34" x2="26.5" y2="34" strokeLinecap="round" strokeWidth="1.8" />
         </svg>
       )
 
