@@ -28,10 +28,12 @@ export default function Home() {
           />
         </div>
 
-        {/* Top-right gear cluster — large gear that used to sit behind the
-            balloon was removed per Barbara. The two remaining gears mesh
-            with each other. Both turn (animate-turn-slow / -reverse). */}
-        <div className="absolute top-32 right-44 hidden sm:block text-brass-deep animate-turn-slow-reverse ember-glow pointer-events-none">
+        {/* Top-right gear cluster. Note: ember-glow ALSO sets the CSS
+            `animation` property, so it can't be combined with
+            animate-turn-slow on the same element (the later rule wins
+            and you get the glow but no rotation). The rotating gears
+            don't get ember-glow. */}
+        <div className="absolute top-32 right-44 hidden sm:block text-brass-deep animate-turn-slow-reverse pointer-events-none">
           <Gear className="h-20 w-20" teeth={10} />
         </div>
         <div className="absolute top-44 right-24 hidden sm:block text-copper animate-turn-slow pointer-events-none">
@@ -39,9 +41,8 @@ export default function Home() {
         </div>
 
         {/* Bottom-left gear cluster — copper (red) gear meshed with the
-            brass (yellow) gear, both turning. Their teeth visually
-            interlock; the copper turns one way, brass the other. */}
-        <div className="absolute bottom-8 left-8 hidden sm:block text-brass-deep animate-turn-slow-reverse ember-glow pointer-events-none">
+            brass (yellow) gear, both turning in opposite directions. */}
+        <div className="absolute bottom-8 left-8 hidden sm:block text-brass-deep animate-turn-slow-reverse pointer-events-none">
           <Gear className="h-28 w-28" teeth={12} />
         </div>
         <div className="absolute bottom-28 left-28 hidden sm:block text-copper animate-turn-slow pointer-events-none">
