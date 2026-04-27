@@ -57,8 +57,8 @@ export default async function ContributePage({ searchParams }: SearchParamsShape
             className="text-base text-ink-soft italic max-w-xl space-y-1.5 text-left list-disc pl-5"
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
-            <li>Anyone can contribute — guides, teachers, parents, learners, and other users.</li>
-            <li>Strata Mundo&apos;s library grows from what works in real practice, not what&apos;s easy to publish.</li>
+            <li>Anyone can contribute — guides, teachers, parents, and learners.</li>
+            <li>Strata Mundo&apos;s library grows from what works in real practice.</li>
             <li>Every submission is AI-vetted, then human-approved.</li>
           </ul>
         </header>

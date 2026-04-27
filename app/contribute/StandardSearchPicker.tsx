@@ -34,13 +34,34 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
     const q = query.trim().toLowerCase()
     if (!q) return STANDARDS
     return STANDARDS.filter((s) => {
+      // Normalize the progression/domain name so that em-dashes and spaces
+      // match flexibly (e.g., "Number and Operations Fractions" matches
+      // "Number and Operations—Fractions").
+      const domainNorm = s.domain
+        .toLowerCase()
+        .replace(/[—–-]/g, ' ')
+        .replace(/\s+/g, ' ')
+      const qNorm = q.replace(/[—–-]/g, ' ').replace(/\s+/g, ' ')
       return (
         s.id.toLowerCase().includes(q) ||
         s.statement.toLowerCase().includes(q) ||
-        (s.cluster_heading?.toLowerCase().includes(q) ?? false)
+        (s.cluster_heading?.toLowerCase().includes(q) ?? false) ||
+        domainNorm.includes(qNorm)
       )
     })
   }, [query])
+
+  // Available progressions, derived from the coherence map. Used as quick-pick
+  // chips so contributors can browse by progression instead of standard.
+  const PROGRESSIONS = useMemo(() => {
+    const map = new Map<string, string[]>()
+    for (const s of STANDARDS) {
+      const list = map.get(s.domain) ?? []
+      list.push(s.id)
+      map.set(s.domain, list)
+    }
+    return [...map.entries()].map(([name, ids]) => ({ name, ids }))
+  }, [])
 
   function toggle(id: string) {
     if (lockedToStandard) return
@@ -80,10 +101,26 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by name (e.g., 'unit fractions') or by code (e.g., '3.NF.A.1')"
+        placeholder="Search by progression (e.g., 'Geometry'), name (e.g., 'unit fractions'), or code (e.g., '3.NF.A.1')"
         className="h-10 rounded-sm border-2 border-brass-deep/60 bg-paper text-ink px-3 text-sm focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/40 placeholder:text-ink-faint"
         style={{ fontFamily: 'var(--font-fraunces)' }}
       />
+
+      {/* Quick-pick: clicking a progression filters to its standards. */}
+      <div className="flex flex-wrap gap-1.5">
+        {PROGRESSIONS.map((p) => (
+          <button
+            key={p.name}
+            type="button"
+            onClick={() => setQuery(p.name)}
+            className="inline-flex items-center gap-1 rounded-full border border-brass-deep/40 bg-paper px-3 py-0.5 text-xs text-ink-soft hover:border-brass-deep hover:bg-brass/10 transition-colors"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
+            {p.name}
+            <span className="text-ink-faint">({p.ids.length})</span>
+          </button>
+        ))}
+      </div>
 
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
@@ -107,62 +144,65 @@ export default function StandardSearchPicker({ selected, onChange, lockedToStand
         </div>
       )}
 
-      <ul className="flex flex-col gap-1 max-h-72 overflow-y-auto rounded-sm border border-stone-300/50 bg-paper p-1">
-        {filtered.length === 0 && (
-          <li
-            className="text-sm text-ink-faint italic px-3 py-2"
-            style={{ fontFamily: 'var(--font-fraunces)' }}
-          >
-            No matches.
-          </li>
-        )}
-        {filtered.map((s) => {
-          const isSelected = selected.includes(s.id)
-          return (
-            <li key={s.id}>
-              <button
-                type="button"
-                onClick={() => toggle(s.id)}
-                className={`w-full text-left rounded-sm px-3 py-2 transition-colors ${
-                  isSelected ? 'bg-brass/20' : 'hover:bg-paper-deep/40'
-                }`}
-              >
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className="text-xs text-brass-deep"
-                    style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.1em' }}
-                  >
-                    {s.id}
-                  </span>
-                  <span
-                    className="text-sm text-ink flex-1"
-                    style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
-                  >
-                    {shortLabel(s)}
-                  </span>
-                  <span
-                    className="text-xs text-ink-faint italic"
-                    style={{ fontFamily: 'var(--font-fraunces)' }}
-                  >
-                    Grade {s.grade}
-                  </span>
-                </div>
-                <div
-                  className="mt-1 text-xs text-ink-soft leading-snug"
-                  style={{ fontFamily: 'var(--font-fraunces)' }}
-                >
-                  {s.statement}
-                </div>
-              </button>
+      {query.trim().length === 0 ? (
+        <div
+          className="rounded-sm border border-dashed border-brass-deep/40 bg-paper px-4 py-6 text-center text-sm text-ink-soft italic"
+          style={{ fontFamily: 'var(--font-fraunces)' }}
+        >
+          Pick a progression above, or type a code or keyword to begin.
+        </div>
+      ) : (
+        <ul className="flex flex-col gap-1 max-h-72 overflow-y-auto rounded-sm border border-stone-300/50 bg-paper p-1">
+          {filtered.length === 0 && (
+            <li
+              className="text-sm text-ink-faint italic px-3 py-2"
+              style={{ fontFamily: 'var(--font-fraunces)' }}
+            >
+              No matches.
             </li>
-          )
-        })}
-      </ul>
+          )}
+          {filtered.map((s) => {
+            const isSelected = selected.includes(s.id)
+            return (
+              <li key={s.id}>
+                <button
+                  type="button"
+                  onClick={() => toggle(s.id)}
+                  className={`w-full text-left rounded-sm px-3 py-2 transition-colors ${
+                    isSelected ? 'bg-brass/20' : 'hover:bg-paper-deep/40'
+                  }`}
+                >
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    <span
+                      className="text-xs text-brass-deep"
+                      style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.1em' }}
+                    >
+                      {s.id}
+                    </span>
+                    <span
+                      className="text-sm text-ink flex-1 min-w-[12rem]"
+                      style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+                    >
+                      {shortLabel(s)}
+                    </span>
+                    <span
+                      className="text-xs text-ink-faint italic"
+                      style={{ fontFamily: 'var(--font-fraunces)' }}
+                    >
+                      {s.domain} · Grade {s.grade}
+                    </span>
+                  </div>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
       <p
         className="text-xs text-ink-faint italic"
         style={{ fontFamily: 'var(--font-fraunces)' }}
       >
-        Click a standard to add or remove. Multiple standards are allowed for activities that span concepts.
+        Click a standard to add or remove. Multiple standards are allowed.
       </p>
     </div>
   )

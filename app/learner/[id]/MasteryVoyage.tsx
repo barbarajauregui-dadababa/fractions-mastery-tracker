@@ -174,8 +174,6 @@ export default function MasteryVoyage({
           learnerId={learnerId}
         />
       )}
-
-      <Legend />
     </div>
   )
 }
@@ -295,13 +293,6 @@ function VerifyMasterySection({
                 standardName={standardName(sid)}
                 parentAssessmentId={assessmentId}
               />
-              <Link
-                href={`/contribute?standard=${encodeURIComponent(sid)}`}
-                className="inline-flex items-center gap-1.5 text-xs tracking-[0.18em] uppercase text-copper hover:text-brass-deep underline underline-offset-2 decoration-brass-deep/40 hover:decoration-brass-deep"
-                style={{ fontFamily: 'var(--font-cinzel)' }}
-              >
-                + Suggest activity
-              </Link>
             </li>
           ))}
         </ul>
@@ -373,6 +364,15 @@ function ActivitiesSection({
               />
             )
           })}
+          <div className="pt-3 mt-1 border-t border-dashed border-brass-deep/40 flex items-center justify-center">
+            <Link
+              href="/contribute"
+              className="inline-flex items-center gap-2 rounded-sm border-2 border-brass-deep px-4 py-2 text-xs font-bold uppercase text-ink hover:bg-brass/15 transition-colors"
+              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
+            >
+              + Suggest an activity
+            </Link>
+          </div>
         </div>
       )}
     </section>
@@ -506,31 +506,6 @@ function stateLabelColor(state: StandardState): string {
     case 'not_assessed':
       return 'text-stone-500'
   }
-}
-
-function Legend() {
-  const items: { color: string; label: string }[] = [
-    { color: 'bg-emerald-600', label: 'Mastered' },
-    { color: 'bg-amber-600', label: 'Building the skill' },
-    { color: 'bg-red-600', label: 'Misconception detected' },
-    { color: 'bg-stone-400', label: 'Not yet probed' },
-  ]
-  return (
-    <div
-      className="flex items-center justify-center gap-5 flex-wrap text-xs text-cream-soft"
-      style={{ fontFamily: 'var(--font-special-elite)' }}
-    >
-      {items.map((it) => (
-        <span key={it.label} className="flex items-center gap-1.5">
-          <span
-            className={`inline-block h-2.5 w-2.5 rounded-full ${it.color}`}
-            aria-hidden
-          />
-          {it.label}
-        </span>
-      ))}
-    </div>
-  )
 }
 
 /* Reused mini bulleted-sentences renderer (from report). */

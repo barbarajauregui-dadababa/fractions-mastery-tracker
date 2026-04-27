@@ -326,26 +326,6 @@ function ProgressionInfo({ progression }: { progression: ProgressionDef }) {
                   </span>
                 )}
                 <span className="text-ink-soft">{shortLabel(n.statement)}</span>
-                {n.khan_urls && n.khan_urls.length > 0 && (
-                  <span className="ml-1.5 text-[0.7rem]">
-                    {n.khan_urls.slice(0, 3).map((k, i) => (
-                      <span key={k.url}>
-                        {i > 0 && <span className="text-ink-faint">, </span>}
-                        <a
-                          href={k.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 hover:text-blue-900 underline underline-offset-2"
-                        >
-                          Khan: {k.title}
-                        </a>
-                      </span>
-                    ))}
-                    {n.khan_urls.length > 3 && (
-                      <span className="text-ink-faint"> … (+{n.khan_urls.length - 3} more)</span>
-                    )}
-                  </span>
-                )}
               </li>
             ))}
           </ul>
