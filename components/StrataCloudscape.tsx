@@ -109,7 +109,6 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
             size={compact ? 110 : 150}
             tilt={-2}
             motion="rise"
-            showCaption={false}
           />
         </div>
       )}

@@ -138,7 +138,7 @@ function ExpandedBalloonPanel({ masteryMap }: Props) {
         className="absolute left-1/2 -translate-x-1/2 z-10 pointer-events-none"
         style={{ width: '60%', top: '6%' }}
       >
-        <OldPhotoBalloon size={400} showCaption={false} />
+        <OldPhotoBalloon size={400} />
       </div>
 
       {/* Sandbag overlays — 11 weights hanging from the basket area.
