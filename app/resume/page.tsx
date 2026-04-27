@@ -63,19 +63,21 @@ export default function ResumePage() {
           <ResumeForm />
         </section>
 
-        <p
-          className="text-sm text-ink-soft italic text-center"
-          style={{ fontFamily: 'var(--font-fraunces)' }}
-        >
-          Don&apos;t have a voyage yet?{' '}
+        <div className="flex flex-col items-center gap-3">
+          <p
+            className="text-sm text-ink-soft italic text-center"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
+            Don&apos;t have a voyage yet?
+          </p>
           <Link
             href="/setup"
-            className="text-copper hover:text-brass-deep underline underline-offset-2 not-italic"
+            className="inline-flex h-12 items-center justify-center rounded-sm bg-brass-deep px-7 text-sm font-bold uppercase text-cream hover:bg-brass transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass-glow border border-brass shadow-[0_0_20px_oklch(0.74_0.14_80/0.4)]"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
           >
-            Start a new one
+            Begin the voyage
           </Link>
-          .
-        </p>
+        </div>
       </div>
     </main>
   )
