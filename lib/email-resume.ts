@@ -38,7 +38,7 @@ export async function sendResumeEmail({ email, learners }: SendArgs): Promise<Se
     const res = await resend.emails.send({
       from: FROM_ADDRESS,
       to: email,
-      subject: `Your Strata Mundo voyage${learners.length > 1 ? 's' : ''}`,
+      subject: 'Your Strata Mundo voyage',
       html: resumeHtml({ learners, siteUrl }),
     })
     return { emailId: res.data?.id }
