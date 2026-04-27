@@ -18,7 +18,7 @@ export default async function AssessPage(props: PageProps<'/assess/[id]'>) {
 
   if (error || !assessment) notFound()
   if (assessment.completed_at) {
-    redirect(parentAssessmentId ? `/report/${parentAssessmentId}` : `/report/${id}`)
+    redirect(`/learner/${assessment.learner_id}`)
   }
 
   type ResponseSkeleton = { problem_id: string }
@@ -49,6 +49,7 @@ export default async function AssessPage(props: PageProps<'/assess/[id]'>) {
       problems={publicProblems}
       learnerName={displayName}
       parentAssessmentId={parentAssessmentId}
+      learnerId={assessment.learner_id}
     />
   )
 }

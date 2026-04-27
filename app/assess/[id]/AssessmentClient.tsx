@@ -40,6 +40,7 @@ interface Props {
   problems: PublicProblem[]
   learnerName: string
   parentAssessmentId: string | null
+  learnerId: string
 }
 
 export default function AssessmentClient({
@@ -47,6 +48,7 @@ export default function AssessmentClient({
   problems,
   learnerName,
   parentAssessmentId,
+  learnerId,
 }: Props) {
   const router = useRouter()
   const supabase = createClient()
@@ -97,9 +99,9 @@ export default function AssessmentClient({
         .eq('id', assessmentId)
       if (updateError) throw updateError
 
-      // Auto-analyze. We await it so the report page has a mastery_map
+      // Auto-analyze. We await it so the voyage page has a mastery_map
       // when the learner lands. ~15 sec for a typical assessment. If
-      // analysis fails, we still redirect — the report page will show
+      // analysis fails, we still redirect — the voyage page will show
       // the manual "Run analysis" button as a fallback.
       setSubmitStage('analyzing')
       let analysisOk = false
@@ -113,12 +115,12 @@ export default function AssessmentClient({
           }),
         })
         if (!res.ok) {
-          console.warn('Auto-analysis failed; will retry from report page', await res.text())
+          console.warn('Auto-analysis failed; will retry from voyage page', await res.text())
         } else {
           analysisOk = true
         }
       } catch (analyzeErr) {
-        console.warn('Auto-analysis error; will retry from report page', analyzeErr)
+        console.warn('Auto-analysis error; will retry from voyage page', analyzeErr)
       }
 
       // Fire-and-forget plan generation so the user reads the mastery
@@ -138,19 +140,17 @@ export default function AssessmentClient({
         })
       }
 
-      // If we ran a focused probe with auto-merge, the parent's report
-      // is the destination (the probe's result was merged in).
-      const nextUrl = parentAssessmentId
-        ? `/report/${parentAssessmentId}`
-        : `/report/${assessmentId}`
-      router.push(nextUrl)
+      // Voyage page absorbs the report. After both assessments and probes
+      // we land on the learner's voyage; the probe's result was merged
+      // into the parent assessment via the analyze endpoint.
+      router.push(`/learner/${learnerId}`)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Could not submit assessment.'
       setError(message)
       setIsSubmitting(false)
       setSubmitStage('idle')
     }
-  }, [assessmentId, isSubmitting, parentAssessmentId, problems, router, supabase, telemetryByProblem])
+  }, [assessmentId, isSubmitting, learnerId, parentAssessmentId, problems, router, supabase, telemetryByProblem])
 
   function goNext() {
     if (isLast) void submit()

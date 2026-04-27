@@ -62,7 +62,7 @@ const PROGRESSIONS: ProgressionDef[] = [
 
 interface Props {
   masteryMap: { standards: Record<string, { state: StandardState }> } | null
-  /** Compact mode for the report page: shorter strata, smaller balloon, no apex/foundation labels. */
+  /** Compact mode (legacy use): shorter strata, smaller balloon, no apex/foundation labels. */
   compact?: boolean
   /** Show the balloon at the active stratum. Defaults true. */
   showBalloon?: boolean

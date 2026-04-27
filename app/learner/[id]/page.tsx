@@ -1,11 +1,18 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import MasteryVoyage from './MasteryVoyage'
+import type { PlanContent } from './PlanDisplay'
 import { OrnamentalRule } from '@/app/Ornament'
 
+interface StandardReport {
+  state: 'misconception' | 'working' | 'demonstrated' | 'not_assessed'
+  evidence_problem_ids: string[]
+  flagged_misconception_ids: string[]
+  reasoning: string
+}
 interface MasteryMap {
-  standards: Record<string, { state: 'misconception' | 'working' | 'demonstrated' | 'not_assessed' }>
+  standards: Record<string, StandardReport>
+  overall_notes?: string
 }
 
 export default async function LearnerDashboardPage(
@@ -32,42 +39,19 @@ export default async function LearnerDashboardPage(
   const latest = assessments?.[0]
   const masteryMap = (latest?.mastery_map as MasteryMap | null) ?? null
 
-  // Count completed activities per standard (drives pennant count).
-  const completedByStandard: Record<string, number> = {}
-  if (latest) {
+  let planContent: PlanContent | null = null
+  let planId: string | null = null
+  if (latest && masteryMap) {
     const { data: planRow } = await supabase
       .from('plans')
-      .select('plan_content')
+      .select('id, plan_content')
       .eq('assessment_id', latest.id)
       .eq('status', 'active')
       .maybeSingle()
-    type PlanShape = {
-      priority_gaps?: { standard_id: string; activities: { resource_id: string }[] }[]
-      _completed_activities?: { resource_id: string }[]
+    if (planRow) {
+      planContent = planRow.plan_content as PlanContent
+      planId = planRow.id as string
     }
-    const plan = (planRow?.plan_content as PlanShape | null) ?? null
-    if (plan) {
-      const completedIds = new Set(
-        (plan._completed_activities ?? []).map((c) => c.resource_id)
-      )
-      for (const gap of plan.priority_gaps ?? []) {
-        for (const act of gap.activities ?? []) {
-          if (completedIds.has(act.resource_id)) {
-            completedByStandard[gap.standard_id] =
-              (completedByStandard[gap.standard_id] ?? 0) + 1
-          }
-        }
-      }
-    }
-  }
-
-  const counts = { demonstrated: 0, working: 0, misconception: 0, not_assessed: 0, total: 11 }
-  if (masteryMap?.standards) {
-    for (const entry of Object.values(masteryMap.standards)) {
-      counts[entry.state] = (counts[entry.state] ?? 0) + 1
-    }
-  } else {
-    counts.not_assessed = 11
   }
 
   return (
@@ -109,20 +93,11 @@ export default async function LearnerDashboardPage(
 
         <MasteryVoyage
           masteryMap={masteryMap}
-          completedByStandard={completedByStandard}
+          plan={planContent}
+          planId={planId}
+          assessmentId={latest?.id ?? null}
+          learnerId={learner.id}
         />
-
-        {latest && (
-          <section className="flex flex-wrap gap-3 pt-4 border-t border-brass-deep/40 justify-center">
-            <Link
-              href={`/report/${latest.id}`}
-              className="inline-flex h-10 items-center justify-center rounded-sm bg-brass-deep px-5 text-sm font-bold uppercase text-cream hover:bg-brass border border-brass shadow-[0_0_15px_oklch(0.74_0.14_80/0.35)]"
-              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.18em' }}
-            >
-              View latest report
-            </Link>
-          </section>
-        )}
 
         <footer
           className="text-xs text-cream-faint italic text-center"

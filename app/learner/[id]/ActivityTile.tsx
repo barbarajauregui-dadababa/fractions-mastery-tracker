@@ -26,6 +26,12 @@ interface Props {
   resource: Resource | undefined
   completedAt: string | null
   allCompleted: CompletedActivity[]
+  /** Misconception names (verbose form) shown as red ◆ chips inside the
+   *  "Why this activity?" disclosure. Optional. */
+  misconceptionTags?: string[]
+  /** CCSS-M standard ids shown as monospace chips inside the
+   *  "Why this activity?" disclosure. Optional. */
+  standardTags?: string[]
 }
 
 export default function ActivityTile({
@@ -35,6 +41,8 @@ export default function ActivityTile({
   resource,
   completedAt: initialCompletedAt,
   allCompleted,
+  misconceptionTags = [],
+  standardTags = [],
 }: Props) {
   const supabase = createClient()
   const [completedAt, setCompletedAt] = useState<string | null>(initialCompletedAt)
@@ -82,7 +90,7 @@ export default function ActivityTile({
   const minutes = resource?.duration_minutes
 
   return (
-    <li
+    <div
       data-modality={modality}
       className={`group relative rounded-sm border-2 transition-colors ${
         isDone
@@ -195,6 +203,28 @@ export default function ActivityTile({
             className="mt-2 text-sm text-ink-soft leading-relaxed max-w-prose italic"
             style={{ fontFamily: 'var(--font-fraunces)' }}
           >
+            {(misconceptionTags.length > 0 || standardTags.length > 0) && (
+              <div className="not-italic flex flex-wrap gap-1.5 mb-2">
+                {misconceptionTags.map((m) => (
+                  <span
+                    key={`m-${m}`}
+                    className="inline-flex items-center gap-1 rounded-full border border-red-600/40 bg-red-50/80 px-2 py-0.5 text-[0.7rem] text-red-800"
+                    style={{ fontFamily: 'var(--font-fraunces)' }}
+                  >
+                    ◆ {m}
+                  </span>
+                ))}
+                {standardTags.map((s) => (
+                  <span
+                    key={`s-${s}`}
+                    className="inline-flex items-center gap-1 rounded-full border border-brass-deep/40 bg-paper px-2 py-0.5 text-[0.7rem] text-ink-soft"
+                    style={{ fontFamily: 'var(--font-special-elite)' }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            )}
             <BulletedSentences text={rationale} />
           </div>
         )}
@@ -220,7 +250,7 @@ export default function ActivityTile({
           </p>
         )}
       </div>
-    </li>
+    </div>
   )
 }
 

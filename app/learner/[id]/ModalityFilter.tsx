@@ -16,7 +16,8 @@ const STORAGE_KEY = 'strata-modality-hidden'
  *
  * State persists in localStorage so the user's preference survives reloads.
  *
- * Render this on the report page once, anywhere above the buckets — the
+ * Render this on the voyage page once, between the standards table and the
+ * activities list — the
  * effect is global because the body classes apply to every ActivityTile
  * on the page.
  */
