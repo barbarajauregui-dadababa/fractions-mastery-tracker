@@ -99,14 +99,9 @@ export default function StrataCloudscape({ masteryMap, compact = false, showBall
 
       {showBalloon && (
         <div
-          className={`absolute pointer-events-none z-20 ${
-            compact ? 'left-1/2 -translate-x-1/2' : 'right-6'
-          }`}
-          style={{ width: 110, top: compact ? '36%' : '40%' }}
+          className="absolute left-1/2 -translate-x-1/2 pointer-events-none z-20"
+          style={{ width: 110, top: compact ? '36%' : '37%' }}
         >
-          {/* Compact (report): centered. Non-compact (voyage): aligned to
-              the right side of the active stratum band so it doesn't overlap
-              the progression name. */}
           <OldPhotoBalloon size={110} tilt={-2} motion="rise" />
         </div>
       )}
@@ -143,6 +138,59 @@ function ProgressionStratum({
   totalStandards: number
 }) {
   const active = progression.status === 'active'
+  // For non-compact active stratum: 3-column layout (code+name on the left,
+  // empty space in the middle for the balloon to sit, chips on the right).
+  // The balloon is rendered at the panel level, centered horizontally —
+  // this layout leaves the center clear so it doesn't overlap text.
+  if (!compact && active && counts) {
+    return (
+      <li
+        className="relative grid grid-cols-[1fr_140px_1fr] items-center gap-4 px-4 py-10 sm:py-12 rounded-sm transition-colors border-2 border-brass-glow bg-paper/85 backdrop-blur-sm shadow-[0_0_25px_oklch(0.74_0.14_80/0.45)]"
+      >
+        {/* LEFT: code + name */}
+        <div className="flex items-baseline gap-3 min-w-0">
+          <span
+            className="text-xs text-brass-deep shrink-0"
+            style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.12em' }}
+          >
+            {progression.code}
+          </span>
+          <h3
+            className="text-base sm:text-lg leading-snug text-ink"
+            style={{ fontFamily: 'var(--font-fraunces)', fontWeight: 600 }}
+          >
+            {progression.name}
+          </h3>
+        </div>
+
+        {/* CENTER: empty — balloon overlays this from the panel-level absolute */}
+        <div aria-hidden />
+
+        {/* RIGHT: count chips + probed line */}
+        <div className="flex flex-col items-end gap-1 text-right">
+          <div
+            className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs sm:text-sm text-ink-soft"
+            style={{ fontFamily: 'var(--font-fraunces)' }}
+          >
+            <CountChip label="Mastered" value={counts.demonstrated} colorClass="bg-emerald-600" />
+            <CountChip label="Building" value={counts.working} colorClass="bg-amber-600" />
+            <CountChip label="Misconception" value={counts.misconception} colorClass="bg-red-600" />
+            <CountChip label="Not yet probed" value={counts.not_assessed} colorClass="bg-stone-400" />
+          </div>
+          {totalProbed > 0 && (
+            <p
+              className="text-xs text-ink-faint italic"
+              style={{ fontFamily: 'var(--font-special-elite)' }}
+            >
+              {totalProbed} of {totalStandards} standards probed so far.
+            </p>
+          )}
+        </div>
+      </li>
+    )
+  }
+
+  // Default render: inactive strata (and compact mode) — flex-row layout.
   return (
     <li
       className={`relative flex items-center gap-3 px-3 ${compact ? 'py-2' : 'py-10 sm:py-12'} rounded-sm transition-colors ${
@@ -153,7 +201,7 @@ function ProgressionStratum({
     >
       <div className="flex flex-col items-center justify-center min-w-[48px]">
         <span
-          className={`${compact ? 'text-xs' : 'text-xs'} ${active ? 'text-brass-deep' : 'text-cream-faint'}`}
+          className={`text-xs ${active ? 'text-brass-deep' : 'text-cream-faint'}`}
           style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.12em' }}
         >
           {progression.code}
@@ -169,30 +217,12 @@ function ProgressionStratum({
         >
           {progression.name}
         </h3>
-        {!compact && active && counts ? (
-          <div
-            className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs sm:text-sm text-ink-soft"
-            style={{ fontFamily: 'var(--font-fraunces)' }}
-          >
-            <CountChip label="Mastered" value={counts.demonstrated} colorClass="bg-emerald-600" />
-            <CountChip label="Needs work" value={counts.working} colorClass="bg-amber-600" />
-            <CountChip label="Needs attention" value={counts.misconception} colorClass="bg-red-600" />
-            <CountChip label="Not yet probed" value={counts.not_assessed} colorClass="bg-stone-400" />
-          </div>
-        ) : !compact ? (
+        {!compact && !active && (
           <p
             className="mt-1 text-xs italic text-cream-faint tracking-[0.15em] uppercase"
             style={{ fontFamily: 'var(--font-cinzel)' }}
           >
             Coming in v1.5
-          </p>
-        ) : null}
-        {!compact && active && totalProbed > 0 && (
-          <p
-            className="mt-1 text-xs text-ink-faint italic"
-            style={{ fontFamily: 'var(--font-special-elite)' }}
-          >
-            {totalProbed} of {totalStandards} standards probed so far.
           </p>
         )}
       </div>
